@@ -1,0 +1,18 @@
+Classes :
+  Joueur
+    ID
+    Nom
+    Nb d'unités
+
+  Unité de combat
+    ID du proprio
+    PV
+    Boolean isAlive
+    Force
+    coordonnées
+    Dextérité
+
+
+Fonction de lancement de partie
+Fonction de check de victoire
+Fonction de rentrer les coordonnées
