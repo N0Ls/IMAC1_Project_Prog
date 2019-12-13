@@ -1,6 +1,10 @@
 #include <iostream>
 using namespace std;
-#include "infantry.h"
+#include "infantry.h
+
+#DEFINE X_DIMENSION = 10;
+#DEFINE Y_DIMENSION = 10;
+
 
 void drawGrid(){
   cout << "       | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
