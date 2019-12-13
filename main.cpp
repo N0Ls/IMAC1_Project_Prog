@@ -1,9 +1,10 @@
 #include <iostream>
 using namespace std;
-#include "infantry.h
+#include "infantry.h"
+#include "player.h"
+#define X_DIMENSION 10
+#define Y_DIMENSION 10
 
-#DEFINE X_DIMENSION = 10;
-#DEFINE Y_DIMENSION = 10;
 
 
 void drawGrid(){
@@ -14,11 +15,24 @@ void drawGrid(){
   }
 }
 
+void initGrid(int *tabGrid){
+  for (int i = 0; i <X_DIMENSION; i++) {
+    for (int y = 0; y < Y_DIMENSION; y++) {
+      tabGrid[X_DIMENSION*i+y]= 0;
+    }
+  }
+}
+// void updateGrid(int *tabGrid,){
+//   for()
+// }
+
 
 int main(int argc, char const *argv[]) {
   infantry first_unit;
+  int tableauGrid[X_DIMENSION * Y_DIMENSION];
   initInfantry(&first_unit,1,100,50,2);
   printInfantryinfos(first_unit);
+  initGrid(tableauGrid);
   drawGrid();
   return 0;
 }
