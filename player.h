@@ -8,4 +8,6 @@ typedef struct {
 } player;
 void initPlayer(player *player, int id,int nb_unite_active);
 void printPlayer(player playerToPrint);
+void changeCoordinates(int *x, int *y);
+void placeUnits(player *player);
 #endif

@@ -15,6 +15,21 @@ void printPlayer(player playerToPrint){
   cout << "Id " << playerToPrint.id << endl;
   cout << "Nb d'unités " << playerToPrint.nb_unite_active << endl;
   cout << " " <<playerToPrint.infantry_list[1].pv<< endl;
-  printInfantryinfos(playerToPrint.infantry_list[1]);
+  for(int i=0; i <playerToPrint.nb_unite_active;i++){
+    printInfantryinfos(playerToPrint.infantry_list[i]);
+  }
 
+}
+void changeCoordinates(int *x, int *y){
+  cout << "Saisissez la coordonnée X : " ;
+  cin >> *x;
+  cout << "Saisissez la coordonnée Y : ";
+  cin >> *y;
+}
+
+void placeUnits(player *player){
+  for(int i=0; i<player -> nb_unite_active;i++){
+    cout << "Entrez les coordonnées initales pour l'unité : " << i+1 << endl;
+    changeCoordinates(&(player -> infantry_list[i].x),&(player -> infantry_list[i].y));
+  }
 }
