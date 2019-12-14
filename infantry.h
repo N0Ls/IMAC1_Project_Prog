@@ -11,4 +11,5 @@ typedef struct {
 } infantry;
 void printInfantryinfos(infantry inf);
 void initInfantry(infantry *inf, int id,float pv,float force,float dexterity);
+
 #endif

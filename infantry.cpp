@@ -15,5 +15,6 @@ void printInfantryinfos(infantry inf){
   cout << "PV :  " << inf.pv << endl;
   cout << "Force : " << inf.force << endl;
   cout << "Dextérité : " << inf.dexterity << endl;
-
+  cout << "X : " << inf.x << endl;
+  cout << "Y : " << inf.y << endl;
 }
