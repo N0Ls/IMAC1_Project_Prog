@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 #include "infantry.h"
-
+#include "player.h"
 void initInfantry(infantry *inf, int id,float pv,float force,float dexterity){
   inf -> owner_id = id;
   inf -> pv = pv;

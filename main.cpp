@@ -28,10 +28,12 @@ void initGrid(int *tabGrid){
 
 
 int main(int argc, char const *argv[]) {
-  infantry first_unit;
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
-  initInfantry(&first_unit,1,100,50,2);
-  printInfantryinfos(first_unit);
+  player playerTest;
+
+  initPlayer(&playerTest,1,3);
+  printPlayer(playerTest);
+
   initGrid(tableauGrid);
   drawGrid();
   return 0;

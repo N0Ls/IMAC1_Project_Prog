@@ -1,3 +1,5 @@
+testProjet: main.o infantry.o player.o
+	g++ main.o infantry.o player.o -o testProjet -Wall -lstdc++
 
 main.o: main.cpp
 	g++ -c -Wall main.cpp
@@ -5,5 +7,5 @@ main.o: main.cpp
 infantry.o: infantry.cpp
 	g++ -c -Wall infantry.cpp
 
-testProjet: main.o infantry.o
-	g++ main.o infantry.o -o testProjet -lstdc++
+player.o: player.cpp
+	g++ -c -Wall player.cpp
