@@ -32,8 +32,9 @@ int main(int argc, char const *argv[]) {
   player playerTest;
 
   initPlayer(&playerTest,1,3);
+  //changeCoordinates(&playerTest.infantry_list[0].x,&playerTest.infantry_list[0].y);
+  placeUnits(&playerTest);
   printPlayer(playerTest);
-
   initGrid(tableauGrid);
   drawGrid();
   return 0;
