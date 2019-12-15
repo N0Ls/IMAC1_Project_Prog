@@ -34,11 +34,6 @@ void placeUnits(player *player){
   }
 }
 
-// void moveUnit(player *player, int unit_id){
-//   int currentX = player -> infantry_list[unit_id-1].x;
-//   int currentY = player -> infantry_list[unit_id-1].y;
-// }
-
 bool verifyCoordinates(infantry *infantry, int newX, int newY){
   int currentX = infantry -> x;
   int currentY = infantry -> y;
@@ -49,4 +44,24 @@ bool verifyCoordinates(infantry *infantry, int newX, int newY){
   else{
     return false;
   }
+}
+
+void moveUnit(player *player, int unit_id){
+   // int currentX = player -> infantry_list[unit_id-1].x;
+   // int currentY = player -> infantry_list[unit_id-1].y;
+   int newX ;
+   int newY ;
+
+   cout << "Entrez la nouvelle coordonnée X : ";
+   cin >> newX;
+   cout << "Entrez la nouvelle coordonnée Y : ";
+   cin >> newY;
+
+   if(verifyCoordinates(&(player -> infantry_list[unit_id-1]),newX,newY)){
+     player -> infantry_list[unit_id-1].x = newX;
+     player -> infantry_list[unit_id-1].y = newY;
+   }
+   else{
+     moveUnit(player,unit_id);
+   }
 }

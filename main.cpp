@@ -71,8 +71,12 @@ int main(int argc, char const *argv[]) {
 
   initGame(tableauGrid,tabPlayer,&nb_joueurs,&isPlaying);
   for(int i=0; i<nb_joueurs ; i++){
-
+     placeUnits(tabPlayer+i);
+     updateGrid(tableauGrid,tabPlayer[i]);
   }
+  updateGrid(tableauGrid,tabPlayer[0]);
+
+
   drawGrid(tableauGrid);
   return 0;
 }
