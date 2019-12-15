@@ -53,7 +53,7 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   cin >> nb_unite;
 
   for(int i=0; i<*nb_joueurs ; i++){
-    initPlayer(tabPlayer+i, i,nb_unite);
+    initPlayer(tabPlayer+i, i+1,nb_unite);
   }
 
   initGrid(tabGrid);
@@ -70,7 +70,9 @@ int main(int argc, char const *argv[]) {
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
 
   initGame(tableauGrid,tabPlayer,&nb_joueurs,&isPlaying);
+  for(int i=0; i<nb_joueurs ; i++){
 
+  }
   drawGrid(tableauGrid);
   return 0;
 }

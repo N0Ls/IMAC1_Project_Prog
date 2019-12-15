@@ -33,3 +33,20 @@ void placeUnits(player *player){
     changeCoordinates(&(player -> infantry_list[i].x),&(player -> infantry_list[i].y));
   }
 }
+
+// void moveUnit(player *player, int unit_id){
+//   int currentX = player -> infantry_list[unit_id-1].x;
+//   int currentY = player -> infantry_list[unit_id-1].y;
+// }
+
+bool verifyCoordinates(infantry *infantry, int newX, int newY){
+  int currentX = infantry -> x;
+  int currentY = infantry -> y;
+
+  if(abs(currentX-newX)+abs(currentY-newY) < infantry -> dexterity){
+    return true;
+  }
+  else{
+    return false;
+  }
+}
