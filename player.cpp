@@ -2,12 +2,15 @@
 using namespace std;
 #include "infantry.h"
 #include "player.h"
+#define X_DIMENSION 10
+#define Y_DIMENSION 10
+
 void initPlayer(player *player, int id,int nb_unite_active){
   player -> id = id;
   //player -> user_name[10] = user_name;
   player -> nb_unite_active = nb_unite_active;
   for(int i=0; i <nb_unite_active;i++){
-    initInfantry(player -> infantry_list+i,1,100,50,2);
+    initInfantry(player -> infantry_list+i,1,100,50,7);
   }
 }
 
@@ -34,11 +37,11 @@ void placeUnits(player *player){
   }
 }
 
-bool verifyCoordinates(infantry *infantry, int newX, int newY){
+bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]){
   int currentX = infantry -> x;
   int currentY = infantry -> y;
 
-  if(abs(currentX-newX)+abs(currentY-newY) < infantry -> dexterity){
+  if(abs(currentX-newX)+abs(currentY-newY) <= infantry -> dexterity && tabGrid[newX*X_DIMENSION+newY]==0){
     return true;
   }
   else{
@@ -46,7 +49,7 @@ bool verifyCoordinates(infantry *infantry, int newX, int newY){
   }
 }
 
-void moveUnit(player *player, int unit_id){
+void moveUnit(player *player, int unit_id, int tabGrid[]){
    // int currentX = player -> infantry_list[unit_id-1].x;
    // int currentY = player -> infantry_list[unit_id-1].y;
    int newX ;
@@ -57,11 +60,11 @@ void moveUnit(player *player, int unit_id){
    cout << "Entrez la nouvelle coordonnée Y : ";
    cin >> newY;
 
-   if(verifyCoordinates(&(player -> infantry_list[unit_id-1]),newX,newY)){
+   if(verifyCoordinates(&(player -> infantry_list[unit_id-1]),newX,newY,tabGrid)==1){
      player -> infantry_list[unit_id-1].x = newX;
      player -> infantry_list[unit_id-1].y = newY;
    }
    else{
-     moveUnit(player,unit_id);
+     moveUnit(player,unit_id, tabGrid);
    }
 }

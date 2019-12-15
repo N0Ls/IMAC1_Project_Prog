@@ -74,9 +74,9 @@ int main(int argc, char const *argv[]) {
      placeUnits(tabPlayer+i);
      updateGrid(tableauGrid,tabPlayer[i]);
   }
+  moveUnit(&tabPlayer[0],0,tableauGrid);
+  cout << verifyCoordinates(&(tabPlayer -> infantry_list[0]),0,0,tableauGrid) << endl;
   updateGrid(tableauGrid,tabPlayer[0]);
-
-
   drawGrid(tableauGrid);
   return 0;
 }
