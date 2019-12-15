@@ -43,16 +43,34 @@ void updateGrid(int *tabGrid,player player){
   }
 }
 
+void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondition){
+
+  cout << "Entrez le nombre de joueurs : " ;
+  cin >> *nb_joueurs;
+
+  int nb_unite;
+  cout << "Entrez le nombre d'unités par joueur : ";
+  cin >> nb_unite;
+
+  for(int i=0; i<*nb_joueurs ; i++){
+    initPlayer(tabPlayer+i, i,nb_unite);
+  }
+
+  initGrid(tabGrid);
+}
+
 
 int main(int argc, char const *argv[]) {
+  bool isPlaying = false;
+
+  player tabPlayer[10];
+
+  int nb_joueurs;
+
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
-  player playerTest;
-  initPlayer(&playerTest,1,3);
-  //changeCoordinates(&playerTest.infantry_list[0].x,&playerTest.infantry_list[0].y);
-  placeUnits(&playerTest);
-  printPlayer(playerTest);
-  initGrid(tableauGrid);
-  updateGrid(tableauGrid,playerTest);
+
+  initGame(tableauGrid,tabPlayer,&nb_joueurs,&isPlaying);
+
   drawGrid(tableauGrid);
   return 0;
 }
