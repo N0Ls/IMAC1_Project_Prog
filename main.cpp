@@ -71,11 +71,15 @@ int main(int argc, char const *argv[]) {
 
   initGame(tableauGrid,tabPlayer,&nb_joueurs,&isPlaying);
   for(int i=0; i<nb_joueurs ; i++){
-     placeUnits(tabPlayer+i);
-     updateGrid(tableauGrid,tabPlayer[i]);
+    placeUnits(tabPlayer+i);
+    tabPlayer[0].infantry_list[0].x=1;
+    tabPlayer[0].infantry_list[0].y=1;
+    updateGrid(tableauGrid,tabPlayer[i]);
   }
-  moveUnit(&tabPlayer[0],0,tableauGrid);
-  cout << verifyCoordinates(&(tabPlayer -> infantry_list[0]),0,0,tableauGrid) << endl;
+
+
+  // moveUnit(&tabPlayer[0],0,tableauGrid);
+  // cout << verifyCoordinates(&(tabPlayer -> infantry_list[0]),0,0,tableauGrid) << endl;
   updateGrid(tableauGrid,tabPlayer[0]);
   drawGrid(tableauGrid);
   return 0;
