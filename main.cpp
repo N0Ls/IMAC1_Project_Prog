@@ -91,13 +91,28 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   initGrid(tabGrid);
 }
 
+void printLogo(void)
+{
+  cout << "=========================================\n";
+  cout << " ██╗███╗   ███╗ █████╗  ██████╗\n";
+  cout << " ██║████╗ ████║██╔══██╗██╔════╝\n";
+  cout << " ██║██╔████╔██║███████║██║\n";
+  cout << " ██║██║╚██╔╝██║██╔══██║██║\n";
+  cout << " ██║██║ ╚═╝ ██║██║  ██║╚██████╗\n";
+  cout << " ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝\n\n";
+  cout << "      ██╗    ██╗ █████╗ ██████╗ ███████╗\n";
+  cout << "      ██║    ██║██╔══██╗██╔══██╗██╔════╝\n";
+  cout << "      ██║ █╗ ██║███████║██████╔╝███████╗\n";
+  cout << "      ██║███╗██║██╔══██║██╔══██╗╚════██║\n";
+  cout << "      ╚███╔███╔╝██║  ██║██║  ██║███████║\n";
+  cout << "       ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝\n";
+  cout << "=========================================\n\n";
+}
+
 void menu(int *c)
 {
-  cout << "\n"
-       << "          Menu          "
-       << "\n";
-  cout << "________________________"
-       << "\n\n";
+  cout << "\n";
+  printLogo();
   cout << "1. Commencer une partie"
        << "\n";
   cout << "2. Quitter la partie"
@@ -122,8 +137,6 @@ int main(int argc, char const *argv[])
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
   //--------------------------------------------------------
 
-  // ---ZONE DE TEST --- //
-
   menu(&choice);
 
   do
@@ -131,6 +144,7 @@ int main(int argc, char const *argv[])
     switch (choice)
     {
     case 1:
+      // ---ZONE DE TEST --- //
       initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
       for (int i = 0; i < nb_joueurs; i++)
       {
