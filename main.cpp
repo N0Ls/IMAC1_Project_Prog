@@ -72,8 +72,8 @@ int main(int argc, char const *argv[]) {
   initGame(tableauGrid,tabPlayer,&nb_joueurs,&isPlaying);
   for(int i=0; i<nb_joueurs ; i++){
     placeUnits(tabPlayer+i);
-    tabPlayer[0].infantry_list[0].x=1;
-    tabPlayer[0].infantry_list[0].y=1;
+/*    tabPlayer[0].infantry_list[0].x=1;
+    tabPlayer[0].infantry_list[0].y=1;*/
     updateGrid(tableauGrid,tabPlayer[i]);
   }
 

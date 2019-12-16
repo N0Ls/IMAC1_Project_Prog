@@ -10,7 +10,7 @@ void initPlayer(player *player, int id,int nb_unite_active){
   //player -> user_name[10] = user_name;
   player -> nb_unite_active = nb_unite_active;
   for(int i=0; i <nb_unite_active;i++){
-    initInfantry(player -> infantry_list+i,1,100,50,7);
+    initInfantry(player -> infantry_list+i,id,100,50,7);
   }
 }
 
@@ -23,6 +23,7 @@ void printPlayer(player playerToPrint){
   }
 
 }
+
 void changeCoordinates(int *x, int *y){
   cout << "Saisissez la coordonnée X : " ;
   cin >> *x;

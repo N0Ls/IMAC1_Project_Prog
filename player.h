@@ -6,6 +6,7 @@ typedef struct {
     int nb_unite_active;
     infantry infantry_list[255];
 } player;
+
 void initPlayer(player *player, int id,int nb_unite_active);
 void printPlayer(player playerToPrint);
 void changeCoordinates(int *x, int *y);
