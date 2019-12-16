@@ -2,6 +2,8 @@
 using namespace std;
 #include "infantry.h"
 #include "player.h"
+
+//Initialisation des paramètres
 void initInfantry(infantry *inf, int id,float pv,float force,float dexterity){
   inf -> owner_id = id;
   inf -> pv = pv;
@@ -10,6 +12,7 @@ void initInfantry(infantry *inf, int id,float pv,float force,float dexterity){
   inf -> isAlive = true;
 }
 
+//Fonction permettant d'imprimer les infos si besoin
 void printInfantryinfos(infantry inf){
   cout << "Appartient à " << inf.owner_id << endl;
   cout << "PV :  " << inf.pv << endl;

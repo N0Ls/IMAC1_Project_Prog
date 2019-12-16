@@ -5,6 +5,7 @@ using namespace std;
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
 
+//Initialisation des paramètres
 void initPlayer(player *player, int id,int nb_unite_active){
   player -> id = id;
   //player -> user_name[10] = user_name;
@@ -14,6 +15,7 @@ void initPlayer(player *player, int id,int nb_unite_active){
   }
 }
 
+//Affichage des infos si besoin
 void printPlayer(player playerToPrint){
   cout << "Id " << playerToPrint.id << endl;
   cout << "Nb d'unités " << playerToPrint.nb_unite_active << endl;
@@ -24,6 +26,7 @@ void printPlayer(player playerToPrint){
 
 }
 
+
 void changeCoordinates(int *x, int *y){
   cout << "Saisissez la coordonnée X : " ;
   cin >> *x;
@@ -31,13 +34,17 @@ void changeCoordinates(int *x, int *y){
   cin >> *y;
 }
 
+//Placement des unités au début de la game
 void placeUnits(player *player){
   for(int i=0; i<player -> nb_unite_active;i++){
+    cout << "____________________________________________________" << endl;
+    cout << "Joueur " << player -> id << ",placez vos unités" << endl;
     cout << "Entrez les coordonnées initales pour l'unité : " << i+1 << endl;
     changeCoordinates(&(player -> infantry_list[i].x),&(player -> infantry_list[i].y));
   }
 }
 
+//Fonction pour vérifier si le déplacement est valide 
 bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]){
   int currentX = infantry -> x;
   int currentY = infantry -> y;

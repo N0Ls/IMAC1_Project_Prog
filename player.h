@@ -7,6 +7,7 @@ typedef struct {
     infantry infantry_list[255];
 } player;
 
+//déclaration des prototypes
 void initPlayer(player *player, int id,int nb_unite_active);
 void printPlayer(player playerToPrint);
 void changeCoordinates(int *x, int *y);

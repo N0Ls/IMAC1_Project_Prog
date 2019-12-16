@@ -6,10 +6,11 @@ using namespace std;
 #define Y_DIMENSION 10
 
 
-
+//Fonction d'affichage de la grille
+//Pour l'instant elle est de taille fixe et ne prends en compte que 2 joueurs
 void drawGrid(int tabGrid[]){
-  cout << "      Y| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
-    cout << "    X  _________________________________________" << endl;
+  cout << "      X| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
+    cout << "    Y  _________________________________________" << endl;
     for (int i = 0; i <X_DIMENSION; i++) {
       cout <<"|   " << i<<"  |";
       for (int y = 0; y < Y_DIMENSION; y++) {
@@ -30,6 +31,7 @@ void drawGrid(int tabGrid[]){
 
 }
 
+//Fonction qui initialise le tableau grille pour le début de la partie 
 void initGrid(int *tabGrid){
   for (int i = 0; i <X_DIMENSION; i++) {
     for (int y = 0; y < Y_DIMENSION; y++) {
@@ -37,30 +39,39 @@ void initGrid(int *tabGrid){
     }
   }
 }
+
+//Fonction qui update le contenu de la grille en fonction du placement des unités du joueurs
 void updateGrid(int *tabGrid,player player){
   for(int i=0; i<player.nb_unite_active ; i++){
     tabGrid[player.infantry_list[i].x*X_DIMENSION+player.infantry_list[i].y]=player.id;
   }
 }
 
+//Fonction pour initialiser le jeu
 void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondition){
 
+  //Demande le nombre de joueur
   cout << "Entrez le nombre de joueurs : " ;
   cin >> *nb_joueurs;
 
+  //Demande le nombre d'unité par joueur
   int nb_unite;
   cout << "Entrez le nombre d'unités par joueur : ";
   cin >> nb_unite;
 
+  //Initialisation des joueurs
   for(int i=0; i<*nb_joueurs ; i++){
     initPlayer(tabPlayer+i, i+1,nb_unite);
   }
 
+  //Initialisation de la grille
   initGrid(tabGrid);
 }
 
 
 int main(int argc, char const *argv[]) {
+  //variables de jeu
+  //--------------------------------------------------------
   bool isPlaying = false;
 
   player tabPlayer[10];
@@ -68,7 +79,9 @@ int main(int argc, char const *argv[]) {
   int nb_joueurs;
 
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
+  //--------------------------------------------------------
 
+  // ---ZONE DE TEST --- //
   initGame(tableauGrid,tabPlayer,&nb_joueurs,&isPlaying);
   for(int i=0; i<nb_joueurs ; i++){
     placeUnits(tabPlayer+i);
