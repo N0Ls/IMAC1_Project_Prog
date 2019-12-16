@@ -41,10 +41,21 @@ void initGrid(int *tabGrid){
 }
 
 //Fonction qui update le contenu de la grille en fonction du placement des unités du joueurs
-void updateGrid(int *tabGrid,player player){
-  for(int i=0; i<player.nb_unite_active ; i++){
-    tabGrid[player.infantry_list[i].x*X_DIMENSION+player.infantry_list[i].y]=player.id;
+void updateGrid(int *tabGrid,int nb_joueurs,player tabPlayer[]){
+  //Reset grid
+  for (int i = 0; i <X_DIMENSION; i++) {
+    for (int y = 0; y < Y_DIMENSION; y++) {
+      tabGrid[X_DIMENSION*i+y]= 0;
+    }
   }
+  //Update for each player
+  for(int k=0; k< nb_joueurs ;k++ ){
+    for(int i=0; i<tabPlayer[k].nb_unite_active ; i++){
+      tabGrid[tabPlayer[k].infantry_list[i].x*X_DIMENSION+tabPlayer[k].infantry_list[i].y]=tabPlayer[k].id;
+    }
+  }
+
+
 }
 
 //Fonction pour initialiser le jeu
@@ -87,13 +98,14 @@ int main(int argc, char const *argv[]) {
     placeUnits(tabPlayer+i);
 /*    tabPlayer[0].infantry_list[0].x=1;
     tabPlayer[0].infantry_list[0].y=1;*/
-    updateGrid(tableauGrid,tabPlayer[i]);
+    updateGrid(tableauGrid,nb_joueurs,tabPlayer);
   }
 
 
-  // moveUnit(&tabPlayer[0],0,tableauGrid);
+  moveUnit(&tabPlayer[0],1,tableauGrid);
+
   // cout << verifyCoordinates(&(tabPlayer -> infantry_list[0]),0,0,tableauGrid) << endl;
-  updateGrid(tableauGrid,tabPlayer[0]);
+  updateGrid(tableauGrid,nb_joueurs,tabPlayer);
   drawGrid(tableauGrid);
   return 0;
 }
