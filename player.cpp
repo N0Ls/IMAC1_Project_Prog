@@ -48,7 +48,8 @@ void placeUnits(player *player){
 bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]){
   int currentX = infantry -> x;
   int currentY = infantry -> y;
-
+  cout << " Calcul depl : " << abs(currentX-newX)+abs(currentY-newY) << endl;
+  cout << " dexterity : " << infantry -> dexterity<< endl;
   if(abs(currentX-newX)+abs(currentY-newY) <= infantry -> dexterity && tabGrid[newX*X_DIMENSION+newY]==0){
     return true;
   }
@@ -71,8 +72,10 @@ void moveUnit(player *player, int unit_id, int tabGrid[]){
    if(verifyCoordinates(&(player -> infantry_list[unit_id-1]),newX,newY,tabGrid)==1){
      player -> infantry_list[unit_id-1].x = newX;
      player -> infantry_list[unit_id-1].y = newY;
-   }
+
+  }
    else{
+    cout << "Ce déplacement est impossible" << endl;
      moveUnit(player,unit_id, tabGrid);
    }
 }
