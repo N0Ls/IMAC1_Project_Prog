@@ -21,3 +21,7 @@ void printInfantryinfos(infantry inf){
   cout << "X : " << inf.x << endl;
   cout << "Y : " << inf.y << endl;
 }
+
+void printInfantryInline(infantry inf){
+  cout << "(" << inf.x <<","<< inf.y << ")" << "PV : "<< inf.pv << endl;
+}
