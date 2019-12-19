@@ -10,6 +10,7 @@ void initPlayer(player *player, int id,int nb_unite_active){
   player -> id = id;
   //player -> user_name[10] = user_name;
   player -> nb_unite_active = nb_unite_active;
+  player -> isAlive = true;
   for(int i=0; i <nb_unite_active;i++){
     initInfantry(player -> infantry_list+i,id,100,50,7);
   }
@@ -19,13 +20,19 @@ void initPlayer(player *player, int id,int nb_unite_active){
 void printPlayer(player playerToPrint){
   cout << "Id " << playerToPrint.id << endl;
   cout << "Nb d'unités " << playerToPrint.nb_unite_active << endl;
-  cout << " " <<playerToPrint.infantry_list[1].pv<< endl;
+  cout << "Is player alive : " << playerToPrint.isAlive << endl;
   for(int i=0; i <playerToPrint.nb_unite_active;i++){
     printInfantryinfos(playerToPrint.infantry_list[i]);
   }
 
 }
 
+//Verification de l'état des infantry_list
+void check_if_isAlive(player *playerToCheck){
+  if(playerToCheck -> nb_unite_active == 0 ){
+    playerToCheck -> isAlive=false;
+  }
+}
 
 void changeCoordinates(int *x, int *y){
   cout << "Saisissez la coordonnée X : " ;
@@ -44,7 +51,7 @@ void placeUnits(player *player){
   }
 }
 
-//Fonction pour vérifier si le déplacement est valide 
+//Fonction pour vérifier si le déplacement est valide
 bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]){
   int currentX = infantry -> x;
   int currentY = infantry -> y;

@@ -5,6 +5,7 @@ typedef struct {
     //char user_name[10];
     int nb_unite_active;
     infantry infantry_list[255];
+    bool isAlive;
 } player;
 
 //déclaration des prototypes
@@ -14,4 +15,5 @@ void changeCoordinates(int *x, int *y);
 void placeUnits(player *player);
 bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]);
 void moveUnit(player *player, int unit_id, int tabGrid[]);
+void check_if_isAlive(player *playerToCheck);
 #endif
