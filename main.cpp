@@ -106,6 +106,67 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   drawGrid(tabGrid);
 }
 
+void menu_tour(int *tour_choice){
+  cout << "\n";
+  cout << "1. Se déplacer"
+       << "\n";
+  cout << "2. Attaquer"
+       << "\n\n";
+  cout << "Votre choix (1/2 ?) : ";
+  cin >> *tour_choice;
+  cout << endl;
+}
+
+//Possiblement inutile
+// void printing_all_infantries(player tabPlayer[],int nb_joueurs){
+//   for (int i = 0; i < nb_joueurs ; i++) {
+//     for (int y = 0; y < tabPlayer[i].nb_unite_active; y++) {
+//       printInfantryInline(tabPlayer[i].infantry_list[y]);
+//     }
+//   }
+// }
+
+void play_tour(int *current_player_index , player tabPlayer[], int nb_joueurs, int *tour_choice){
+  cout << "----------" << endl;
+  cout << "Joueur " << *current_player_index+1 << " c'est votre tour !" << endl;
+  for (int i = 0; i < tabPlayer[*current_player_index].nb_unite_active; i++) {
+    cout << "Unité n°" << i ;
+    printInfantryInline(tabPlayer[*current_player_index].infantry_list[i]);
+  }
+  //appel du menu du tour
+  menu_tour(tour_choice);
+  //traitement du choix
+  //déplacement
+  if(*tour_choice==1){
+    //ajouter le menu de selection de l'unité à déplacer
+    //moveUnit(&tabPlayer[*current_player_index], 1, tableauGrid);
+  }
+  if(*tour_choice==2){
+
+  }
+
+  if(*current_player_index >= nb_joueurs ){
+    *current_player_index=0;
+  }
+  else{*current_player_index+=1;}
+}
+
+
+void verify_win(player *tabPlayer, int *nb_joueurs,bool *playCondition){
+  int compteur_players_alive = 0;
+  for(int i= 0 ; i < *nb_joueurs ; i++){
+    if (tabPlayer[i].isAlive == true) {
+      compteur_players_alive++;
+    }
+  }
+  if(compteur_players_alive >1){
+    *playCondition=false;
+  }
+  else{
+    *playCondition=true;
+  }
+}
+
 void printLogo(void)
 {
   cout << "=========================================\n";
@@ -141,6 +202,7 @@ int main(int argc, char const *argv[])
 {
   //--------------------------------------------------------
   int choice = 0;
+  int choice_tour = 0 ;
   //variables de jeu
   //--------------------------------------------------------
   bool isPlaying = false;
@@ -151,14 +213,16 @@ int main(int argc, char const *argv[])
 
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
 
-  int current_player = 1;
+  int current_player = 0;
   //--------------------------------------------------------
 
   menu(&choice);
     switch (choice)
     {
     case 1:
+      // --- INITIALISATION DU JEU --- //
       initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
+
       // ---ZONE DE TEST --- //
 
 
