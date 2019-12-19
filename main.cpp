@@ -86,9 +86,24 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   {
     initPlayer(tabPlayer + i, i + 1, nb_unite);
   }
-
   //Initialisation de la grille
   initGrid(tabGrid);
+
+  //Début du jeu
+  *playCondition=true;
+
+  //Dessin de la grille
+  drawGrid(tabGrid);
+
+  //Placement des troupes
+  for (int i = 0; i < *nb_joueurs; i++)
+  {
+    placeUnits(tabPlayer + i);
+    updateGrid(tabGrid, *nb_joueurs, tabPlayer);
+  }
+
+  //Dessin après le placement
+  drawGrid(tabGrid);
 }
 
 void printLogo(void)
@@ -135,21 +150,17 @@ int main(int argc, char const *argv[])
   int nb_joueurs;
 
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
+
+  int current_player = 1;
   //--------------------------------------------------------
 
   menu(&choice);
     switch (choice)
     {
     case 1:
-      // ---ZONE DE TEST --- //
       initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
-      for (int i = 0; i < nb_joueurs; i++)
-      {
-        placeUnits(tabPlayer + i);
-        /*    tabPlayer[0].infantry_list[0].x=1;
-    tabPlayer[0].infantry_list[0].y=1;*/
-        updateGrid(tableauGrid, nb_joueurs, tabPlayer);
-      }
+      // ---ZONE DE TEST --- //
+
 
       moveUnit(&tabPlayer[0], 1, tableauGrid);
 
