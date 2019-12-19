@@ -138,9 +138,6 @@ int main(int argc, char const *argv[])
   //--------------------------------------------------------
 
   menu(&choice);
-
-  do
-  {
     switch (choice)
     {
     case 1:
@@ -165,7 +162,7 @@ int main(int argc, char const *argv[])
       exit(EXIT_FAILURE);
       break;
     }
-  } while (choice != 0);
+
 
   return 0;
 }
