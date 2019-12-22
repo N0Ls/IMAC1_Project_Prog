@@ -62,7 +62,7 @@ void placeUnits(player *player)
 //Fonction pour choisir l'unité à utiliser
 infantry selectUnit(player *player)
 {
-  int unitX, unitY;
+  /*int unitX, unitY;
   cout << "Entrez la coordonnée X de l'unité à utiliser : ";
   cin >> unitX;
   cout << "Entrez la coordonnée Y de l'unité à utiliser : ";
@@ -76,7 +76,18 @@ infantry selectUnit(player *player)
       return player->infantry_list[i];
     }
     //Vérification nécessaire au cas où les coordonnées renseignées ne sont pas correctes
-  }
+  }*/
+  int unit = 0;
+  do
+  {
+    if (unit > player->nb_unite_active || unit < 0)
+    {
+      cout << "Le numéro indiqué ne correspond à aucune unité." << endl;
+    }
+    cout << "Indiquez le numéro de l'unité que vous souhaitez utiliser : ";
+    cin >> unit;
+  } while (unit > player->nb_unite_active);
+  return player->infantry_list[unit - 1];
 }
 
 //Fonction pour vérifier si le déplacement est valide
@@ -168,10 +179,18 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
           {
             tabPlayer[k].infantry_list[i].isAlive = false;
             tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
-            check_if_isAlive(&tabPlayer[k]);
             cout << "L'unité ennemie a été détruite." << endl;
             cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
+            //tabPlayer[k].infantry_list[i].isAlive = false;
+            /*tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
+            for (int j = i; j < tabPlayer[k].nb_unite_active; j++)
+            {
+              tabPlayer[j].infantry_list[j] = tabPlayer[j].infantry_list[j + 1];
+            }*/
           }
+          check_if_isAlive(&tabPlayer[k]);
+          cout << "L'unité ennemie a été détruite." << endl;
+          cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
         }
       }
     }
