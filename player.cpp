@@ -69,15 +69,13 @@ infantry selectUnit(player *player)
   cin >> unitY;
   for (int i = 0; i < player->nb_unite_active; i++)
   {
+    cout << "X : " << player->infantry_list[i].x << endl;
+    cout << "Y : " << player->infantry_list[i].y << endl;
     if (player->infantry_list[i].x == unitX && player->infantry_list[i].y == unitY)
     {
       return player->infantry_list[i];
     }
-    else
-    {
-      cout << "Attention, aucune de vos unitées ne sont localisées ici." << endl;
-      selectUnit(player);
-    }
+    //Vérification nécessaire au cas où les coordonnées renseignées ne sont pas correctes
   }
 }
 
@@ -184,48 +182,3 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
     attackEnemy(selectedUnit, tabPlayer, nb_joueurs, tabGrid);
   }
 }
-
-/*void attackEnemy(player *attacker, player *target, int attacker_id, int target_id, int tabGrid[])
-{
-  int targetX;
-  int targetY;
-  float damage;
-  float updatePV;
-
-  cout << "id de l'attaquant : " << attacker->id << endl;
-
-  cout << "Quelle est votre cible ?" << endl;
-  cout << "Entrez la coordonnée X : ";
-  cin >> targetX;
-  cout << "Entrez la coordonnée Y : ";
-  cin >> targetY;
-
-  if (verifyEnemy(targetX, targetY, target_id, tabGrid) == 1)
-  {
-    for (int i = 0; i < target->nb_unite_active; i++)
-    {
-      if (target->infantry_list[i].x == targetX && target->infantry_list[i].y == targetY)
-      {
-        damage = attacker->infantry_list[attacker_id - 1].pv * attacker->infantry_list[attacker_id - 1].force;
-        updatePV = target->infantry_list[i].pv - damage;
-        target->infantry_list[i].pv = updatePV;
-        if (updatePV > 0)
-        {
-          cout << "L'unité ennemie a été touchée." << endl;
-          cout << "PV de l'unité ennemie après l'attaque : " << target->infantry_list[i].pv << endl;
-        }
-        else
-        {
-          target->infantry_list[i].isAlive = false;
-          cout << "L'unité ennemie a été détruite." << endl;
-          cout << target->infantry_list[i].isAlive << endl;
-        }
-      }
-    }
-  }
-  else
-  {
-    cout << "Attaque impossible. Attention, vous devez cibler une position ennemie." << endl;
-    attackEnemy(attacker, target, attacker_id, target_id, tabGrid);
-  }
-}*/
