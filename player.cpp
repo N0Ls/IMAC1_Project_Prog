@@ -14,7 +14,7 @@ void initPlayer(player *player, int id, int nb_unite_active)
   player->isAlive = true;
   for (int i = 0; i < nb_unite_active; i++)
   {
-    initInfantry(player->infantry_list + i, id, 100, 0.5, 7);
+    initInfantry(player->infantry_list + i, id, 100, 1, 7);
   }
 }
 
@@ -99,9 +99,9 @@ bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[])
 }
 
 //Fonction pour vérifier si une unité ennemie est présente sur la position
-bool verifyEnemy(int targetX, int targetY, int attacker_id, int target_id, int tabGrid[])
+bool verifyEnemy(int targetX, int targetY, int attacker_id, int tabGrid[])
 {
-  if (tabGrid[targetX * X_DIMENSION + targetY] == target_id && tabGrid[targetX * X_DIMENSION + targetY] != attacker_id)
+  if (tabGrid[targetX * X_DIMENSION + targetY] != 0 && tabGrid[targetX * X_DIMENSION + targetY] != attacker_id)
   {
     return true;
   }
@@ -138,7 +138,6 @@ void moveUnit(player *player, int unit_id, int tabGrid[])
 void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int tabGrid[])
 {
   int attacker_id = selectedUnit->owner_id;
-  int target_id;
   int targetX;
   int targetY;
   float damage = selectedUnit->force * selectedUnit->pv;
@@ -151,33 +150,38 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
   cin >> targetX;
   cout << "Entrez la coordonnée Y : ";
   cin >> targetY;
-
-  for (int k = 0; k < nb_joueurs; k++)
+  if (verifyEnemy(targetX, targetY, attacker_id, tabGrid) == 1)
   {
-    for (int i = 0; i < tabPlayer[k].nb_unite_active; i++)
+    for (int k = 0; k < nb_joueurs; k++)
     {
-      if (tabPlayer[k].infantry_list[i].x == targetX && tabPlayer[k].infantry_list[i].y == targetY)
+      for (int i = 0; i < tabPlayer[k].nb_unite_active; i++)
       {
-        target_id = tabPlayer[k].infantry_list[i].owner_id;
-        updatePV = tabPlayer[k].infantry_list[i].pv - damage;
-        cout << updatePV << endl;
-        tabPlayer[k].infantry_list[i].pv = updatePV;
-        if (updatePV > 0)
+        if (tabPlayer[k].infantry_list[i].x == targetX && tabPlayer[k].infantry_list[i].y == targetY)
         {
-          cout << "L'unité ennemie a été touchée." << endl;
-          cout << "PV de l'unité ennemie après l'attaque : " << tabPlayer[k].infantry_list[i].pv << endl;
-        }
-        else
-        {
-          tabPlayer[k].infantry_list[i].isAlive = false;
-          cout << "L'unité ennemie a été détruite." << endl;
+          updatePV = tabPlayer[k].infantry_list[i].pv - damage;
+          cout << updatePV << endl;
+          tabPlayer[k].infantry_list[i].pv = updatePV;
+          if (updatePV > 0)
+          {
+            cout << "L'unité ennemie a été touchée." << endl;
+            cout << "PV de l'unité ennemie après l'attaque : " << tabPlayer[k].infantry_list[i].pv << endl;
+          }
+          else
+          {
+            tabPlayer[k].infantry_list[i].isAlive = false;
+            tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
+            cout << "L'unité ennemie a été détruite." << endl;
+            cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
+          }
         }
       }
     }
   }
-
-  cout << "id de l'attaquant : " << attacker_id << endl;
-  cout << "id de la cible : " << target_id << endl;
+  else
+  {
+    cout << "Attaque impossible. Attention, vous devez cibler une position ennemie." << endl;
+    attackEnemy(selectedUnit, tabPlayer, nb_joueurs, tabGrid);
+  }
 }
 
 /*void attackEnemy(player *attacker, player *target, int attacker_id, int target_id, int tabGrid[])
