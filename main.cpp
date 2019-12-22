@@ -132,17 +132,18 @@ void menu_tour(int *tour_choice)
 
 void play_tour(int *current_player_index, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[])
 {
-  infantry unitSelected;
+  infantry selectedUnit;
+  cout << nb_joueurs << endl;
   cout << "----------" << endl;
   cout << "Joueur " << *current_player_index + 1 << " c'est votre tour !" << endl;
   for (int i = 0; i < tabPlayer[*current_player_index].nb_unite_active; i++)
   {
-    cout << "Unité n°" << i + 1 << " | ";
+    cout << "Unité n°" << i + 1;
     printInfantryInline(tabPlayer[*current_player_index].infantry_list[i]);
   }
   // Menu de selection de l'unité (à déplacer ou pour attaquer)
-  unitSelected = selectUnit(&(tabPlayer[*current_player_index]));
-  cout << "Vous avez choisi l'unité positionnée en (" << unitSelected.x << ", " << unitSelected.y << "). Que souhaitez-vous faire ?" << endl;
+  selectedUnit = selectUnit(&(tabPlayer[*current_player_index]));
+  cout << "Vous avez choisi l'unité positionnée en (" << selectedUnit.x << ", " << selectedUnit.y << "). Que souhaitez-vous faire ?" << endl;
   // Appel du menu du tour
   menu_tour(tour_choice);
   //Traitement du choix
@@ -150,13 +151,17 @@ void play_tour(int *current_player_index, player tabPlayer[], int nb_joueurs, in
   if (*tour_choice == 1)
   {
     moveUnit(&tabPlayer[*current_player_index], 1, tabGrid);
-  }
+  }//Attaque
   else if (*tour_choice == 2)
   {
-    attackEnemy(&tabPlayer[0], &tabPlayer[1], 1, 2, tabGrid);
+    attackEnemy(&selectedUnit, tabPlayer, nb_joueurs, tabGrid);
+    //attackEnemy(&tabPlayer[*current_player_index], &tabPlayer[1], 1, 2, tabGrid);
   }
 
-  if (*current_player_index >= nb_joueurs)
+  updateGrid(tabGrid, nb_joueurs, tabPlayer);
+  drawGrid(tabGrid);
+
+  if (*current_player_index >= nb_joueurs - 1)
   {
     *current_player_index = 0;
   }
@@ -243,10 +248,10 @@ int main(int argc, char const *argv[])
     initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
 
     // ---ZONE DE TEST --- //
+    while (isPlaying){
+      play_tour(&current_player, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
+    }
 
-    play_tour(&current_player, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
-    updateGrid(tableauGrid, nb_joueurs, tabPlayer);
-    drawGrid(tableauGrid);
     /*moveUnit(&tabPlayer[0], 1, tableauGrid);
 
     //attackEnemy(&tabPlayer[0], &tabPlayer[1], 1, 2, tableauGrid);
