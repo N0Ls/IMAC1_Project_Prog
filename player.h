@@ -14,6 +14,8 @@ void printPlayer(player playerToPrint);
 void changeCoordinates(int *x, int *y);
 void placeUnits(player *player);
 bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]);
+bool verifyEnemy(int targetX, int targetY, int target_id, int tabGrid[]);
 void moveUnit(player *player, int unit_id, int tabGrid[]);
+void attackEnemy(player *attacker, player *target, int attacker_id,int target_id, int tabGrid[]);
 void check_if_isAlive(player *playerToCheck);
 #endif

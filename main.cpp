@@ -63,7 +63,9 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[])
   {
     for (int i = 0; i < tabPlayer[k].nb_unite_active; i++)
     {
-      tabGrid[tabPlayer[k].infantry_list[i].x * X_DIMENSION + tabPlayer[k].infantry_list[i].y] = tabPlayer[k].id;
+      if(tabPlayer[k].infantry_list[i].isAlive == 1) {
+        tabGrid[tabPlayer[k].infantry_list[i].x * X_DIMENSION + tabPlayer[k].infantry_list[i].y] = tabPlayer[k].id;
+      }
     }
   }
 }
@@ -226,7 +228,9 @@ int main(int argc, char const *argv[])
       // ---ZONE DE TEST --- //
 
 
-      moveUnit(&tabPlayer[0], 1, tableauGrid);
+      //moveUnit(&tabPlayer[0], 1, tableauGrid);
+
+      attackEnemy(&tabPlayer[0], &tabPlayer[1], 1, 2, tableauGrid);
 
       //cout << verifyCoordinates(&(tabPlayer -> infantry_list[0]),0,0,tableauGrid) << endl;
       updateGrid(tableauGrid, nb_joueurs, tabPlayer);
