@@ -200,10 +200,6 @@ void verify_win(player *tabPlayer, int *nb_joueurs, bool *playCondition, int *wi
   {
     *playCondition = false;
   }
-  else
-  {
-    *playCondition = true;
-  }
 }
 
 void printLogo(void)
