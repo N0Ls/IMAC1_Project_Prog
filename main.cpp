@@ -78,10 +78,20 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[])
 //Fonction pour initialiser le jeu
 void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondition)
 {
-
   //Demande le nombre de joueur
-  cout << "Entrez le nombre de joueurs (3 maximum) : ";
-  cin >> *nb_joueurs;
+  do
+  {
+    if (*nb_joueurs == 1)
+    {
+      cout << "Vous ne pouvez pas jouer seul." << endl;
+    }
+    else if (*nb_joueurs > 3)
+    {
+      cout << "Le nombre maximum de joueurs autorisé est 3." << endl;
+    }
+    cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
+    cin >> *nb_joueurs;
+  } while (*nb_joueurs > 3 || *nb_joueurs < 2);
 
   //Demande le nombre d'unité par joueur
   int nb_unite;
