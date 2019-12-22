@@ -141,21 +141,19 @@ void play_tour(int *current_player_index, player tabPlayer[], int nb_joueurs, in
     cout << "Unité n°" << i + 1;
     printInfantryInline(tabPlayer[*current_player_index].infantry_list[i]);
   }
-  // Menu de selection de l'unité (à déplacer ou pour attaquer)
   selectedUnit = selectUnit(&(tabPlayer[*current_player_index]));
   cout << "Vous avez choisi l'unité positionnée en (" << selectedUnit.x << ", " << selectedUnit.y << "). Que souhaitez-vous faire ?" << endl;
   // Appel du menu du tour
   menu_tour(tour_choice);
   //Traitement du choix
-  //Déplacement
-  if (*tour_choice == 1)
+  switch (*tour_choice)
   {
+  case 1: //Déplacement
     moveUnit(&tabPlayer[*current_player_index], 1, tabGrid);
-  }//Attaque
-  else if (*tour_choice == 2)
-  {
+    break;
+  case 2: //Attacque
     attackEnemy(&selectedUnit, tabPlayer, nb_joueurs, tabGrid);
-    //attackEnemy(&tabPlayer[*current_player_index], &tabPlayer[1], 1, 2, tabGrid);
+    break;
   }
 
   updateGrid(tabGrid, nb_joueurs, tabPlayer);
@@ -224,41 +222,23 @@ void menu(int *c)
 
 int main(int argc, char const *argv[])
 {
-  //--------------------------------------------------------
   int choice = 0;
   int choice_tour = 0;
-  //variables de jeu
-  //--------------------------------------------------------
-  bool isPlaying = false;
-
-  player tabPlayer[10];
-
   int nb_joueurs;
-
+  bool isPlaying = false;
+  player tabPlayer[10];
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
-
   int current_player = 0;
-  //--------------------------------------------------------
 
   menu(&choice);
   switch (choice)
   {
   case 1:
-    // --- INITIALISATION DU JEU --- //
     initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
-
-    // ---ZONE DE TEST --- //
-    while (isPlaying){
+    while (isPlaying)
+    {
       play_tour(&current_player, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
     }
-
-    /*moveUnit(&tabPlayer[0], 1, tableauGrid);
-
-    //attackEnemy(&tabPlayer[0], &tabPlayer[1], 1, 2, tableauGrid);
-
-    //cout << verifyCoordinates(&(tabPlayer -> infantry_list[0]),0,0,tableauGrid) << endl;
-    updateGrid(tableauGrid, nb_joueurs, tabPlayer);
-    drawGrid(tableauGrid);*/
     break;
   case 2:
     cout << "À bientôt !" << endl;
