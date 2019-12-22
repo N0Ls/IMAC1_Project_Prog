@@ -185,17 +185,18 @@ void play_tour(int *current_player_index, player tabPlayer[], int nb_joueurs, in
   }
 }
 
-void verify_win(player *tabPlayer, int *nb_joueurs, bool *playCondition)
+void verify_win(player *tabPlayer, int *nb_joueurs, bool *playCondition, int *winner)
 {
   int compteur_players_alive = 0;
   for (int i = 0; i < *nb_joueurs; i++)
   {
     if (tabPlayer[i].isAlive == true)
     {
+      *winner = tabPlayer[i].id;
       compteur_players_alive++;
     }
   }
-  if (compteur_players_alive > 1)
+  if (compteur_players_alive == 1)
   {
     *playCondition = false;
   }
@@ -245,6 +246,7 @@ int main(int argc, char const *argv[])
   player tabPlayer[10];
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
   int current_player = 0;
+  int winner;
 
   menu(&choice);
   switch (choice)
@@ -254,7 +256,10 @@ int main(int argc, char const *argv[])
     while (isPlaying)
     {
       play_tour(&current_player, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
+      verify_win(tabPlayer, &nb_joueurs, &isPlaying, &winner);
     }
+    cout << "Fin de la partie." << winner << " !" << endl;
+    cout << "Le gagnant est le joueur " << winner << " !" << endl;
     break;
   case 2:
     cout << "À bientôt !" << endl;

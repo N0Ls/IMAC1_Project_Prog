@@ -170,6 +170,7 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
           {
             tabPlayer[k].infantry_list[i].isAlive = false;
             tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
+            check_if_isAlive(&tabPlayer[k]);
             cout << "L'unité ennemie a été détruite." << endl;
             cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
           }
