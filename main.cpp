@@ -63,7 +63,8 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[])
   {
     for (int i = 0; i < tabPlayer[k].nb_unite_active; i++)
     {
-      if(tabPlayer[k].infantry_list[i].isAlive == 1) {
+      if (tabPlayer[k].infantry_list[i].isAlive == 1)
+      {
         tabGrid[tabPlayer[k].infantry_list[i].x * X_DIMENSION + tabPlayer[k].infantry_list[i].y] = tabPlayer[k].id;
       }
     }
@@ -92,7 +93,7 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   initGrid(tabGrid);
 
   //Début du jeu
-  *playCondition=true;
+  *playCondition = true;
 
   //Dessin de la grille
   drawGrid(tabGrid);
@@ -108,7 +109,8 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   drawGrid(tabGrid);
 }
 
-void menu_tour(int *tour_choice){
+void menu_tour(int *tour_choice)
+{
   cout << "\n";
   cout << "1. Se déplacer"
        << "\n";
@@ -128,44 +130,59 @@ void menu_tour(int *tour_choice){
 //   }
 // }
 
-void play_tour(int *current_player_index , player tabPlayer[], int nb_joueurs, int *tour_choice){
+void play_tour(int *current_player_index, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[])
+{
+  infantry unitSelected;
   cout << "----------" << endl;
-  cout << "Joueur " << *current_player_index+1 << " c'est votre tour !" << endl;
-  for (int i = 0; i < tabPlayer[*current_player_index].nb_unite_active; i++) {
-    cout << "Unité n°" << i ;
+  cout << "Joueur " << *current_player_index + 1 << " c'est votre tour !" << endl;
+  for (int i = 0; i < tabPlayer[*current_player_index].nb_unite_active; i++)
+  {
+    cout << "Unité n°" << i + 1 << " | ";
     printInfantryInline(tabPlayer[*current_player_index].infantry_list[i]);
   }
-  //appel du menu du tour
+  // Menu de selection de l'unité (à déplacer ou pour attaquer)
+  unitSelected = selectUnit(&(tabPlayer[*current_player_index]));
+  cout << "Vous avez choisi l'unité positionnée en (" << unitSelected.x << ", " << unitSelected.y << "). Que souhaitez-vous faire ?" << endl;
+  // Appel du menu du tour
   menu_tour(tour_choice);
-  //traitement du choix
-  //déplacement
-  if(*tour_choice==1){
-    //ajouter le menu de selection de l'unité à déplacer
-    //moveUnit(&tabPlayer[*current_player_index], 1, tableauGrid);
+  //Traitement du choix
+  //Déplacement
+  if (*tour_choice == 1)
+  {
+    moveUnit(&tabPlayer[*current_player_index], 1, tabGrid);
   }
-  if(*tour_choice==2){
+  else if (*tour_choice == 2)
+  {
+    attackEnemy(&tabPlayer[0], &tabPlayer[1], 1, 2, tabGrid);
+  }
 
+  if (*current_player_index >= nb_joueurs)
+  {
+    *current_player_index = 0;
   }
-
-  if(*current_player_index >= nb_joueurs ){
-    *current_player_index=0;
+  else
+  {
+    *current_player_index += 1;
   }
-  else{*current_player_index+=1;}
 }
 
-
-void verify_win(player *tabPlayer, int *nb_joueurs,bool *playCondition){
+void verify_win(player *tabPlayer, int *nb_joueurs, bool *playCondition)
+{
   int compteur_players_alive = 0;
-  for(int i= 0 ; i < *nb_joueurs ; i++){
-    if (tabPlayer[i].isAlive == true) {
+  for (int i = 0; i < *nb_joueurs; i++)
+  {
+    if (tabPlayer[i].isAlive == true)
+    {
       compteur_players_alive++;
     }
   }
-  if(compteur_players_alive >1){
-    *playCondition=false;
+  if (compteur_players_alive > 1)
+  {
+    *playCondition = false;
   }
-  else{
-    *playCondition=true;
+  else
+  {
+    *playCondition = true;
   }
 }
 
@@ -204,7 +221,7 @@ int main(int argc, char const *argv[])
 {
   //--------------------------------------------------------
   int choice = 0;
-  int choice_tour = 0 ;
+  int choice_tour = 0;
   //variables de jeu
   //--------------------------------------------------------
   bool isPlaying = false;
@@ -219,29 +236,30 @@ int main(int argc, char const *argv[])
   //--------------------------------------------------------
 
   menu(&choice);
-    switch (choice)
-    {
-    case 1:
-      // --- INITIALISATION DU JEU --- //
-      initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
+  switch (choice)
+  {
+  case 1:
+    // --- INITIALISATION DU JEU --- //
+    initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
 
-      // ---ZONE DE TEST --- //
+    // ---ZONE DE TEST --- //
 
+    play_tour(&current_player, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
+    updateGrid(tableauGrid, nb_joueurs, tabPlayer);
+    drawGrid(tableauGrid);
+    /*moveUnit(&tabPlayer[0], 1, tableauGrid);
 
-      //moveUnit(&tabPlayer[0], 1, tableauGrid);
+    //attackEnemy(&tabPlayer[0], &tabPlayer[1], 1, 2, tableauGrid);
 
-      attackEnemy(&tabPlayer[0], &tabPlayer[1], 1, 2, tableauGrid);
-
-      //cout << verifyCoordinates(&(tabPlayer -> infantry_list[0]),0,0,tableauGrid) << endl;
-      updateGrid(tableauGrid, nb_joueurs, tabPlayer);
-      drawGrid(tableauGrid);
-      break;
-    case 2:
-      cout << "À bientôt !" << endl;
-      exit(EXIT_FAILURE);
-      break;
-    }
-
+    //cout << verifyCoordinates(&(tabPlayer -> infantry_list[0]),0,0,tableauGrid) << endl;
+    updateGrid(tableauGrid, nb_joueurs, tabPlayer);
+    drawGrid(tableauGrid);*/
+    break;
+  case 2:
+    cout << "À bientôt !" << endl;
+    exit(EXIT_FAILURE);
+    break;
+  }
 
   return 0;
 }

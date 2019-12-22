@@ -59,6 +59,27 @@ void placeUnits(player *player)
   }
 }
 
+//Fonction pour choisir l'unité à utiliser
+infantry selectUnit(player *player)
+{
+  int unitX, unitY;
+  cout << "Entrez la coordonnée X de l'unité à utiliser : ";
+  cin >> unitX;
+  cout << "Entrez la coordonnée Y de l'unité à utiliser : ";
+  cin >> unitY;
+  for (int i = 0; i < player->nb_unite_active; i++)
+  {
+    if (player->infantry_list[i].x == unitX && player->infantry_list[i].y == unitY)
+    {
+      return player->infantry_list[i];
+    }
+    else {
+      cout << "Attention, aucune de vos unitées ne sont localisées ici.";
+      selectUnit(player);
+    }
+  }
+}
+
 //Fonction pour vérifier si le déplacement est valide
 bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[])
 {
@@ -146,7 +167,6 @@ void attackEnemy(player *attacker, player *target, int attacker_id, int target_i
           cout << "L'unité ennemie a été détruite." << endl;
           cout << target->infantry_list[i].isAlive << endl;
         }
-        //isAlive false (gérer isAlive dans l'update de la grid);
       }
     }
   }
