@@ -14,7 +14,7 @@ void initInfantry(infantry *inf, int id,float pv,float force,float dexterity){
 
 //Fonction permettant d'imprimer les infos si besoin
 void printInfantryinfos(infantry inf){
-  cout << "Appartient à " << inf.owner_id << endl;
+  cout << "Appartient au joueur " << inf.owner_id << endl;
   cout << "PV :  " << inf.pv << endl;
   cout << "Force : " << inf.force << endl;
   cout << "Dextérité : " << inf.dexterity << endl;

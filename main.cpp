@@ -147,7 +147,7 @@ void menu_tour(int *tour_choice)
 void play_tour(int *current_player_index, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[])
 {
   infantry selectedUnit;
-  if (tabPlayer[*current_player_index].nb_unite_active != 0)
+  if (tabPlayer[*current_player_index].isAlive == 1)
   {
     cout << "----------" << endl;
     cout << "Joueur " << *current_player_index + 1 << " c'est votre tour !" << endl;
@@ -254,7 +254,7 @@ int main(int argc, char const *argv[])
       play_tour(&current_player, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
       verify_win(tabPlayer, &nb_joueurs, &isPlaying, &winner);
     }
-    cout << "Fin de la partie." << winner << " !" << endl;
+    cout << "Fin de la partie." << endl;
     cout << "Le gagnant est le joueur " << winner << " !" << endl;
     break;
   case 2:

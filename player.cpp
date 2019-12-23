@@ -62,21 +62,6 @@ void placeUnits(player *player)
 //Fonction pour choisir l'unité à utiliser
 infantry selectUnit(player *player)
 {
-  /*int unitX, unitY;
-  cout << "Entrez la coordonnée X de l'unité à utiliser : ";
-  cin >> unitX;
-  cout << "Entrez la coordonnée Y de l'unité à utiliser : ";
-  cin >> unitY;
-  for (int i = 0; i < player->nb_unite_active; i++)
-  {
-    cout << "X : " << player->infantry_list[i].x << endl;
-    cout << "Y : " << player->infantry_list[i].y << endl;
-    if (player->infantry_list[i].x == unitX && player->infantry_list[i].y == unitY)
-    {
-      return player->infantry_list[i];
-    }
-    //Vérification nécessaire au cas où les coordonnées renseignées ne sont pas correctes
-  }*/
   int unit = 0;
   do
   {
@@ -152,8 +137,6 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
   float damage = selectedUnit->force * selectedUnit->pv;
   float updatePV;
 
-  cout << damage << endl;
-
   cout << "Quelle est votre cible ?" << endl;
   cout << "Entrez la coordonnée X : ";
   cin >> targetX;
@@ -167,8 +150,8 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
       {
         if (tabPlayer[k].infantry_list[i].x == targetX && tabPlayer[k].infantry_list[i].y == targetY)
         {
+          printPlayer(tabPlayer[k]);
           updatePV = tabPlayer[k].infantry_list[i].pv - damage;
-          cout << updatePV << endl;
           tabPlayer[k].infantry_list[i].pv = updatePV;
           if (updatePV > 0)
           {
@@ -181,16 +164,13 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
             tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
             cout << "L'unité ennemie a été détruite." << endl;
             cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
-            //tabPlayer[k].infantry_list[i].isAlive = false;
-            /*tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
-            for (int j = i; j < tabPlayer[k].nb_unite_active; j++)
+            check_if_isAlive(&tabPlayer[k]);
+            /*for (int j = tabPlayer[k].infantry_list[i]; j < tabPlayer[k].nb_unite_active; j++)
             {
               tabPlayer[j].infantry_list[j] = tabPlayer[j].infantry_list[j + 1];
             }*/
           }
-          check_if_isAlive(&tabPlayer[k]);
-          cout << "L'unité ennemie a été détruite." << endl;
-          cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
+          printPlayer(tabPlayer[k]);
         }
       }
     }
