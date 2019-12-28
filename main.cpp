@@ -69,7 +69,7 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[])
     {
       if (tabPlayer[k].infantry_list[i].isAlive == 1)
       {
-        tabGrid[tabPlayer[k].infantry_list[i].x * X_DIMENSION + tabPlayer[k].infantry_list[i].y] = tabPlayer[k].id;
+        tabGrid[tabPlayer[k].infantry_list[i].y * X_DIMENSION + tabPlayer[k].infantry_list[i].x] = tabPlayer[k].id;
       }
     }
   }
