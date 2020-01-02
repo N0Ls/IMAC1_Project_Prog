@@ -9,7 +9,6 @@ using namespace std;
 void initPlayer(player *player, int id, int nb_unite_active)
 {
   player->id = id;
-  //player -> user_name[10] = user_name;
   player->nb_unite_active = nb_unite_active;
   player->isAlive = true;
   for (int i = 0; i < nb_unite_active; i++)
@@ -105,10 +104,23 @@ bool verifyEnemy(int targetX, int targetY, int attacker_id, int tabGrid[])
   }
 }
 
+int calculDamage(infantry *attackerUnit, int targetX, int targetY)
+{
+  int currentX = attackerUnit->x;
+  int currentY = attackerUnit->y;
+  float attackCoefficient = (abs(currentX - targetX) + abs(currentY - targetY))/10.0;
+  if (abs(currentX - targetX) + abs(currentY - targetY) <= attackerUnit->dexterity)
+  {
+    return (attackerUnit->force - attackCoefficient) * attackerUnit->pv;
+  }
+  else
+  {
+    return 0;
+  }
+}
+
 void moveUnit(player *player, int unit_id, int tabGrid[])
 {
-  // int currentX = player -> infantry_list[unit_id-1].x;
-  // int currentY = player -> infantry_list[unit_id-1].y;
   int newX;
   int newY;
 
@@ -134,7 +146,7 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
   int attacker_id = selectedUnit->owner_id;
   int targetX;
   int targetY;
-  float damage = selectedUnit->force * selectedUnit->pv;
+  float damage;
   float updatePV;
 
   cout << "Quelle est votre cible ?" << endl;
@@ -144,35 +156,38 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
   cin >> targetY;
   if (verifyEnemy(targetX, targetY, attacker_id, tabGrid) == 1)
   {
-    for (int k = 0; k < nb_joueurs; k++)
+    damage = calculDamage(selectedUnit, targetX, targetY);
+    if (damage > 0)
     {
-      for (int i = 0; i < tabPlayer[k].nb_unite_active; i++)
+      for (int k = 0; k < nb_joueurs; k++)
       {
-        if (tabPlayer[k].infantry_list[i].x == targetX && tabPlayer[k].infantry_list[i].y == targetY)
+        for (int i = 0; i < tabPlayer[k].nb_unite_active; i++)
         {
-          printPlayer(tabPlayer[k]);
-          updatePV = tabPlayer[k].infantry_list[i].pv - damage;
-          tabPlayer[k].infantry_list[i].pv = updatePV;
-          if (updatePV > 0)
+          if (tabPlayer[k].infantry_list[i].x == targetX && tabPlayer[k].infantry_list[i].y == targetY)
           {
-            cout << "L'unité ennemie a été touchée." << endl;
-            cout << "PV de l'unité ennemie après l'attaque : " << tabPlayer[k].infantry_list[i].pv << endl;
-          }
-          else
-          {
-            tabPlayer[k].infantry_list[i].isAlive = false;
-            tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
-            cout << "L'unité ennemie a été détruite." << endl;
-            cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
-            check_if_isAlive(&tabPlayer[k]);
-            /*for (int j = tabPlayer[k].infantry_list[i]; j < tabPlayer[k].nb_unite_active; j++)
+            printPlayer(tabPlayer[k]);
+            updatePV = tabPlayer[k].infantry_list[i].pv - damage;
+            tabPlayer[k].infantry_list[i].pv = updatePV;
+            if (updatePV > 0)
             {
-              tabPlayer[j].infantry_list[j] = tabPlayer[j].infantry_list[j + 1];
-            }*/
+              cout << "L'unité ennemie a été touchée." << endl;
+              cout << "PV de l'unité ennemie après l'attaque : " << tabPlayer[k].infantry_list[i].pv << endl;
+            }
+            else
+            {
+              tabPlayer[k].infantry_list[i].isAlive = false;
+              tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
+              cout << "L'unité ennemie a été détruite." << endl;
+              cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
+              check_if_isAlive(&tabPlayer[k]);
+            }
           }
-          printPlayer(tabPlayer[k]);
         }
       }
+    }
+    else
+    {
+      cout << "Attaque impossible. L'ennemie est trop loin et ne peut pas être touché." << endl;
     }
   }
   else

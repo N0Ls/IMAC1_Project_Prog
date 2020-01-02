@@ -16,6 +16,7 @@ void placeUnits(player *player);
 infantry selectUnit(player *player);
 bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]);
 bool verifyEnemy(int targetX, int targetY, int attacker_id, int target_id, int tabGrid[]);
+int calculDamage(infantry *attackerUnit, int targetX, int targetY);
 void moveUnit(player *player, int unit_id, int tabGrid[]);
 void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int tabGrid[]);
 void check_if_isAlive(player *playerToCheck);
