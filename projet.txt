@@ -1,18 +1,17 @@
-Classes :
-  Joueur
-    ID
-    Nom
-    Nb d'unités
+Jeu :
+- Couleurs à ajouter.
+- "Cadeaux" (points de vie, augmentation de dextérité) à ajouter à certains tours de manière aléatoire.
 
-  Unité de combat
-    ID du proprio
-    PV
-    Boolean isAlive
-    Force
-    coordonnées
-    Dextérité
+Tour :
+- Deux coups possibles.
+
+Attaque :
+- Zone de dégâts si aucune infantrie n'est visée directement
+
+Infantries :
+- Aériennes
+- Sol : - Soldats.
+        - Tanks.
 
 
-Fonction de lancement de partie
-Fonction de check de victoire
-Fonction de rentrer les coordonnées
+
