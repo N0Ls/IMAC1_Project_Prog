@@ -62,15 +62,15 @@ void placeUnits(player *player)
 infantry selectUnit(player *player)
 {
   int unit = 0;
+  cout << "Indiquez le numéro de l'unité que vous souhaitez utiliser : ";
+  cin >> unit;
   do
   {
-    if (unit > player->nb_unite_active || unit < 0)
-    {
-      cout << "Le numéro indiqué ne correspond à aucune unité." << endl;
-    }
+    cout << "Le numéro indiqué ne correspond à aucune unité." << endl;
     cout << "Indiquez le numéro de l'unité que vous souhaitez utiliser : ";
-    cin >> unit;
-  } while (unit > player->nb_unite_active);
+    cin.clear();
+    cin.ignore(123, '\n');
+  } while (!(cin >> unit) || unit > player->nb_unite_active || unit < 0);
   return player->infantry_list[unit - 1];
 }
 
