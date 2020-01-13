@@ -94,7 +94,7 @@ bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[])
 //Fonction pour vérifier si une unité ennemie est présente sur la position
 bool verifyEnemy(int targetX, int targetY, int attacker_id, int tabGrid[])
 {
-  if (tabGrid[targetX * X_DIMENSION + targetY] != 0 && tabGrid[targetX * X_DIMENSION + targetY] != attacker_id)
+  if (tabGrid[targetY * X_DIMENSION + targetX] != 0 && tabGrid[targetY * X_DIMENSION + targetX] != attacker_id)
   {
     return true;
   }
