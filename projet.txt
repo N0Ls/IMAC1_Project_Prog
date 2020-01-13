@@ -13,5 +13,6 @@ Infantries :
 - Sol : - Soldats.
         - Tanks.
 
-
+Placement : 
+- On peut placer plusieurs unités au meme endroit au début
 
