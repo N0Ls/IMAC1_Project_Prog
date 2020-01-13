@@ -19,15 +19,24 @@ void drawGrid(int tabGrid[])
 
       if (tabGrid[X_DIMENSION * i + y] == 1)
       {
-        cout << " 1 |";
+        cout << "\033[96m";
+        cout << " 1";
+        cout << "\033[37m";
+        cout << " |";
       }
       if (tabGrid[X_DIMENSION * i + y] == 2)
       {
-        cout << " 2 |";
+        cout << "\033[91m";
+        cout << " 2";
+        cout << "\033[37m";
+        cout << " |";
       }
       if (tabGrid[X_DIMENSION * i + y] == 3)
       {
-        cout << " 3 |";
+        cout << "\033[35m";
+        cout << " 3";
+        cout << "\033[37m";
+        cout << " |";
       }
       if (tabGrid[X_DIMENSION * i + y] == 0)
       {
@@ -101,7 +110,15 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   //Initialisation des joueurs
   for (int i = 0; i < *nb_joueurs; i++)
   {
-    initPlayer(tabPlayer + i, i + 1, nb_unite);
+    if(i==0){
+      initPlayer(tabPlayer + i, i + 1, nb_unite);
+    }
+    if(i==1){
+      initPlayer(tabPlayer + i, i + 1, nb_unite);
+    }
+    if(i==2){
+      initPlayer(tabPlayer + i, i + 1, nb_unite);
+    }
   }
   //Initialisation de la grille
   initGrid(tabGrid);
