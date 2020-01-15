@@ -13,6 +13,8 @@ Infantries :
 - Sol : - Soldats.
         - Tanks.
 
+Adapter le nombre d'unités autorisé en fonction du nombre de joueurs et de la taille de la carte.
+
 Placement : 
 - On peut placer plusieurs unités au meme endroit au début
 
