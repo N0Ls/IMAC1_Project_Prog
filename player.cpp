@@ -40,10 +40,39 @@ void check_if_isAlive(player *playerToCheck)
 
 void changeCoordinates(int *x, int *y)
 {
+  int temporaryX, temporaryY;
   cout << "Saisissez la coordonnée X : ";
-  cin >> *x;
+  cin >> temporaryX;
+  while (1)
+  {
+    if (cin.fail() || temporaryX > X_DIMENSION || temporaryX < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "La coordonnée doit être un entier compris entre 1 et " << X_DIMENSION << "." << endl;
+      cout << "Entrez la coordonnée X : ";
+      cin >> temporaryX;
+    }
+    if (!(cin.fail() || temporaryX > X_DIMENSION || temporaryX < 1))
+      break;
+  }
   cout << "Saisissez la coordonnée Y : ";
-  cin >> *y;
+  cin >> temporaryY;
+  while (1)
+  {
+    if (cin.fail() || temporaryY > X_DIMENSION || temporaryY < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "La coordonnée doit être un entier compris entre 1 et " << Y_DIMENSION << "." << endl;
+      cout << "Entrez la coordonnée Y : ";
+      cin >> temporaryY;
+    }
+    if (!(cin.fail() || temporaryY > X_DIMENSION || temporaryY < 1))
+      break;
+  }
+  *x = temporaryX;
+  *y = temporaryY;
 }
 
 //Placement des unités au début de la game
@@ -64,13 +93,19 @@ infantry selectUnit(player *player)
   int unit = 0;
   cout << "Indiquez le numéro de l'unité que vous souhaitez utiliser : ";
   cin >> unit;
-  do
+  while (1)
   {
-    cout << "Le numéro indiqué ne correspond à aucune unité." << endl;
-    cout << "Indiquez le numéro de l'unité que vous souhaitez utiliser : ";
-    cin.clear();
-    cin.ignore(123, '\n');
-  } while (!(cin >> unit) || unit > player->nb_unite_active || unit < 0);
+    if (cin.fail() || unit > player->nb_unite_active || unit < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "Le numéro indiqué ne correspond à aucune unité." << endl;
+      cout << "Indiquez le numéro de l'unité que vous souhaitez utiliser : ";
+      cin >> unit;
+    }
+    if (!(cin.fail() || unit > player->nb_unite_active || unit < 1))
+      break;
+  }
   return player->infantry_list[unit - 1];
 }
 
@@ -108,7 +143,7 @@ int calculDamage(infantry *attackerUnit, int targetX, int targetY)
 {
   int currentX = attackerUnit->x;
   int currentY = attackerUnit->y;
-  float attackCoefficient = (abs(currentX - targetX) + abs(currentY - targetY))/10.0;
+  float attackCoefficient = (abs(currentX - targetX) + abs(currentY - targetY)) / 10.0;
   if (abs(currentX - targetX) + abs(currentY - targetY) <= attackerUnit->dexterity)
   {
     return (attackerUnit->force - attackCoefficient) * attackerUnit->pv;
@@ -126,8 +161,34 @@ void moveUnit(player *player, int unit_id, int tabGrid[])
 
   cout << "Entrez la nouvelle coordonnée X : ";
   cin >> newX;
+  while (1)
+  {
+    if (cin.fail() || newX > X_DIMENSION || newX < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "La coordonnée doit être un entier compris entre 1 et " << X_DIMENSION << "." << endl;
+      cout << "Entrez la nouvelle coordonnée X : ";
+      cin >> newX;
+    }
+    if (!(cin.fail() || newX > X_DIMENSION || newX < 1))
+      break;
+  }
   cout << "Entrez la nouvelle coordonnée Y : ";
   cin >> newY;
+  while (1)
+  {
+    if (cin.fail() || newY > Y_DIMENSION || newY < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "La coordonnée doit être un entier compris entre 1 et " << Y_DIMENSION << "." << endl;
+      cout << "Entrez la nouvelle coordonnée Y : ";
+      cin >> newY;
+    }
+    if (!(cin.fail() || newY > Y_DIMENSION || newY < 1))
+      break;
+  }
 
   if (verifyCoordinates(&(player->infantry_list[unit_id - 1]), newX, newY, tabGrid) == 1)
   {
@@ -152,8 +213,34 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
   cout << "Quelle est votre cible ?" << endl;
   cout << "Entrez la coordonnée X : ";
   cin >> targetX;
+  while (1)
+  {
+    if (cin.fail() || targetX > X_DIMENSION || targetX < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "La coordonnée doit être un entier compris entre 1 et " << X_DIMENSION << "." << endl;
+      cout << "Entrez la nouvelle coordonnée X : ";
+      cin >> targetX;
+    }
+    if (!(cin.fail() || targetX > X_DIMENSION || targetX < 1))
+      break;
+  }
   cout << "Entrez la coordonnée Y : ";
   cin >> targetY;
+  while (1)
+  {
+    if (cin.fail() || targetY > Y_DIMENSION || targetY < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "La coordonnée doit être un entier compris entre 1 et " << Y_DIMENSION << "." << endl;
+      cout << "Entrez la nouvelle coordonnée X : ";
+      cin >> targetY;
+    }
+    if (!(cin.fail() || targetY > Y_DIMENSION || targetY < 1))
+      break;
+  }
   if (verifyEnemy(targetX, targetY, attacker_id, tabGrid) == 1)
   {
     damage = calculDamage(selectedUnit, targetX, targetY);
