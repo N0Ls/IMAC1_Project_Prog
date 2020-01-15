@@ -88,24 +88,44 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[])
 void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondition)
 {
   //Demande le nombre de joueur
-  do
+  cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
+  cin >> *nb_joueurs;
+  while (1)
   {
-    if (*nb_joueurs == 1)
+    if (cin.fail() || *nb_joueurs < 2 || *nb_joueurs > 3)
     {
-      cout << "Vous ne pouvez pas jouer seul." << endl;
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "Vous ne pouvez pas joueur seul et le nombre maximum de joueurs autorisé est 3." << endl;
+      cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
+      cin >> *nb_joueurs;
     }
-    else if (*nb_joueurs > 3)
-    {
-      cout << "Le nombre maximum de joueurs autorisé est 3." << endl;
-    }
-    cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
-    cin >> *nb_joueurs;
-  } while (*nb_joueurs > 3 || *nb_joueurs < 2);
+    if (!(cin.fail() || *nb_joueurs < 2  || *nb_joueurs > 3))
+      break;
+  }
 
   //Demande le nombre d'unité par joueur
-  int nb_unite;
-  cout << "Entrez le nombre d'unités par joueur : ";
+  int nb_unite, max_unites = 0;
+  if (*nb_joueurs == 2){
+    max_unites = 9;
+  } else if (*nb_joueurs == 3) {
+    max_unites = 6;
+  }
+  cout << "Entrez le nombre d'unités par joueur (" << max_unites << " unités maximum) : ";
   cin >> nb_unite;
+  while (1)
+  {
+    if (cin.fail() || nb_unite < 1 || nb_unite > max_unites)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "Veuillez respecter le nombre maximal d'unités autorisé par joueur." << endl;
+      cout << "Entrez le nombre d'unités par joueur (" << max_unites << " unités maximum) : ";
+      cin >> nb_unite;
+    }
+    if (!(cin.fail() || nb_unite < 1  || nb_unite > max_unites))
+      break;
+  }
 
   //Initialisation des joueurs
   for (int i = 0; i < *nb_joueurs; i++)
