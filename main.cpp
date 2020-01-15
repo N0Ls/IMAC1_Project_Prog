@@ -110,13 +110,16 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   //Initialisation des joueurs
   for (int i = 0; i < *nb_joueurs; i++)
   {
-    if(i==0){
+    if (i == 0)
+    {
       initPlayer(tabPlayer + i, i + 1, nb_unite);
     }
-    if(i==1){
+    if (i == 1)
+    {
       initPlayer(tabPlayer + i, i + 1, nb_unite);
     }
-    if(i==2){
+    if (i == 2)
+    {
       initPlayer(tabPlayer + i, i + 1, nb_unite);
     }
   }
@@ -161,35 +164,42 @@ void menu_tour(int *tour_choice)
 //   }
 // }
 
-void play_tour(int *current_player_index, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[])
+void play_tour(int *current_player_index, int move_number, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[])
 {
   infantry selectedUnit;
   if (tabPlayer[*current_player_index].isAlive == 1)
   {
-    cout << "----------" << endl;
-    cout << "Joueur " << *current_player_index + 1 << " c'est votre tour !" << endl;
-    for (int i = 0; i < tabPlayer[*current_player_index].nb_unite_active; i++)
+    for (int i = 0; i < move_number; i++)
     {
-      cout << "Unité n°" << i + 1 << " ";
-      printInfantryInline(tabPlayer[*current_player_index].infantry_list[i]);
-    }
-    selectedUnit = selectUnit(&(tabPlayer[*current_player_index]));
-    cout << "Vous avez choisi l'unité positionnée en (" << selectedUnit.x << ", " << selectedUnit.y << "). Que souhaitez-vous faire ?" << endl;
-    // Appel du menu du tour
-    menu_tour(tour_choice);
-    //Traitement du choix
-    switch (*tour_choice)
-    {
-    case 1: //Déplacement
-      moveUnit(&tabPlayer[*current_player_index], 1, tabGrid);
-      break;
-    case 2: //Attacque
-      attackEnemy(&selectedUnit, tabPlayer, nb_joueurs, tabGrid);
-      break;
-    }
+      cout << "----------" << endl;
+      if(i > 0){
+        cout << "Joueur " << *current_player_index + 1 << ", c'est de nouveau votre tour !" << endl;
+      } else {
+        cout << "Joueur " << *current_player_index + 1 << ", c'est votre tour !" << endl;
+      }
+      for (int i = 0; i < tabPlayer[*current_player_index].nb_unite_active; i++)
+      {
+        cout << "Unité n°" << i + 1 << " ";
+        printInfantryInline(tabPlayer[*current_player_index].infantry_list[i]);
+      }
+      selectedUnit = selectUnit(&(tabPlayer[*current_player_index]));
+      cout << "Vous avez choisi l'unité positionnée en (" << selectedUnit.x << ", " << selectedUnit.y << "). Que souhaitez-vous faire ?" << endl;
+      // Appel du menu du tour
+      menu_tour(tour_choice);
+      //Traitement du choix
+      switch (*tour_choice)
+      {
+      case 1: //Déplacement
+        moveUnit(&tabPlayer[*current_player_index], 1, tabGrid);
+        break;
+      case 2: //Attacque
+        attackEnemy(&selectedUnit, tabPlayer, nb_joueurs, tabGrid);
+        break;
+      }
 
-    updateGrid(tabGrid, nb_joueurs, tabPlayer);
-    drawGrid(tabGrid);
+      updateGrid(tabGrid, nb_joueurs, tabPlayer);
+      drawGrid(tabGrid);
+    }
   }
 
   if (*current_player_index >= nb_joueurs - 1)
@@ -254,6 +264,7 @@ int main(int argc, char const *argv[])
 {
   int choice = 0;
   int choice_tour = 0;
+  int move_number = 2;
   int nb_joueurs;
   bool isPlaying = false;
   player tabPlayer[10];
@@ -268,7 +279,7 @@ int main(int argc, char const *argv[])
     initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
     while (isPlaying)
     {
-      play_tour(&current_player, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
+      play_tour(&current_player, move_number, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
       verify_win(tabPlayer, &nb_joueurs, &isPlaying, &winner);
     }
     cout << "Fin de la partie." << endl;
