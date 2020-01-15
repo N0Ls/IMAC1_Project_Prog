@@ -152,6 +152,19 @@ void menu_tour(int *tour_choice)
        << "\n\n";
   cout << "Votre choix (1/2 ?) : ";
   cin >> *tour_choice;
+  while (1)
+  {
+    if (cin.fail() || *tour_choice > 2 || *tour_choice < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "Vous ne pouvez que vous déplacez (1) ou attaquer (2)." << endl;
+      cout << "Votre choix (1/2 ?) : ";
+      cin >> *tour_choice;
+    }
+    if (!(cin.fail() || *tour_choice > 2 || *tour_choice < 1))
+      break;
+  }
   cout << endl;
 }
 
@@ -172,9 +185,12 @@ void play_tour(int *current_player_index, int move_number, player tabPlayer[], i
     for (int i = 0; i < move_number; i++)
     {
       cout << "----------" << endl;
-      if(i > 0){
+      if (i > 0)
+      {
         cout << "Joueur " << *current_player_index + 1 << ", c'est de nouveau votre tour !" << endl;
-      } else {
+      }
+      else
+      {
         cout << "Joueur " << *current_player_index + 1 << ", c'est votre tour !" << endl;
       }
       for (int i = 0; i < tabPlayer[*current_player_index].nb_unite_active; i++)

@@ -47,11 +47,11 @@ void changeCoordinates(int *x, int *y)
 
   cout << messageX;
   cin >> temporaryX;
-  checkPlayerEntry(&temporaryX, messageX, errorMessage);
+  checkPlayerCoordinatesEntry(&temporaryX, messageX, errorMessage);
 
   cout << messageY;
   cin >> temporaryY;
-  checkPlayerEntry(&temporaryY, messageY, errorMessage);
+  checkPlayerCoordinatesEntry(&temporaryY, messageY, errorMessage);
   
   *x = temporaryX;
   *y = temporaryY;
@@ -76,15 +76,15 @@ infantry selectUnit(player *player)
   string message = "Indiquez le numéro de l'unité que vous souhaitez utiliser : ", errorMessage = "Le numéro indiqué ne correspond à aucune unité.";
   cout << message;
   cin >> unit;
-  checkPlayerEntry(&unit, message, errorMessage);
+  checkPlayerCoordinatesEntry(&unit, message, errorMessage);
   return player->infantry_list[unit - 1];
 }
 
 //Fonction pour vérifier les entrées utilisateurs
-int checkPlayerEntry(int *entry, string message, string errorMessage) {
+int checkPlayerCoordinatesEntry(int *entry, string message, string errorMessage) {
   while (1)
   {
-    if (cin.fail() || *entry >= X_DIMENSION || *entry < 1)
+    if (cin.fail() || *entry >= X_DIMENSION || *entry < 0)
     {
       cin.clear();
       cin.ignore(123, '\n');
@@ -92,7 +92,7 @@ int checkPlayerEntry(int *entry, string message, string errorMessage) {
       cout << message;
       cin >> *entry;
     }
-    if (!(cin.fail() || *entry >= X_DIMENSION || *entry < 1))
+    if (!(cin.fail() || *entry >= X_DIMENSION || *entry < 0))
       break;
   }
   return *entry;
@@ -151,11 +151,11 @@ void moveUnit(player *player, int unit_id, int tabGrid[])
 
   cout << messageX;
   cin >> newX;
-  checkPlayerEntry(&newX, messageX, errorMessage);
+  checkPlayerCoordinatesEntry(&newX, messageX, errorMessage);
   
   cout << messageY;
   cin >> newY;
-  checkPlayerEntry(&newY, messageY, errorMessage);
+  checkPlayerCoordinatesEntry(&newY, messageY, errorMessage);
 
   if (verifyCoordinates(&(player->infantry_list[unit_id - 1]), newX, newY, tabGrid) == 1)
   {
@@ -183,11 +183,11 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
 
   cout << messageX;
   cin >> targetX;
-  checkPlayerEntry(&targetX, messageX, errorMessage);
+  checkPlayerCoordinatesEntry(&targetX, messageX, errorMessage);
 
   cout << messageY;
   cin >> targetY;
-  checkPlayerEntry(&targetY, messageY, errorMessage);
+  checkPlayerCoordinatesEntry(&targetY, messageY, errorMessage);
 
   if (verifyEnemy(targetX, targetY, attacker_id, tabGrid) == 1)
   {
