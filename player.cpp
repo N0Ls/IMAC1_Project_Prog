@@ -100,7 +100,19 @@ infantry selectUnit(player *player)
   string message = "Indiquez le numéro de l'unité que vous souhaitez utiliser : ", errorMessage = "Le numéro indiqué ne correspond à aucune unité.";
   cout << message;
   cin >> unit;
-  checkPlayerCoordinatesEntry(&unit, message, errorMessage);
+  while (1)
+  {
+    if (cin.fail() || unit > player->nb_unite_active || unit < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << errorMessage << endl;
+      cout << message;
+      cin >> unit;
+    }
+    if (!(cin.fail() || unit > player->nb_unite_active || unit < 1))
+      break;
+  }
   return player->infantry_list[unit - 1];
 }
 
