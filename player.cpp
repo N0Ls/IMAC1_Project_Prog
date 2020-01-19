@@ -52,13 +52,13 @@ void changeCoordinates(int *x, int *y)
   cout << messageY;
   cin >> temporaryY;
   checkPlayerCoordinatesEntry(&temporaryY, messageY, errorMessage);
-  
+
   *x = temporaryX;
   *y = temporaryY;
 }
 
 //Placement des unités au début de la game
-void placeUnits(player *player)
+void placeUnits(int *tabGrid, player *player)
 {
   for (int i = 0; i < player->nb_unite_active; i++)
   {
@@ -66,6 +66,30 @@ void placeUnits(player *player)
     cout << "Joueur " << player->id << ", placez vos unités" << endl;
     cout << "Entrez les coordonnées initiales pour l'unité : " << i + 1 << endl;
     changeCoordinates(&(player->infantry_list[i].x), &(player->infantry_list[i].y));
+    while (1)
+    {
+      if (tabGrid[player->infantry_list[i].x * X_DIMENSION + player->infantry_list[i].y] != 0)
+      {
+        cout << "Attention, la position est déjà occupée par une unité ennemie. Veuillez indiquer des coordonnées différentes." << endl;
+        changeCoordinates(&(player->infantry_list[i].x), &(player->infantry_list[i].y));
+      }
+      if (!(tabGrid[player->infantry_list[i].x * X_DIMENSION + player->infantry_list[i].y] != 0))
+        break;
+    }
+    /*int currentIndex = i, currentInfantryX = player->infantry_list[i].x, currentInfantryY = player->infantry_list[i].y;
+    for (int i = 0; i < player->nb_unite_active; i++)
+    {
+      while (1)
+      {
+        if (i != currentIndex && player->infantry_list[i].x == currentInfantryX && player->infantry_list[i].y == currentInfantryY)
+        {
+          cout << "Attention, la position est déjà occupée par une de vos unités. Veuillez indiquer des coordonnées différentes." << endl;
+          changeCoordinates(&(player->infantry_list[i].x), &(player->infantry_list[i].y));
+        }
+        if (!(i != currentIndex && player->infantry_list[i].x == currentInfantryX && player->infantry_list[i].y == currentInfantryY))
+          break;
+      }
+    }*/
   }
 }
 
@@ -81,7 +105,8 @@ infantry selectUnit(player *player)
 }
 
 //Fonction pour vérifier les entrées utilisateurs
-int checkPlayerCoordinatesEntry(int *entry, string message, string errorMessage) {
+int checkPlayerCoordinatesEntry(int *entry, string message, string errorMessage)
+{
   while (1)
   {
     if (cin.fail() || *entry >= X_DIMENSION || *entry < 0)
@@ -152,7 +177,7 @@ void moveUnit(player *player, int unit_id, int tabGrid[])
   cout << messageX;
   cin >> newX;
   checkPlayerCoordinatesEntry(&newX, messageX, errorMessage);
-  
+
   cout << messageY;
   cin >> newY;
   checkPlayerCoordinatesEntry(&newY, messageY, errorMessage);

@@ -6,7 +6,7 @@ using namespace std;
 #define Y_DIMENSION 10
 
 //Fonction d'affichage de la grille
-//Pour l'instant elle est de taille fixe et ne prends en compte que 2 joueurs
+//Pour l'instant elle est de taille fixe
 void drawGrid(int tabGrid[])
 {
   cout << "      X| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
@@ -130,32 +130,19 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   //Initialisation des joueurs
   for (int i = 0; i < *nb_joueurs; i++)
   {
-    if (i == 0)
-    {
-      initPlayer(tabPlayer + i, i + 1, nb_unite);
-    }
-    if (i == 1)
-    {
-      initPlayer(tabPlayer + i, i + 1, nb_unite);
-    }
-    if (i == 2)
-    {
-      initPlayer(tabPlayer + i, i + 1, nb_unite);
-    }
+    initPlayer(tabPlayer + i, i + 1, nb_unite);
   }
+
   //Initialisation de la grille
   initGrid(tabGrid);
 
   //Début du jeu
   *playCondition = true;
 
-  //Dessin de la grille
-  drawGrid(tabGrid);
-
   //Placement des troupes
   for (int i = 0; i < *nb_joueurs; i++)
   {
-    placeUnits(tabPlayer + i);
+    placeUnits(tabGrid, tabPlayer + i);
     updateGrid(tabGrid, *nb_joueurs, tabPlayer);
   }
 

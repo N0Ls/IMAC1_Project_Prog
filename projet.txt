@@ -1,9 +1,12 @@
+Architecture :
+Créer un fichier/classe réservé à l'affichage.
+
 Jeu :
-- Couleurs à ajouter.
+- Couleurs à ajouter. (done)
 - "Cadeaux" (points de vie, augmentation de dextérité) à ajouter à certains tours de manière aléatoire.
 
 Tour :
-- Deux coups possibles.
+- Deux coups possibles. (done)
 
 Attaque :
 - Zone de dégâts si aucune infantrie n'est visée directement
@@ -13,8 +16,8 @@ Infantries :
 - Sol : - Soldats.
         - Tanks.
 
-Adapter le nombre d'unités autorisé en fonction du nombre de joueurs et de la taille de la carte.
+Adapter le nombre d'unités autorisé en fonction du nombre de joueurs et de la taille de la carte. (done)
 
 Placement : 
-- On peut placer plusieurs unités au meme endroit au début
+- Ne pas pouvoir placer plusieurs unités au meme endroit au début. (1/2)
 
