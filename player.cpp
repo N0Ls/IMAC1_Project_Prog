@@ -79,16 +79,12 @@ void placeUnits(int *tabGrid, player *player)
     /*int currentIndex = i, currentInfantryX = player->infantry_list[i].x, currentInfantryY = player->infantry_list[i].y;
     for (int i = 0; i < player->nb_unite_active; i++)
     {
-      while (1)
-      {
         if (i != currentIndex && player->infantry_list[i].x == currentInfantryX && player->infantry_list[i].y == currentInfantryY)
         {
           cout << "Attention, la position est déjà occupée par une de vos unités. Veuillez indiquer des coordonnées différentes." << endl;
           changeCoordinates(&(player->infantry_list[i].x), &(player->infantry_list[i].y));
+          i = -1;
         }
-        if (!(i != currentIndex && player->infantry_list[i].x == currentInfantryX && player->infantry_list[i].y == currentInfantryY))
-          break;
-      }
     }*/
   }
 }
@@ -165,6 +161,21 @@ bool verifyEnemy(int targetX, int targetY, int attacker_id, int tabGrid[])
   }
 }
 
+//Fonction pour vérifier si une unité ennemie est présente à proximité de la position touchée
+bool verifyEnemyProximity(int targetX, int targetY, int attacker_id, int tabGrid[])
+{
+  int position = targetY * X_DIMENSION + targetX;
+  if ((tabGrid[position-1] != 0 && tabGrid[position-1] != attacker_id) || (tabGrid[position+1] != 0 && tabGrid[position+1] != attacker_id) || (tabGrid[position+11] != 0 && tabGrid[position+11] != attacker_id) || (tabGrid[position-11] != 0 && tabGrid[position-11] != attacker_id) || (tabGrid[position-10] != 0 && tabGrid[position-10] != attacker_id) || (tabGrid[position+10] != 0 && tabGrid[position+10] != attacker_id) || (tabGrid[position-9] != 0 && tabGrid[position-9] != attacker_id) || (tabGrid[position+9] != 0 && tabGrid[position+9] != attacker_id))
+  {
+    return true;
+  }
+  else
+  {
+    return false;
+  }
+}
+
+//Fonction pour calculer les dommages infligés
 int calculDamage(infantry *attackerUnit, int targetX, int targetY)
 {
   int currentX = attackerUnit->x;
@@ -179,6 +190,8 @@ int calculDamage(infantry *attackerUnit, int targetX, int targetY)
     return 0;
   }
 }
+
+//int calculAreaDamage(infantry *attackerUnit, int targetX, int targetY){}
 
 void moveUnit(player *player, int unit_id, int tabGrid[])
 {
@@ -264,7 +277,15 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
   }
   else
   {
-    cout << "Attaque impossible. Attention, vous devez cibler une position ennemie." << endl;
-    attackEnemy(selectedUnit, tabPlayer, nb_joueurs, tabGrid);
+    /*
+      cout << "Attaque impossible. Attention, vous devez cibler une position ennemie." << endl;
+      attackEnemy(selectedUnit, tabPlayer, nb_joueurs, tabGrid);
+    */
+    if(verifyEnemyProximity(targetX, targetY, attacker_id, tabGrid) == 1){
+      cout << "Ennemi présent dans la zone de dégâts de votre attaque. Les projections l'ont atteint." << endl;
+      //damage = calculAreaDamage(selectedUnit, targetX, targetY);
+    }else{
+      cout << "Votre attaque n'a eu aucun effet sur les unités ennemies." << endl;
+    }
   }
 }
