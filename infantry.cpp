@@ -3,6 +3,7 @@ using namespace std;
 #include "infantry.h"
 #include "player.h"
 #include "display.h"
+#include "bonus.h"
 
 //Initialisation des paramètres
 void initInfantry(infantry *inf, int id,float pv,float force,float dexterity){

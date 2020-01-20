@@ -1,9 +1,9 @@
 Architecture :
-Créer un fichier/classe réservé à l'affichage.
+Créer un fichier/classe réservé à l'affichage. (done)
 
 Jeu :
 - Couleurs à ajouter. (done)
-- "Cadeaux" (points de vie, augmentation de dextérité) à ajouter à certains tours de manière aléatoire.
+- "Cadeaux" (points de vie, augmentation de dextérité) à ajouter à certains tours de manière aléatoire. (en cours)
 
 Tour :
 - Deux coups possibles. (done)
@@ -18,6 +18,5 @@ Infantries :
 
 Adapter le nombre d'unités autorisé en fonction du nombre de joueurs et de la taille de la carte. (done)
 
-Placement : 
+Placement :
 - Ne pas pouvoir placer plusieurs unités au meme endroit au début. (1/2)
-

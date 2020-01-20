@@ -3,6 +3,7 @@ using namespace std;
 #include "infantry.h"
 #include "player.h"
 #include "display.h"
+#include "bonus.h"
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
 
