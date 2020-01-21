@@ -62,12 +62,21 @@ void changeCoordinates(int *x, int *y)
 //Placement des unités au début de la game
 void placeUnits(int *tabGrid, player *player)
 {
+  int coordinates[player->nb_unite_active][2];
+
+  for (int i = 0; i < player->nb_unite_active; i++)
+  {
+    coordinates[i][1] = -1;
+    coordinates[i][2] = -1;
+  }
+
   for (int i = 0; i < player->nb_unite_active; i++)
   {
     cout << "____________________________________________________" << endl;
     cout << "Joueur " << player->id << ", placez vos unités" << endl;
     cout << "Entrez les coordonnées initiales pour l'unité : " << i + 1 << endl;
     changeCoordinates(&(player->infantry_list[i].x), &(player->infantry_list[i].y));
+    
     while (1)
     {
       if (tabGrid[player->infantry_list[i].x * X_DIMENSION + player->infantry_list[i].y] != 0)
@@ -78,16 +87,26 @@ void placeUnits(int *tabGrid, player *player)
       if (!(tabGrid[player->infantry_list[i].x * X_DIMENSION + player->infantry_list[i].y] != 0))
         break;
     }
-    /*int currentIndex = i, currentInfantryX = player->infantry_list[i].x, currentInfantryY = player->infantry_list[i].y;
-    for (int i = 0; i < player->nb_unite_active; i++)
+
+    bool restart;
+    for (int j = 0; j < player->nb_unite_active; j++)
     {
-        if (i != currentIndex && player->infantry_list[i].x == currentInfantryX && player->infantry_list[i].y == currentInfantryY)
+      restart = false;
+      if (j != i)
+      {
+        if (coordinates[j][0] == player->infantry_list[i].x && coordinates[j][1] == player->infantry_list[i].y)
         {
+          restart = true;
           cout << "Attention, la position est déjà occupée par une de vos unités. Veuillez indiquer des coordonnées différentes." << endl;
           changeCoordinates(&(player->infantry_list[i].x), &(player->infantry_list[i].y));
-          i = -1;
         }
-    }*/
+      }
+      if(restart)
+          j = -1;
+    }
+
+    coordinates[i][0] = player->infantry_list[i].x;
+    coordinates[i][1] = player->infantry_list[i].y;
   }
 }
 
@@ -167,7 +186,7 @@ bool verifyEnemy(int targetX, int targetY, int attacker_id, int tabGrid[])
 bool verifyEnemyProximity(int targetX, int targetY, int attacker_id, int tabGrid[])
 {
   int position = targetY * X_DIMENSION + targetX;
-  if ((tabGrid[position-1] != 0 && tabGrid[position-1] != attacker_id) || (tabGrid[position+1] != 0 && tabGrid[position+1] != attacker_id) || (tabGrid[position+11] != 0 && tabGrid[position+11] != attacker_id) || (tabGrid[position-11] != 0 && tabGrid[position-11] != attacker_id) || (tabGrid[position-10] != 0 && tabGrid[position-10] != attacker_id) || (tabGrid[position+10] != 0 && tabGrid[position+10] != attacker_id) || (tabGrid[position-9] != 0 && tabGrid[position-9] != attacker_id) || (tabGrid[position+9] != 0 && tabGrid[position+9] != attacker_id))
+  if ((tabGrid[position - 1] != 0 && tabGrid[position - 1] != attacker_id) || (tabGrid[position + 1] != 0 && tabGrid[position + 1] != attacker_id) || (tabGrid[position + 11] != 0 && tabGrid[position + 11] != attacker_id) || (tabGrid[position - 11] != 0 && tabGrid[position - 11] != attacker_id) || (tabGrid[position - 10] != 0 && tabGrid[position - 10] != attacker_id) || (tabGrid[position + 10] != 0 && tabGrid[position + 10] != attacker_id) || (tabGrid[position - 9] != 0 && tabGrid[position - 9] != attacker_id) || (tabGrid[position + 9] != 0 && tabGrid[position + 9] != attacker_id))
   {
     return true;
   }
@@ -283,10 +302,13 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
       cout << "Attaque impossible. Attention, vous devez cibler une position ennemie." << endl;
       attackEnemy(selectedUnit, tabPlayer, nb_joueurs, tabGrid);
     */
-    if(verifyEnemyProximity(targetX, targetY, attacker_id, tabGrid) == 1){
+    if (verifyEnemyProximity(targetX, targetY, attacker_id, tabGrid) == 1)
+    {
       cout << "Ennemi présent dans la zone de dégâts de votre attaque. Les projections l'ont atteint." << endl;
       //damage = calculAreaDamage(selectedUnit, targetX, targetY);
-    }else{
+    }
+    else
+    {
       cout << "Votre attaque n'a eu aucun effet sur les unités ennemies." << endl;
     }
   }
