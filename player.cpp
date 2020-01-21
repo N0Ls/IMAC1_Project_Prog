@@ -76,7 +76,7 @@ void placeUnits(int *tabGrid, player *player)
     cout << "Joueur " << player->id << ", placez vos unités" << endl;
     cout << "Entrez les coordonnées initiales pour l'unité : " << i + 1 << endl;
     changeCoordinates(&(player->infantry_list[i].x), &(player->infantry_list[i].y));
-    
+
     while (1)
     {
       if (tabGrid[player->infantry_list[i].x * X_DIMENSION + player->infantry_list[i].y] != 0)
@@ -88,21 +88,17 @@ void placeUnits(int *tabGrid, player *player)
         break;
     }
 
-    bool restart;
     for (int j = 0; j < player->nb_unite_active; j++)
     {
-      restart = false;
       if (j != i)
       {
         if (coordinates[j][0] == player->infantry_list[i].x && coordinates[j][1] == player->infantry_list[i].y)
         {
-          restart = true;
+          j = -1;
           cout << "Attention, la position est déjà occupée par une de vos unités. Veuillez indiquer des coordonnées différentes." << endl;
           changeCoordinates(&(player->infantry_list[i].x), &(player->infantry_list[i].y));
         }
       }
-      if(restart)
-          j = -1;
     }
 
     coordinates[i][0] = player->infantry_list[i].x;
