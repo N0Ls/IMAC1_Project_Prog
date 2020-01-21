@@ -10,4 +10,7 @@ typedef struct {
 } bonus;
 
 void initBonus(bonus *bonus);
+float rand_cent();
+void probBonusArray(bonus *bonusArray, int *tabGrid);
+void printBonusarray(bonus bonus[]);
 #endif

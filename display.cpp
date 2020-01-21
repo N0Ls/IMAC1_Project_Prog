@@ -40,6 +40,13 @@ void drawGrid(int tabGrid[])
         cout << "\033[37m";
         cout << " |";
       }
+      if (tabGrid[X_DIMENSION * i + y] == -1)
+      {
+        cout << "\033[35m";
+        cout << " ♥";
+        cout << "\033[37m";
+        cout << " |";
+      }
       if (tabGrid[X_DIMENSION * i + y] == 0)
       {
         cout << "   |";

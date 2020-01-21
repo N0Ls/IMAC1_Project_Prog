@@ -6,6 +6,7 @@ using namespace std;
 #include "bonus.h"
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
+#define BONUS_MAX 3
 
 
 //Fonction qui initialise le tableau grille pour le début de la partie
@@ -21,7 +22,7 @@ void initGrid(int *tabGrid)
 }
 
 //Fonction qui update le contenu de la grille en fonction du placement des unités du joueurs
-void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[])
+void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[], bonus *tabBonus)
 {
   //Reset grid
   for (int i = 0; i < X_DIMENSION; i++)
@@ -42,10 +43,17 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[])
       }
     }
   }
+  //Bonus may be appearing
+  probBonusArray(tabBonus, tabGrid);
+  for(int v = 0; v < BONUS_MAX ; v++){
+    if(tabBonus[v].isActive==true){
+      tabGrid[tabBonus[v].y * X_DIMENSION + tabBonus[v].x ]=-1;
+    }
+  }
 }
 
 //Fonction pour initialiser le jeu
-void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondition)
+void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondition, bonus *bonusArray)
 {
   //Demande le nombre de joueur
   cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
@@ -96,6 +104,11 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   //Initialisation de la grille
   initGrid(tabGrid);
 
+  //initialisation des bonus
+  for(int indexAB = 0; indexAB < 3; indexAB++){
+    initBonus(bonusArray + indexAB);
+  }
+
   //Début du jeu
   *playCondition = true;
 
@@ -103,7 +116,7 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   for (int i = 0; i < *nb_joueurs; i++)
   {
     placeUnits(tabGrid, tabPlayer + i);
-    updateGrid(tabGrid, *nb_joueurs, tabPlayer);
+    updateGrid(tabGrid, *nb_joueurs, tabPlayer, bonusArray);
   }
 
   //Dessin après le placement
@@ -144,8 +157,9 @@ void menu_tour(int *tour_choice)
 //   }
 // }
 
-void play_tour(int *current_player_index, int move_number, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[])
+void play_tour(int *current_player_index, int move_number, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[], bonus bonusArray[])
 {
+  printBonusarray(bonusArray);
   infantry selectedUnit;
   if (tabPlayer[*current_player_index].isAlive == 1)
   {
@@ -180,7 +194,7 @@ void play_tour(int *current_player_index, int move_number, player tabPlayer[], i
         break;
       }
 
-      updateGrid(tabGrid, nb_joueurs, tabPlayer);
+      updateGrid(tabGrid, nb_joueurs, tabPlayer, bonusArray);
       drawGrid(tabGrid);
     }
   }
@@ -215,6 +229,8 @@ void verify_win(player *tabPlayer, int *nb_joueurs, bool *playCondition, int *wi
 
 int main(int argc, char const *argv[])
 {
+  srand(time(NULL));
+
   int choice = 0;
   int choice_tour = 0;
   int move_number = 2;
@@ -224,15 +240,16 @@ int main(int argc, char const *argv[])
   int tableauGrid[X_DIMENSION * Y_DIMENSION];
   int current_player = 0;
   int winner;
+  bonus tabBonus[BONUS_MAX];
 
   menu(&choice);
   switch (choice)
   {
   case 1:
-    initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying);
+    initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying, tabBonus);
     while (isPlaying)
     {
-      play_tour(&current_player, move_number, tabPlayer, nb_joueurs, &choice_tour, tableauGrid);
+      play_tour(&current_player, move_number, tabPlayer, nb_joueurs, &choice_tour, tableauGrid, tabBonus);
       verify_win(tabPlayer, &nb_joueurs, &isPlaying, &winner);
     }
     cout << "Fin de la partie." << endl;
