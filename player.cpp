@@ -178,20 +178,7 @@ bool verifyEnemy(int targetX, int targetY, int attacker_id, int tabGrid[])
   }
 }
 
-//Fonction pour vérifier si une unité ennemie est présente à proximité de la position touchée
-bool verifyEnemyProximity(int targetX, int targetY, int attacker_id, int tabGrid[])
-{
-  int position = targetY * X_DIMENSION + targetX;
-  if ((tabGrid[position - 1] != 0 && tabGrid[position - 1] != attacker_id) || (tabGrid[position + 1] != 0 && tabGrid[position + 1] != attacker_id) || (tabGrid[position + 11] != 0 && tabGrid[position + 11] != attacker_id) || (tabGrid[position - 11] != 0 && tabGrid[position - 11] != attacker_id) || (tabGrid[position - 10] != 0 && tabGrid[position - 10] != attacker_id) || (tabGrid[position + 10] != 0 && tabGrid[position + 10] != attacker_id) || (tabGrid[position - 9] != 0 && tabGrid[position - 9] != attacker_id) || (tabGrid[position + 9] != 0 && tabGrid[position + 9] != attacker_id))
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
-
+//Fonction pour vérifier si des ennemies se trouvent dans la zone de tir, et si oui appliquer des dégâts
 void applyDamageZone(int targetX, int targetY, int attacker_id, int nb_joueurs, int tabGrid[], player *tabPlayer)
 {
   bool enemyProximity = false;
@@ -219,65 +206,65 @@ void applyDamageZone(int targetX, int targetY, int attacker_id, int nb_joueurs, 
   {
     enemyProximity = true;
 
-    enemies[1][0] = tabGrid[topLeftPosition];
-    enemies[1][1] = targetX - 1;
-    enemies[1][2] = targetY - 1;
+    enemies[spots - 7][0] = tabGrid[topLeftPosition];
+    enemies[spots - 7][1] = targetX - 1;
+    enemies[spots - 7][2] = targetY - 1;
   }
   if (tabGrid[topPosition] != 0 && tabGrid[topPosition] != attacker_id)
   {
     enemyProximity = true;
 
-    enemies[2][0] = tabGrid[topPosition];
-    enemies[2][1] = targetX;
-    enemies[2][2] = targetY - 1;
+    enemies[spots - 6][0] = tabGrid[topPosition];
+    enemies[spots - 6][1] = targetX;
+    enemies[spots - 6][2] = targetY - 1;
   }
   if (tabGrid[topRightPosition] != 0 && tabGrid[topRightPosition] != attacker_id)
   {
     enemyProximity = true;
 
-    enemies[3][0] = tabGrid[topRightPosition];
-    enemies[3][1] = targetX + 1;
-    enemies[3][2] = targetY - 1;
+    enemies[spots - 5][0] = tabGrid[topRightPosition];
+    enemies[spots - 5][1] = targetX + 1;
+    enemies[spots - 5][2] = targetY - 1;
   }
   if (tabGrid[rightPosition] != 0 && tabGrid[rightPosition] != attacker_id)
   {
     enemyProximity = true;
 
-    enemies[4][0] = tabGrid[rightPosition];
-    enemies[4][1] = targetX + 1;
-    enemies[4][2] = targetY;
+    enemies[spots - 4][0] = tabGrid[rightPosition];
+    enemies[spots - 4][1] = targetX + 1;
+    enemies[spots - 4][2] = targetY;
   }
   if (tabGrid[bottomRight] != 0 && tabGrid[bottomRight] != attacker_id)
   {
     enemyProximity = true;
 
-    enemies[5][0] = tabGrid[bottomRight];
-    enemies[5][1] = targetX + 1;
-    enemies[5][2] = targetY + 1;
+    enemies[spots - 3][0] = tabGrid[bottomRight];
+    enemies[spots - 3][1] = targetX + 1;
+    enemies[spots - 3][2] = targetY + 1;
   }
   if (tabGrid[bottomPosition] != 0 && tabGrid[bottomPosition] != attacker_id)
   {
     enemyProximity = true;
 
-    enemies[6][0] = tabGrid[bottomPosition];
-    enemies[6][1] = targetX;
-    enemies[6][2] = targetY + 1;
+    enemies[spots - 2][0] = tabGrid[bottomPosition];
+    enemies[spots - 2][1] = targetX;
+    enemies[spots - 2][2] = targetY + 1;
   }
   if (tabGrid[bottomLeftPosition] != 0 && tabGrid[bottomLeftPosition] != attacker_id)
   {
     enemyProximity = true;
 
-    enemies[7][0] = tabGrid[bottomLeftPosition];
-    enemies[7][1] = targetX - 1;
-    enemies[7][2] = targetY + 1;
+    enemies[spots - 1][0] = tabGrid[bottomLeftPosition];
+    enemies[spots - 1][1] = targetX - 1;
+    enemies[spots - 1][2] = targetY + 1;
   }
   if (tabGrid[leftPosition] != 0 && tabGrid[leftPosition] != attacker_id)
   {
     enemyProximity = true;
 
-    enemies[8][0] = tabGrid[leftPosition];
-    enemies[8][1] = targetX - 1;
-    enemies[8][2] = targetY;
+    enemies[spots][0] = tabGrid[leftPosition];
+    enemies[spots][1] = targetX - 1;
+    enemies[spots][2] = targetY;
   }
 
   if (enemyProximity)
@@ -293,7 +280,19 @@ void applyDamageZone(int targetX, int targetY, int attacker_id, int nb_joueurs, 
           {
             if (tabPlayer[i].id == enemies[k][0] && tabPlayer[i].infantry_list[j].x == enemies[k][1] && tabPlayer[i].infantry_list[j].y == enemies[k][2])
             {
-              cout << "L'unité positionnée en (" << tabPlayer[i].infantry_list[j].x << ", " << tabPlayer[i].infantry_list[j].y << ") du joueur " << tabPlayer[i].id << " a été affecté par les projectiles de l'attaque. Il perd 5 points de vie." << endl;
+              tabPlayer[i].infantry_list[j].pv = tabPlayer[i].infantry_list[j].pv - 5;
+              cout << "L'unité du joueur " << tabPlayer[i].id << " positionnée en (" << tabPlayer[i].infantry_list[j].x << ", " << tabPlayer[i].infantry_list[j].y << ") a été affectée par les projectiles de l'attaque. ";
+              if (tabPlayer[i].infantry_list[j].pv > 0)
+              {
+                cout << "PV de l'unité après l'attaque : " << tabPlayer[i].infantry_list[j].pv << "." << endl;
+              }
+              else
+              {
+                tabPlayer[i].infantry_list[j].isAlive = false;
+                tabPlayer[i].nb_unite_active = tabPlayer[i].nb_unite_active - 1;
+                cout << "L'unité a été détruite." << endl;
+                check_if_isAlive(&tabPlayer[i]);
+              }
             }
           }
         }
@@ -302,7 +301,7 @@ void applyDamageZone(int targetX, int targetY, int attacker_id, int nb_joueurs, 
   }
   else
   {
-    cout << "Pas d'ennemis dans la zone de tir." << endl;
+    cout << "Pas d'ennemis dans la zone de tir. Votre attaque n'a eu aucun effet." << endl;
   }
 }
 
@@ -387,14 +386,14 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
             if (updatePV > 0)
             {
               cout << "L'unité ennemie a été touchée." << endl;
-              cout << "PV de l'unité ennemie après l'attaque : " << tabPlayer[k].infantry_list[i].pv << endl;
+              cout << "PV de l'unité ennemie après l'attaque : " << tabPlayer[k].infantry_list[i].pv << "." << endl;
             }
             else
             {
               tabPlayer[k].infantry_list[i].isAlive = false;
               tabPlayer[k].nb_unite_active = tabPlayer[k].nb_unite_active - 1;
               cout << "L'unité ennemie a été détruite." << endl;
-              cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << endl;
+              cout << "Nombre d'unités actives restantes : " << tabPlayer[k].nb_unite_active << "." << endl;
               check_if_isAlive(&tabPlayer[k]);
             }
           }
@@ -408,13 +407,6 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
   }
   else
   {
-    if (verifyEnemyProximity(targetX, targetY, attacker_id, tabGrid) == 1)
-    {
-      applyDamageZone(targetX, targetY, attacker_id, nb_joueurs, tabGrid, tabPlayer);
-    }
-    else
-    {
-      cout << "Votre attaque n'a eu aucun effet sur les unités ennemies." << endl;
-    }
+    applyDamageZone(targetX, targetY, attacker_id, nb_joueurs, tabGrid, tabPlayer);
   }
 }
