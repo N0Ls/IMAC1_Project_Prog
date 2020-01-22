@@ -192,6 +192,120 @@ bool verifyEnemyProximity(int targetX, int targetY, int attacker_id, int tabGrid
   }
 }
 
+void applyDamageZone(int targetX, int targetY, int attacker_id, int nb_joueurs, int tabGrid[], player *tabPlayer)
+{
+  bool enemyProximity = false;
+  int spots = 8;
+
+  int enemies[spots][3];
+
+  int topLeftPosition = (targetY - 1) * X_DIMENSION + (targetX - 1),
+      topPosition = (targetY - 1) * X_DIMENSION + (targetX),
+      topRightPosition = (targetY - 1) * X_DIMENSION + (targetX + 1),
+      leftPosition = (targetY)*X_DIMENSION + (targetX - 1),
+      rightPosition = (targetY)*X_DIMENSION + (targetX + 1),
+      bottomLeftPosition = (targetY + 1) * X_DIMENSION + (targetX - 1),
+      bottomPosition = (targetY + 1) * X_DIMENSION + (targetX),
+      bottomRight = (targetY + 1) * X_DIMENSION + (targetX + 1);
+
+  for (int i = 0; i < spots; i++)
+  {
+    enemies[i][0] = -1;
+    enemies[i][1] = -1;
+    enemies[i][2] = -1;
+  }
+
+  if (tabGrid[topLeftPosition] != 0 && tabGrid[topLeftPosition] != attacker_id)
+  {
+    enemyProximity = true;
+
+    enemies[1][0] = tabGrid[topLeftPosition];
+    enemies[1][1] = targetX - 1;
+    enemies[1][2] = targetY - 1;
+  }
+  if (tabGrid[topPosition] != 0 && tabGrid[topPosition] != attacker_id)
+  {
+    enemyProximity = true;
+
+    enemies[2][0] = tabGrid[topPosition];
+    enemies[2][1] = targetX;
+    enemies[2][2] = targetY - 1;
+  }
+  if (tabGrid[topRightPosition] != 0 && tabGrid[topRightPosition] != attacker_id)
+  {
+    enemyProximity = true;
+
+    enemies[3][0] = tabGrid[topRightPosition];
+    enemies[3][1] = targetX + 1;
+    enemies[3][2] = targetY - 1;
+  }
+  if (tabGrid[rightPosition] != 0 && tabGrid[rightPosition] != attacker_id)
+  {
+    enemyProximity = true;
+
+    enemies[4][0] = tabGrid[rightPosition];
+    enemies[4][1] = targetX + 1;
+    enemies[4][2] = targetY;
+  }
+  if (tabGrid[bottomRight] != 0 && tabGrid[bottomRight] != attacker_id)
+  {
+    enemyProximity = true;
+
+    enemies[5][0] = tabGrid[bottomRight];
+    enemies[5][1] = targetX + 1;
+    enemies[5][2] = targetY + 1;
+  }
+  if (tabGrid[bottomPosition] != 0 && tabGrid[bottomPosition] != attacker_id)
+  {
+    enemyProximity = true;
+
+    enemies[6][0] = tabGrid[bottomPosition];
+    enemies[6][1] = targetX;
+    enemies[6][2] = targetY + 1;
+  }
+  if (tabGrid[bottomLeftPosition] != 0 && tabGrid[bottomLeftPosition] != attacker_id)
+  {
+    enemyProximity = true;
+
+    enemies[7][0] = tabGrid[bottomLeftPosition];
+    enemies[7][1] = targetX - 1;
+    enemies[7][2] = targetY + 1;
+  }
+  if (tabGrid[leftPosition] != 0 && tabGrid[leftPosition] != attacker_id)
+  {
+    enemyProximity = true;
+
+    enemies[8][0] = tabGrid[leftPosition];
+    enemies[8][1] = targetX - 1;
+    enemies[8][2] = targetY;
+  }
+
+  if (enemyProximity)
+  {
+    for (int i = 0; i < nb_joueurs; i++)
+    {
+      if (i + 1 != attacker_id)
+      {
+        int unites_active = tabPlayer[i].nb_unite_active;
+        for (int j = 0; j < unites_active; j++)
+        {
+          for (int k = 0; k < spots; k++)
+          {
+            if (tabPlayer[i].id == enemies[k][0] && tabPlayer[i].infantry_list[j].x == enemies[k][1] && tabPlayer[i].infantry_list[j].y == enemies[k][2])
+            {
+              cout << "L'unité positionnée en (" << tabPlayer[i].infantry_list[j].x << ", " << tabPlayer[i].infantry_list[j].y << ") du joueur " << tabPlayer[i].id << " a été affecté par les projectiles de l'attaque. Il perd 5 points de vie." << endl;
+            }
+          }
+        }
+      }
+    }
+  }
+  else
+  {
+    cout << "Pas d'ennemis dans la zone de tir." << endl;
+  }
+}
+
 //Fonction pour calculer les dommages infligés
 int calculDamage(infantry *attackerUnit, int targetX, int targetY)
 {
@@ -294,14 +408,9 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int 
   }
   else
   {
-    /*
-      cout << "Attaque impossible. Attention, vous devez cibler une position ennemie." << endl;
-      attackEnemy(selectedUnit, tabPlayer, nb_joueurs, tabGrid);
-    */
     if (verifyEnemyProximity(targetX, targetY, attacker_id, tabGrid) == 1)
     {
-      cout << "Ennemi présent dans la zone de dégâts de votre attaque. Les projections l'ont atteint." << endl;
-      //damage = calculAreaDamage(selectedUnit, targetX, targetY);
+      applyDamageZone(targetX, targetY, attacker_id, nb_joueurs, tabGrid, tabPlayer);
     }
     else
     {
