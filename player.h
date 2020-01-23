@@ -20,9 +20,9 @@ infantry selectUnit(player *player);
 int checkPlayerCoordinatesEntry(int *entry, string message, string errorMessage);
 bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[]);
 bool verifyEnemy(int targetX, int targetY, int attackerId, int tabGrid[]);
-void applyDamageZone(int targetX, int targetY, int attackerId, int nbPlayers, int tabGrid[], player *tabPlayer);
+void applyDamageZone(int targetX, int targetY, int attackerId, int damage, int nbPlayers, int tabGrid[], player *tabPlayers);
 int calculDamage(infantry *attackerUnit, int targetX, int targetY);
 void moveUnit(player *player, int unitId, int tabGrid[], bonus *tabBonus);
-void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nbPlayers, int tabGrid[]);
+void attackEnemy(infantry *selectedUnit, player *tabPlayers, int nbPlayers, int tabGrid[]);
 void checkIfIsAlive(player *playerToCheck);
 #endif
