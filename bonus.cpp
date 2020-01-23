@@ -3,8 +3,6 @@
 using namespace std;
 #include "infantry.h"
 #include "player.h"
-#include "display.h"
-#include "bonus.h"
 
 
 #define X_DIMENSION 10
@@ -24,10 +22,11 @@ int rand_int_y(){
 }
 
 void initBonus(bonus *bonus){
+  char bonusTypes[3]={'h','f','d'};
   bonus -> isActive = false;
   bonus -> x = rand_int_x();
   bonus -> y = rand_int_y();
-  bonus -> boostType = 'h';
+  bonus -> boostType = bonusTypes[rand()%3];
 }
 
 void probBonusArray(bonus *bonusArray, int *tabGrid){
@@ -44,16 +43,26 @@ void bonusTreatment(infantry *infantry, bonus *bonus){
   if(infantry -> x == bonus -> x && infantry -> y == bonus -> y && bonus -> isActive == true){
     if(bonus -> boostType == 'h'){
         infantry -> pv += 20;
-        bonus -> isActive = false;
-        bonus -> x = rand_int_x();
-        bonus -> y = rand_int_y();
+        cout << " Vous venez d'obtenir un bonus de santé !" << endl;
     }
+    if(bonus -> boostType == 'f'){
+        infantry -> force += 20;
+        cout << " Vous venez d'obtenir un bonus de force !" << endl;
+    }
+    if(bonus -> boostType == 'd'){
+        infantry -> dexterity += 2;
+        cout << " Vous venez d'obtenir un bonus de dextérité !" << endl;
+    }
+    bonus -> isActive = false;
+    bonus -> x = rand_int_x();
+    bonus -> y = rand_int_y();
   }
 }
 
 void printBonusarray(bonus bonus[]){
   for(int index = 0; index < 3 ; index++){
-    cout << bonus[index].x << endl;
-    cout << bonus[index].y << endl;
+    cout << bonus[index].x << " ";
+    cout << bonus[index].y << " ";
+    cout << bonus[index].boostType << endl;
   }
 }

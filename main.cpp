@@ -1,12 +1,14 @@
 #include <iostream>
+#include <string>
 using namespace std;
 #include "infantry.h"
 #include "player.h"
-#include "display.h"
 #include "bonus.h"
+#include "display.h"
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
 #define BONUS_MAX 3
+
 
 
 //Fonction qui initialise le tableau grille pour le début de la partie
@@ -51,6 +53,8 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[], bonus *tabBonu
     }
   }
 }
+
+
 
 //Fonction pour initialiser le jeu
 void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondition, bonus *bonusArray)
@@ -123,30 +127,7 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   drawGrid(tabGrid);
 }
 
-void menu_tour(int *tour_choice)
-{
-  cout << "\n";
-  cout << "1. Se déplacer"
-       << "\n";
-  cout << "2. Attaquer"
-       << "\n\n";
-  cout << "Votre choix (1/2 ?) : ";
-  cin >> *tour_choice;
-  while (1)
-  {
-    if (cin.fail() || *tour_choice > 2 || *tour_choice < 1)
-    {
-      cin.clear();
-      cin.ignore(123, '\n');
-      cout << "Vous ne pouvez que vous déplacez (1) ou attaquer (2)." << endl;
-      cout << "Votre choix (1/2 ?) : ";
-      cin >> *tour_choice;
-    }
-    if (!(cin.fail() || *tour_choice > 2 || *tour_choice < 1))
-      break;
-  }
-  cout << endl;
-}
+
 
 //Possiblement inutile
 // void printing_all_infantries(player tabPlayer[],int nb_joueurs){
@@ -159,7 +140,6 @@ void menu_tour(int *tour_choice)
 
 void play_tour(int *current_player_index, int move_number, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[], bonus bonusArray[])
 {
-  printBonusarray(bonusArray);
   infantry selectedUnit;
   if (tabPlayer[*current_player_index].isAlive == 1)
   {

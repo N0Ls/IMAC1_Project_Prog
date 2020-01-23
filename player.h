@@ -9,6 +9,7 @@ typedef struct {
     int nb_unite_active;
     infantry infantry_list[255];
     bool isAlive;
+    char couleur[10];
 } player;
 
 //déclaration des prototypes

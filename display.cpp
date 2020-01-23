@@ -3,9 +3,64 @@
 using namespace std;
 #include "infantry.h"
 #include "player.h"
-#include "display.h"
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
+
+void printLogo(void)
+{
+  cout << "=========================================\n";
+  cout << " ██╗███╗   ███╗ █████╗  ██████╗\n";
+  cout << " ██║████╗ ████║██╔══██╗██╔════╝\n";
+  cout << " ██║██╔████╔██║███████║██║\n";
+  cout << " ██║██║╚██╔╝██║██╔══██║██║\n";
+  cout << " ██║██║ ╚═╝ ██║██║  ██║╚██████╗\n";
+  cout << " ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝\n\n";
+  cout << "      ██╗    ██╗ █████╗ ██████╗ ███████╗\n";
+  cout << "      ██║    ██║██╔══██╗██╔══██╗██╔════╝\n";
+  cout << "      ██║ █╗ ██║███████║██████╔╝███████╗\n";
+  cout << "      ██║███╗██║██╔══██║██╔══██╗╚════██║\n";
+  cout << "      ╚███╔███╔╝██║  ██║██║  ██║███████║\n";
+  cout << "       ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝\n";
+  cout << "=========================================\n\n";
+}
+
+void menu(int *c)
+{
+  cout << "\n";
+  printLogo();
+  cout << "1. Commencer une partie"
+       << "\n";
+  cout << "2. Quitter la partie"
+       << "\n\n";
+  cout << "Votre choix (1/2 ?) : ";
+  cin >> *c;
+  cout << endl;
+}
+
+void menu_tour(int *tour_choice)
+{
+  cout << "\n";
+  cout << "1. Se déplacer"
+       << "\n";
+  cout << "2. Attaquer"
+       << "\n\n";
+  cout << "Votre choix (1/2 ?) : ";
+  cin >> *tour_choice;
+  while (1)
+  {
+    if (cin.fail() || *tour_choice > 2 || *tour_choice < 1)
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "Vous ne pouvez que vous déplacez (1) ou attaquer (2)." << endl;
+      cout << "Votre choix (1/2 ?) : ";
+      cin >> *tour_choice;
+    }
+    if (!(cin.fail() || *tour_choice > 2 || *tour_choice < 1))
+      break;
+  }
+  cout << endl;
+}
 
 //Fonction d'affichage de la grille
 //Pour l'instant elle est de taille fixe
@@ -55,35 +110,4 @@ void drawGrid(int tabGrid[])
     cout << endl;
     cout << "       _________________________________________" << endl;
   }
-}
-
-void printLogo(void)
-{
-  cout << "=========================================\n";
-  cout << " ██╗███╗   ███╗ █████╗  ██████╗\n";
-  cout << " ██║████╗ ████║██╔══██╗██╔════╝\n";
-  cout << " ██║██╔████╔██║███████║██║\n";
-  cout << " ██║██║╚██╔╝██║██╔══██║██║\n";
-  cout << " ██║██║ ╚═╝ ██║██║  ██║╚██████╗\n";
-  cout << " ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝\n\n";
-  cout << "      ██╗    ██╗ █████╗ ██████╗ ███████╗\n";
-  cout << "      ██║    ██║██╔══██╗██╔══██╗██╔════╝\n";
-  cout << "      ██║ █╗ ██║███████║██████╔╝███████╗\n";
-  cout << "      ██║███╗██║██╔══██║██╔══██╗╚════██║\n";
-  cout << "      ╚███╔███╔╝██║  ██║██║  ██║███████║\n";
-  cout << "       ╚══╝╚══╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝\n";
-  cout << "=========================================\n\n";
-}
-
-void menu(int *c)
-{
-  cout << "\n";
-  printLogo();
-  cout << "1. Commencer une partie"
-       << "\n";
-  cout << "2. Quitter la partie"
-       << "\n\n";
-  cout << "Votre choix (1/2 ?) : ";
-  cin >> *c;
-  cout << endl;
 }
