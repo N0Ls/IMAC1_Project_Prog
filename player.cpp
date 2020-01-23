@@ -10,7 +10,7 @@ using namespace std;
 #define BONUS_MAX 3
 
 /**
- * 
+ *
  * Initialize the parameters of a player at the start.
  *
  * @param player The player to initialize.
@@ -25,7 +25,7 @@ void initPlayer(player *player, int id, int nbActiveUnits)
   player->isAlive = true;
   for (int i = 0; i < nbActiveUnits; i++)
   {
-    initInfantry(player->infantriesList + i, id, 100, 1, 7);
+    initInfantry(player->infantriesList + i, id, 100, 1, 7, i);
   }
 }
 
@@ -334,7 +334,7 @@ int calculDamage(infantry *attackerUnit, int targetX, int targetY)
 
 //int calculAreaDamage(infantry *attackerUnit, int targetX, int targetY){}
 
-void moveUnit(player *player, int unitId, int tabGrid[], bonus *tabBonus)
+void moveUnit(player *player, int unitIndex, int tabGrid[], bonus *tabBonus)
 {
   int newX, newY;
   string messageX = "Entrez la nouvelle coordonnée X : ", messageY = "Entrez la nouvelle coordonnée Y : ";
@@ -348,20 +348,20 @@ void moveUnit(player *player, int unitId, int tabGrid[], bonus *tabBonus)
   cin >> newY;
   checkPlayerCoordinatesEntry(&newY, messageY, errorMessage);
 
-  if (verifyCoordinates(&(player->infantriesList[unitId - 1]), newX, newY, tabGrid) == 1)
+  if (verifyCoordinates(&(player->infantriesList[unitIndex]), newX, newY, tabGrid) == 1)
   {
-    player->infantriesList[unitId - 1].x = newX;
-    player->infantriesList[unitId - 1].y = newY;
+    player->infantriesList[unitIndex].x = newX;
+    player->infantriesList[unitIndex].y = newY;
 
     //Check if player is on a bonus
     for(int k=0; k<BONUS_MAX ; k++){
-      bonusTreatment(player->infantriesList+(unitId - 1), tabBonus+k);
+      bonusTreatment(player->infantriesList+(unitIndex), tabBonus+k);
     }
   }
   else
   {
     cout << "Ce déplacement est impossible." << endl;
-    moveUnit(player, unitId, tabGrid, tabBonus);
+    moveUnit(player, unitIndex, tabGrid, tabBonus);
   }
 }
 

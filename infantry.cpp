@@ -6,12 +6,13 @@ using namespace std;
 #include "display.h"
 
 //Initialisation des paramètres
-void initInfantry(infantry *inf, int id,float pv,float force,float dexterity){
+void initInfantry(infantry *inf, int id,float pv,float force,float dexterity, int arrayIndex){
   inf -> ownerId = id;
   inf -> pv = pv;
   inf -> force = force;
   inf -> dexterity = dexterity;
   inf -> isAlive = true;
+  inf -> arrayIndex = arrayIndex;
 }
 
 //Fonction permettant d'imprimer les infos si besoin
