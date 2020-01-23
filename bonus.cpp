@@ -27,7 +27,7 @@ void initBonus(bonus *bonus){
   bonus -> isActive = false;
   bonus -> x = rand_int_x();
   bonus -> y = rand_int_y();
-  bonus -> boostType = 'r';
+  bonus -> boostType = 'h';
 }
 
 void probBonusArray(bonus *bonusArray, int *tabGrid){
@@ -36,6 +36,17 @@ void probBonusArray(bonus *bonusArray, int *tabGrid){
     tirage = rand_cent();
     if(tirage <= 5 && tabGrid[bonusArray[indexB].y * X_DIMENSION + bonusArray[indexB].x] == 0 ){
       bonusArray[indexB].isActive = true;
+    }
+  }
+}
+
+void bonusTreatment(infantry *infantry, bonus *bonus){
+  if(infantry -> x == bonus -> x && infantry -> y == bonus -> y && bonus -> isActive == true){
+    if(bonus -> boostType == 'h'){
+        infantry -> pv += 20;
+        bonus -> isActive = false;
+        bonus -> x = rand_int_x();
+        bonus -> y = rand_int_y();
     }
   }
 }

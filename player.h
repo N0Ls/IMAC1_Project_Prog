@@ -1,5 +1,8 @@
 #ifndef PLAYER_H
 #define PLAYER_H
+
+#include "bonus.h"
+
 typedef struct {
     int id;
     //char user_name[10];
@@ -19,7 +22,7 @@ bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]);
 bool verifyEnemy(int targetX, int targetY, int attacker_id, int target_id, int tabGrid[]);
 void applyDamageZone(int targetX, int targetY, int attacker_id, int nb_joueurs, int tabGrid[], player *tabPlayer);
 int calculDamage(infantry *attackerUnit, int targetX, int targetY);
-void moveUnit(player *player, int unit_id, int tabGrid[]);
+void moveUnit(player *player, int unit_id, int tabGrid[], bonus tabBonus[]);
 void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int tabGrid[]);
 void check_if_isAlive(player *playerToCheck);
 #endif

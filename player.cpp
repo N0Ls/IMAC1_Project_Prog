@@ -7,6 +7,7 @@ using namespace std;
 #include "bonus.h"
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
+#define BONUS_MAX 3
 
 //Initialisation des paramètres
 void initPlayer(player *player, int id, int nb_unite_active)
@@ -155,7 +156,7 @@ bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[])
   int currentY = infantry->y;
   cout << " Calcul depl : " << abs(currentX - newX) + abs(currentY - newY) << endl;
   cout << " dexterity : " << infantry->dexterity << endl;
-  if (abs(currentX - newX) + abs(currentY - newY) <= infantry->dexterity && tabGrid[newX * X_DIMENSION + newY] == 0)
+  if (abs(currentX - newX) + abs(currentY - newY) <= infantry->dexterity && (tabGrid[newY * X_DIMENSION + newX] == 0 || tabGrid[newY * X_DIMENSION + newX] == -1))
   {
     return true;
   }
@@ -323,7 +324,7 @@ int calculDamage(infantry *attackerUnit, int targetX, int targetY)
 
 //int calculAreaDamage(infantry *attackerUnit, int targetX, int targetY){}
 
-void moveUnit(player *player, int unit_id, int tabGrid[])
+void moveUnit(player *player, int unit_id, int tabGrid[], bonus *tabBonus)
 {
   int newX, newY;
   string messageX = "Entrez la nouvelle coordonnée X : ", messageY = "Entrez la nouvelle coordonnée Y : ";
@@ -341,13 +342,19 @@ void moveUnit(player *player, int unit_id, int tabGrid[])
   {
     player->infantry_list[unit_id - 1].x = newX;
     player->infantry_list[unit_id - 1].y = newY;
+
+    //Check if player is on a bonus
+    for(int k=0; k<BONUS_MAX ; k++){
+      bonusTreatment(player->infantry_list+(unit_id - 1), tabBonus+k);
+    }
   }
   else
   {
     cout << "Ce déplacement est impossible" << endl;
-    moveUnit(player, unit_id, tabGrid);
+    moveUnit(player, unit_id, tabGrid, tabBonus);
   }
 }
+
 
 void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int tabGrid[])
 {

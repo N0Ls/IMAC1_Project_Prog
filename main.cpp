@@ -187,7 +187,7 @@ void play_tour(int *current_player_index, int move_number, player tabPlayer[], i
       switch (*tour_choice)
       {
       case 1: //Déplacement
-        moveUnit(&tabPlayer[*current_player_index], 1, tabGrid);
+        moveUnit(&tabPlayer[*current_player_index], 1, tabGrid, bonusArray);
         break;
       case 2: //Attacque
         attackEnemy(&selectedUnit, tabPlayer, nb_joueurs, tabGrid);
