@@ -52,7 +52,7 @@ void initPlayer(player *player, int id, int nbActiveUnits)
  *
  * Display player information..
  *
- * @param player The player whose information has to be displayed.
+ * @param playerToPrint The player whose information has to be displayed.
  *
  */
 void printPlayer(player playerToPrint)
@@ -70,7 +70,7 @@ void printPlayer(player playerToPrint)
  *
  * Check if a player units are still alive.
  *
- * @param player The player whose units have to be checked.
+ * @param playerToCheck The player whose units have to be checked.
  *
  */
 void checkIfIsAlive(player *playerToCheck)
@@ -424,7 +424,6 @@ void applyDamageZone(int targetX, int targetY, int attackerId, int damage, int n
     cout << "Attaque impossible. La zone cible est trop éloignée." << endl;
   }
 }
-
 
 /**
  *
