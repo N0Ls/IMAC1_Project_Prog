@@ -10,12 +10,13 @@ typedef struct {
     int x;
     int y ;
     float dexterity;
+    float fire_range;
     int arrayIndex;
 } infantry;
 
 //Declaration of prototypes
 void printInfantryInfos(infantry inf);
-void initInfantry(infantry *inf, int id,float pv,float force,float dexterity,int arrayIndex);
+void initInfantry(infantry *inf, int id,float pv,float force,float dexterity,float fire_range,int arrayIndex);
 void printInfantryInline(infantry inf);
 
 #endif

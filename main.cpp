@@ -9,6 +9,9 @@ using namespace std;
 #define Y_DIMENSION 10
 #define BONUS_MAX 3
 
+
+void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus);
+void initGrid(int *tabGrid);
 /**
  *
  * Initialize the game.
@@ -18,7 +21,7 @@ using namespace std;
  * @param nbPlayers The number of players currently playing.
  * @param playingCondition Tell if the game is in progress or not.
  * @param bonusArray Bonuses.
- * 
+ *
  */
 void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCondition, bonus *bonusArray)
 {
@@ -75,7 +78,6 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
     updateGrid(tabGrid, *nbPlayers, tabPlayers, bonusArray);
   }
 
-  drawGrid(tabGrid);
 }
 
 /**
@@ -83,7 +85,7 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
  * Initialize the map.
  *
  * @param tabGrid The map.
- * 
+ *
  */
 void initGrid(int *tabGrid)
 {
@@ -104,7 +106,7 @@ void initGrid(int *tabGrid)
  * @param nbPlayers The number of players currently playing.
  * @param tabPlayers The players currently playing.
  * @param tabBonus Bonuses.
- * 
+ *
  */
 void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus)
 {
@@ -146,23 +148,30 @@ void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonu
  * @param turnChoice The turn choice made by the player.
  * @param tabGrid The map.
  * @param bonusArray Bonuses.
- * 
+ *
  */
 void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int nbPlayers, int *turnChoice, int tabGrid[], bonus bonusArray[])
 {
+
   infantry selectedUnit;
   if (tabPlayers[*currentPlayerIndex].isAlive == 1)
   {
     for (int i = 0; i < moveNumber; i++)
     {
+      cout << "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n" ;
+      drawGrid(tabGrid);
       cout << "----------" << endl;
       if (i > 0)
       {
+        cout << tabPlayers[*currentPlayerIndex].color;
         cout << "Joueur " << *currentPlayerIndex + 1 << ", c'est de nouveau votre tour !" << endl;
+        cout << "\033[39m" << endl;
       }
       else
       {
+        cout << tabPlayers[*currentPlayerIndex].color;
         cout << "Joueur " << *currentPlayerIndex + 1 << ", c'est votre tour !" << endl;
+        cout << "\033[39m" << endl;
       }
       for (int i = 0; i < tabPlayers[*currentPlayerIndex].nbActiveUnits; i++)
       {
@@ -183,9 +192,9 @@ void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int
         attackEnemy(&selectedUnit, tabPlayers, nbPlayers, tabGrid);
         break;
       }
-
+      cout << endl;
       updateGrid(tabGrid, nbPlayers, tabPlayers, bonusArray);
-      drawGrid(tabGrid);
+
     }
   }
 
@@ -207,7 +216,7 @@ void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int
  * @param nbPlayers The number of players currently playing.
  * @param playingCondition Tell if the game is in progress or not.
  * @param winner The winner of the game (null if there is no winner yet).
- * 
+ *
  */
 void verify_win(player *tabPlayers, int *nbPlayers, bool *playingCondition, int *winner)
 {
@@ -227,9 +236,9 @@ void verify_win(player *tabPlayers, int *nbPlayers, bool *playingCondition, int 
 }
 
 /**
- * 
+ *
  * Main function.
- * 
+ *
  */
 int main(int argc, char const *argv[])
 {

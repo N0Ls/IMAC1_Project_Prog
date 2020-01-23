@@ -7,7 +7,7 @@ using namespace std;
 #define Y_DIMENSION 10
 
 /**
- * 
+ *
  * Display the logo.
  *
  */
@@ -30,11 +30,11 @@ void printLogo(void)
 }
 
 /**
- * 
+ *
  * Display the menu.
  *
  * @param choice The choice made by the player.
- * 
+ *
  */
 void menu(int *choice)
 {
@@ -50,9 +50,9 @@ void menu(int *choice)
 }
 
 /**
- * 
+ *
  * Display the turn menu.
- * 
+ *
  * @param turnChoice The choice made by the player.
  *
  */
@@ -82,9 +82,9 @@ void turnMenu(int *turnChoice)
 }
 
 /**
- * 
+ *
  * Display the map.
- * 
+ *
  * @param tabGrid The map.
  *
  */
@@ -114,7 +114,7 @@ void drawGrid(int tabGrid[])
       }
       if (tabGrid[X_DIMENSION * i + y] == 3)
       {
-        cout << "\033[35m";
+        cout << "\033[93m";
         cout << " 3";
         cout << "\033[39m";
         cout << " |";

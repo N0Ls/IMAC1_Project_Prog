@@ -21,29 +21,32 @@ using namespace std;
  */
 void initPlayer(player *player, int id, int nbActiveUnits)
 {
-  char all_colors[3][10] = {"\033[96m","\033[91m","\033[35m"};
+  char all_colors[3][10] = {"\033[96m","\033[91m","\033[93m"};
   player->id = id;
   player->nbActiveUnits = nbActiveUnits;
   player->isAlive = true;
   strcpy(player -> color , all_colors[id-1]);
 
+  cout << "\n ____________________________________________________";
   cout << all_colors[id-1];
-  cout << "Joueur " << id << " veuillez choisir votre type d'unités" << endl;
+  cout << "Joueur " << id << " veuillez choisir vos types d'unités" << endl;
   cout << "TANK = t / SNIPER = s / K9 = k" << endl;
+  cout << '\n' ;
   cout << "\033[39m";
 
   char typeOfUnitChoice;
   for (int i = 0; i < nbActiveUnits; i++)
   {
+    cout << "Type de l'unité " << i+1 << " : " ;
     cin >> typeOfUnitChoice;
     if(typeOfUnitChoice == 't'){
-      initInfantry(player->infantriesList + i, id, 200, 1.5, 2, i);
+      initInfantry(player->infantriesList + i, id, 200, 1.5, 2, 5,i);
     }
     if(typeOfUnitChoice == 's'){
-      initInfantry(player->infantriesList + i, id, 75, 0.8, 4, i);
+      initInfantry(player->infantriesList + i, id, 75, 0.8, 4, 7,i);
     }
     if(typeOfUnitChoice == 'k'){
-      initInfantry(player->infantriesList + i, id, 100, 1.5, 7, i);
+      initInfantry(player->infantriesList + i, id, 100, 1.5, 7, 2,i);
     }
   }
 }
@@ -130,8 +133,10 @@ void placeUnits(int *tabGrid, player *player)
 
   for (int i = 0; i < player->nbActiveUnits; i++)
   {
-    cout << "____________________________________________________" << endl;
+    cout << "____________________________________________________" << endl ;
+    cout << player -> color << endl;
     cout << "Joueur " << player->id << ", placez vos unités" << endl;
+    cout << "\033[39m" << endl;
     cout << "Entrez les coordonnées initiales pour l'unité : " << i + 1 << endl;
     changeCoordinates(&(player->infantriesList[i].x), &(player->infantriesList[i].y));
 
@@ -243,8 +248,8 @@ bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[])
   int currentX = infantry->x,
       currentY = infantry->y;
 
-  cout << " Calcul du déplacement : " << abs(currentX - newX) + abs(currentY - newY) << endl;
-  cout << " Dextérité : " << infantry->dexterity << endl;
+  // cout << " Calcul du déplacement : " << abs(currentX - newX) + abs(currentY - newY) << endl;
+  // cout << " Dextérité : " << infantry->dexterity << endl;
 
   if (abs(currentX - newX) + abs(currentY - newY) <= infantry->dexterity && (tabGrid[newY * X_DIMENSION + newX] == 0 || tabGrid[newY * X_DIMENSION + newX] == -1))
   {
@@ -290,7 +295,7 @@ bool verifyEnemy(int targetX, int targetY, int attackerId, int tabGrid[])
  * @param nbPlayers The number of players currently playing.
  * @param tabGrid The map.
  * @param tabPlayers The players currently playing.
- * 
+ *
  */
 void applyDamageZone(int targetX, int targetY, int attackerId, int damage, int nbPlayers, int tabGrid[], player *tabPlayers)
 {
@@ -433,9 +438,9 @@ void applyDamageZone(int targetX, int targetY, int attackerId, int damage, int n
  * @param targetX The x coordinate target.
  * @param targetY The y coordinate target.
  * @param enemy Specify if an enemy is targeted.
- * 
+ *
  * @return The value representing the damage to apply (specific value or 0).
- * 
+ *
  */
 int calculDamage(infantry *attackerUnit, int targetX, int targetY, bool enemy)
 {
@@ -444,7 +449,7 @@ int calculDamage(infantry *attackerUnit, int targetX, int targetY, bool enemy)
 
   float attackCoefficient = (abs(currentX - targetX) + abs(currentY - targetY)) / 10.0;
 
-  if (abs(currentX - targetX) + abs(currentY - targetY) <= attackerUnit->dexterity)
+  if (abs(currentX - targetX) + abs(currentY - targetY) <= attackerUnit->fire_range)
   {
     if(enemy == 1){
       return (attackerUnit->force - attackCoefficient) * attackerUnit->pv;
@@ -466,7 +471,7 @@ int calculDamage(infantry *attackerUnit, int targetX, int targetY, bool enemy)
  * @param unitIndex The id of the unit to move.
  * @param tabGrid The map.
  * @param tabBonus Bonuses.
- * 
+ *
  */
 void moveUnit(player *player, int unitIndex, int tabGrid[], bonus *tabBonus)
 {
@@ -512,7 +517,7 @@ void moveUnit(player *player, int unitIndex, int tabGrid[], bonus *tabBonus)
  * @param tabPlayers The players currently playing.
  * @param nbPlayers The number of players currently playing.
  * @param tabGrid The map.
- * 
+ *
  */
 void attackEnemy(infantry *selectedUnit, player *tabPlayers, int nbPlayers, int tabGrid[])
 {
