@@ -99,11 +99,7 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
       break;
   }
 
-  //Initialisation des joueurs
-  for (int i = 0; i < *nbPlayers; i++)
-  {
-    initPlayer(tabPlayers + i, i + 1, nbUnites);
-  }
+
 
   //Initialisation de la grille
   initGrid(tabGrid);
@@ -117,8 +113,10 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
   *playingCondition = true;
 
   //Placement des troupes
+  //Initialisation des joueurs
   for (int i = 0; i < *nbPlayers; i++)
   {
+    initPlayer(tabPlayers + i, i + 1, nbUnites);
     placeUnits(tabGrid, tabPlayers + i);
     updateGrid(tabGrid, *nbPlayers, tabPlayers, bonusArray);
   }
