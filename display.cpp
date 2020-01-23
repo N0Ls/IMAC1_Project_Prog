@@ -37,7 +37,7 @@ void menu(int *c)
   cout << endl;
 }
 
-void menu_tour(int *tour_choice)
+void turnMenu(int *turnChoice)
 {
   cout << "\n";
   cout << "1. Se déplacer"
@@ -45,18 +45,18 @@ void menu_tour(int *tour_choice)
   cout << "2. Attaquer"
        << "\n\n";
   cout << "Votre choix (1/2 ?) : ";
-  cin >> *tour_choice;
+  cin >> *turnChoice;
   while (1)
   {
-    if (cin.fail() || *tour_choice > 2 || *tour_choice < 1)
+    if (cin.fail() || *turnChoice > 2 || *turnChoice < 1)
     {
       cin.clear();
       cin.ignore(123, '\n');
       cout << "Vous ne pouvez que vous déplacez (1) ou attaquer (2)." << endl;
       cout << "Votre choix (1/2 ?) : ";
-      cin >> *tour_choice;
+      cin >> *turnChoice;
     }
-    if (!(cin.fail() || *tour_choice > 2 || *tour_choice < 1))
+    if (!(cin.fail() || *turnChoice > 2 || *turnChoice < 1))
       break;
   }
   cout << endl;

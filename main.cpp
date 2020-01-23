@@ -24,7 +24,7 @@ void initGrid(int *tabGrid)
 }
 
 //Fonction qui update le contenu de la grille en fonction du placement des unités du joueurs
-void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[], bonus *tabBonus)
+void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus)
 {
   //Reset grid
   for (int i = 0; i < X_DIMENSION; i++)
@@ -35,13 +35,13 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[], bonus *tabBonu
     }
   }
   //Update for each player
-  for (int k = 0; k < nb_joueurs; k++)
+  for (int k = 0; k < nbPlayers; k++)
   {
-    for (int i = 0; i < tabPlayer[k].nb_unite_active; i++)
+    for (int i = 0; i < tabPlayers[k].nbActiveUnits; i++)
     {
-      if (tabPlayer[k].infantry_list[i].isAlive == 1)
+      if (tabPlayers[k].infantriesList[i].isAlive == 1)
       {
-        tabGrid[tabPlayer[k].infantry_list[i].y * X_DIMENSION + tabPlayer[k].infantry_list[i].x] = tabPlayer[k].id;
+        tabGrid[tabPlayers[k].infantriesList[i].y * X_DIMENSION + tabPlayers[k].infantriesList[i].x] = tabPlayers[k].id;
       }
     }
   }
@@ -57,52 +57,52 @@ void updateGrid(int *tabGrid, int nb_joueurs, player tabPlayer[], bonus *tabBonu
 
 
 //Fonction pour initialiser le jeu
-void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondition, bonus *bonusArray)
+void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCondition, bonus *bonusArray)
 {
   //Demande le nombre de joueur
   cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
-  cin >> *nb_joueurs;
+  cin >> *nbPlayers;
   while (1)
   {
-    if (cin.fail() || *nb_joueurs < 2 || *nb_joueurs > 3)
+    if (cin.fail() || *nbPlayers < 2 || *nbPlayers > 3)
     {
       cin.clear();
       cin.ignore(123, '\n');
       cout << "Vous ne pouvez pas joueur seul et le nombre maximum de joueurs autorisé est 3." << endl;
       cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
-      cin >> *nb_joueurs;
+      cin >> *nbPlayers;
     }
-    if (!(cin.fail() || *nb_joueurs < 2  || *nb_joueurs > 3))
+    if (!(cin.fail() || *nbPlayers < 2  || *nbPlayers > 3))
       break;
   }
 
   //Demande le nombre d'unité par joueur
-  int nb_unite, max_unites = 0;
-  if (*nb_joueurs == 2){
-    max_unites = 9;
-  } else if (*nb_joueurs == 3) {
-    max_unites = 6;
+  int nbUnites, maxUnites = 0;
+  if (*nbPlayers == 2){
+    maxUnites = 9;
+  } else if (*nbPlayers == 3) {
+    maxUnites = 6;
   }
-  cout << "Entrez le nombre d'unités par joueur (" << max_unites << " unités maximum) : ";
-  cin >> nb_unite;
+  cout << "Entrez le nombre d'unités par joueur (" << maxUnites << " unités maximum) : ";
+  cin >> nbUnites;
   while (1)
   {
-    if (cin.fail() || nb_unite < 1 || nb_unite > max_unites)
+    if (cin.fail() || nbUnites < 1 || nbUnites > maxUnites)
     {
       cin.clear();
       cin.ignore(123, '\n');
       cout << "Veuillez respecter le nombre maximal d'unités autorisé par joueur." << endl;
-      cout << "Entrez le nombre d'unités par joueur (" << max_unites << " unités maximum) : ";
-      cin >> nb_unite;
+      cout << "Entrez le nombre d'unités par joueur (" << maxUnites << " unités maximum) : ";
+      cin >> nbUnites;
     }
-    if (!(cin.fail() || nb_unite < 1  || nb_unite > max_unites))
+    if (!(cin.fail() || nbUnites < 1  || nbUnites > maxUnites))
       break;
   }
 
   //Initialisation des joueurs
-  for (int i = 0; i < *nb_joueurs; i++)
+  for (int i = 0; i < *nbPlayers; i++)
   {
-    initPlayer(tabPlayer + i, i + 1, nb_unite);
+    initPlayer(tabPlayers + i, i + 1, nbUnites);
   }
 
   //Initialisation de la grille
@@ -114,95 +114,84 @@ void initGame(int *tabGrid, player *tabPlayer, int *nb_joueurs, bool *playCondit
   }
 
   //Début du jeu
-  *playCondition = true;
+  *playingCondition = true;
 
   //Placement des troupes
-  for (int i = 0; i < *nb_joueurs; i++)
+  for (int i = 0; i < *nbPlayers; i++)
   {
-    placeUnits(tabGrid, tabPlayer + i);
-    updateGrid(tabGrid, *nb_joueurs, tabPlayer, bonusArray);
+    placeUnits(tabGrid, tabPlayers + i);
+    updateGrid(tabGrid, *nbPlayers, tabPlayers, bonusArray);
   }
 
   //Dessin après le placement
   drawGrid(tabGrid);
 }
 
-
-
-//Possiblement inutile
-// void printing_all_infantries(player tabPlayer[],int nb_joueurs){
-//   for (int i = 0; i < nb_joueurs ; i++) {
-//     for (int y = 0; y < tabPlayer[i].nb_unite_active; y++) {
-//       printInfantryInline(tabPlayer[i].infantry_list[y]);
-//     }
-//   }
-// }
-
-void play_tour(int *current_player_index, int move_number, player tabPlayer[], int nb_joueurs, int *tour_choice, int tabGrid[], bonus bonusArray[])
+void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int nbPlayers, int *turnChoice, int tabGrid[], bonus bonusArray[])
 {
   infantry selectedUnit;
-  if (tabPlayer[*current_player_index].isAlive == 1)
+  if (tabPlayers[*currentPlayerIndex].isAlive == 1)
   {
-    for (int i = 0; i < move_number; i++)
+    for (int i = 0; i < moveNumber; i++)
     {
       cout << "----------" << endl;
       if (i > 0)
       {
-        cout << "Joueur " << *current_player_index + 1 << ", c'est de nouveau votre tour !" << endl;
+        cout << "Joueur " << *currentPlayerIndex + 1 << ", c'est de nouveau votre tour !" << endl;
       }
       else
       {
-        cout << "Joueur " << *current_player_index + 1 << ", c'est votre tour !" << endl;
+        cout << "Joueur " << *currentPlayerIndex + 1 << ", c'est votre tour !" << endl;
       }
-      for (int i = 0; i < tabPlayer[*current_player_index].nb_unite_active; i++)
+      for (int i = 0; i < tabPlayers[*currentPlayerIndex].nbActiveUnits; i++)
       {
         cout << "Unité n°" << i + 1 << " ";
-        printInfantryInline(tabPlayer[*current_player_index].infantry_list[i]);
+        printInfantryInline(tabPlayers[*currentPlayerIndex].infantriesList[i]);
       }
-      selectedUnit = selectUnit(&(tabPlayer[*current_player_index]));
+      selectedUnit = selectUnit(&(tabPlayers[*currentPlayerIndex]));
       cout << "Vous avez choisi l'unité positionnée en (" << selectedUnit.x << ", " << selectedUnit.y << "). Que souhaitez-vous faire ?" << endl;
       // Appel du menu du tour
-      menu_tour(tour_choice);
+      turnMenu(turnChoice);
       //Traitement du choix
-      switch (*tour_choice)
+      switch (*turnChoice)
       {
       case 1: //Déplacement
-        moveUnit(&tabPlayer[*current_player_index], 1, tabGrid, bonusArray);
+        moveUnit(&tabPlayers[*currentPlayerIndex], 1, tabGrid, bonusArray);
         break;
       case 2: //Attacque
-        attackEnemy(&selectedUnit, tabPlayer, nb_joueurs, tabGrid);
+        attackEnemy(&selectedUnit, tabPlayers, nbPlayers, tabGrid);
         break;
       }
 
-      updateGrid(tabGrid, nb_joueurs, tabPlayer, bonusArray);
+      updateGrid(tabGrid, nbPlayers, tabPlayers, bonusArray);
       drawGrid(tabGrid);
     }
   }
 
-  if (*current_player_index >= nb_joueurs - 1)
+  if (*currentPlayerIndex >= nbPlayers - 1)
   {
-    *current_player_index = 0;
+    *currentPlayerIndex = 0;
   }
   else
   {
-    *current_player_index += 1;
+    *currentPlayerIndex += 1;
   }
 }
 
-void verify_win(player *tabPlayer, int *nb_joueurs, bool *playCondition, int *winner)
+void verify_win(player *tabPlayers, int *nbPlayers, bool *playingCondition, int *winner)
 {
-  int compteur_players_alive = 0;
-  for (int i = 0; i < *nb_joueurs; i++)
+  int alivePlayers = 0;
+  for (int i = 0; i < *nbPlayers; i++)
   {
-    if (tabPlayer[i].isAlive == true)
+    if (tabPlayers[i].isAlive == true)
     {
-      *winner = tabPlayer[i].id;
-      compteur_players_alive++;
+      *winner = tabPlayers[i].id;
+      alivePlayers++;
     }
   }
-  if (compteur_players_alive == 1)
+  if (alivePlayers == 1)
   {
-    *playCondition = false;
+    *playingCondition = false;
   }
 }
 
@@ -211,26 +200,28 @@ int main(int argc, char const *argv[])
 {
   srand(time(NULL));
 
-  int choice = 0;
-  int choice_tour = 0;
-  int move_number = 2;
-  int nb_joueurs;
+  int choice = 0,
+      turnChoice = 0,
+      moveNumber = 2,
+      nbPlayers,
+      tabGrid[X_DIMENSION * Y_DIMENSION],
+      currentPlayer = 0,
+      winner;
+
   bool isPlaying = false;
-  player tabPlayer[10];
-  int tableauGrid[X_DIMENSION * Y_DIMENSION];
-  int current_player = 0;
-  int winner;
+
+  player tabPlayers[10];
   bonus tabBonus[BONUS_MAX];
 
   menu(&choice);
   switch (choice)
   {
   case 1:
-    initGame(tableauGrid, tabPlayer, &nb_joueurs, &isPlaying, tabBonus);
+    initGame(tabGrid, tabPlayers, &nbPlayers, &isPlaying, tabBonus);
     while (isPlaying)
     {
-      play_tour(&current_player, move_number, tabPlayer, nb_joueurs, &choice_tour, tableauGrid, tabBonus);
-      verify_win(tabPlayer, &nb_joueurs, &isPlaying, &winner);
+      play_tour(&currentPlayer, moveNumber, tabPlayers, nbPlayers, &turnChoice, tabGrid, tabBonus);
+      verify_win(tabPlayers, &nbPlayers, &isPlaying, &winner);
     }
     cout << "Fin de la partie." << endl;
     cout << "Le gagnant est le joueur " << winner << " !" << endl;

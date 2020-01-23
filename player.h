@@ -5,25 +5,24 @@
 
 typedef struct {
     int id;
-    //char user_name[10];
-    int nb_unite_active;
-    infantry infantry_list[255];
+    int nbActiveUnits;
+    infantry infantriesList[255];
     bool isAlive;
-    char couleur[10];
+    char color[10];
 } player;
 
 //déclaration des prototypes
-void initPlayer(player *player, int id,int nb_unite_active);
+void initPlayer(player *player, int id, int nbActiveUnits);
 void printPlayer(player playerToPrint);
 void changeCoordinates(int *x, int *y);
 void placeUnits(int *tabGrid, player *player);
 infantry selectUnit(player *player);
 int checkPlayerCoordinatesEntry(int *entry, string message, string errorMessage);
-bool verifyCoordinates(infantry *infantry, int newX, int newY,int tabGrid[]);
-bool verifyEnemy(int targetX, int targetY, int attacker_id, int target_id, int tabGrid[]);
-void applyDamageZone(int targetX, int targetY, int attacker_id, int nb_joueurs, int tabGrid[], player *tabPlayer);
+bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[]);
+bool verifyEnemy(int targetX, int targetY, int attackerId, int tabGrid[]);
+void applyDamageZone(int targetX, int targetY, int attackerId, int nbPlayers, int tabGrid[], player *tabPlayer);
 int calculDamage(infantry *attackerUnit, int targetX, int targetY);
-void moveUnit(player *player, int unit_id, int tabGrid[], bonus tabBonus[]);
-void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nb_joueurs, int tabGrid[]);
-void check_if_isAlive(player *playerToCheck);
+void moveUnit(player *player, int unitId, int tabGrid[], bonus *tabBonus);
+void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nbPlayers, int tabGrid[]);
+void checkIfIsAlive(player *playerToCheck);
 #endif

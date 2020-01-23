@@ -3,7 +3,7 @@
 
 //Déclaration de la structure
 typedef struct {
-    int owner_id;
+    int ownerId;
     float pv;
     bool isAlive;
     float force;
@@ -13,7 +13,7 @@ typedef struct {
 } infantry;
 
 //Déclaration des prototypes
-void printInfantryinfos(infantry inf);
+void printInfantryInfos(infantry inf);
 void initInfantry(infantry *inf, int id,float pv,float force,float dexterity);
 void printInfantryInline(infantry inf);
 
