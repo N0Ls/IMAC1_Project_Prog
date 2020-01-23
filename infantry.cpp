@@ -5,10 +5,8 @@ using namespace std;
 #include "bonus.h"
 #include "display.h"
 
-
-/*******************************************************************************/
-/*
-* Initialize infantry atttributes
+/**
+* Initialize infantry atttributes.
 *
 * @param inf The infantry to initialize.
 * @param id The id of the player that owns the infantry.
@@ -27,9 +25,8 @@ void initInfantry(infantry *inf, int id,float pv,float force,float dexterity, in
   inf -> arrayIndex = arrayIndex;
 }
 
-/*******************************************************************************/
-/*
-* Display infantry infos
+/**
+* Display infantry information.
 *
 * @param inf The infantry to display.
 *
@@ -43,10 +40,8 @@ void printInfantryInfos(infantry inf){
   cout << "Y : " << inf.y << endl;
 }
 
-/*******************************************************************************/
-/*
-* Display infantry infos in line
-* Used to display infos to the players
+/**
+* Display infantry information (in line).
 *
 * @param inf The infantry to display.
 *

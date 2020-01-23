@@ -49,7 +49,11 @@ void initPlayer(player *player, int id, int nbActiveUnits)
 }
 
 /**
- * Display player information.
+ *
+ * Display player information..
+ *
+ * @param player The player whose information has to be displayed.
+ *
  */
 void printPlayer(player playerToPrint)
 {
@@ -62,7 +66,13 @@ void printPlayer(player playerToPrint)
   }
 }
 
-//Verification de l'état des infantry_list
+/**
+ *
+ * Check if a player units are still alive.
+ *
+ * @param player The player whose units have to be checked.
+ *
+ */
 void checkIfIsAlive(player *playerToCheck)
 {
   if (playerToCheck->nbActiveUnits == 0)
@@ -71,6 +81,14 @@ void checkIfIsAlive(player *playerToCheck)
   }
 }
 
+/**
+ *
+ * Apply coordinates (x and y) to a specific unit.
+ *
+ * @param x x coordinate.
+ * @param y y coordinate.
+ *
+ */
 void changeCoordinates(int *x, int *y)
 {
   int temporaryX,
@@ -92,7 +110,14 @@ void changeCoordinates(int *x, int *y)
   *y = temporaryY;
 }
 
-//Placement des unités au début de la game
+/**
+ *
+ * Place every units at the start.
+ *
+ * @param tabGrid The map.
+ * @param player The player for whom the units have to be placed.
+ *
+ */
 void placeUnits(int *tabGrid, player *player)
 {
   int coordinates[player->nbActiveUnits][2];
@@ -139,7 +164,14 @@ void placeUnits(int *tabGrid, player *player)
   }
 }
 
-//Fonction pour choisir l'unité à utiliser
+/**
+ *
+ * Place every units at the start.
+ *
+ * @param player The player who has to select one of his units.
+ *
+ * @return The unit selected.
+ */
 infantry selectUnit(player *player)
 {
   int unit = 0;
@@ -163,10 +195,20 @@ infantry selectUnit(player *player)
     if (!(cin.fail() || unit > player->nbActiveUnits || unit < 1))
       break;
   }
+
   return player->infantriesList[unit - 1];
 }
 
-//Fonction pour vérifier les entrées utilisateurs
+/**
+ *
+ * Check for a user coordinate entry.
+ *
+ * @param entry The initial user entry (which to be checked).
+ * @param message The message which asks the user for a coordinate.
+ * @param errorMessage The error message (which has to be displayed if the user makes a wrong entry).
+ *
+ * @return A correct coordinate entry.
+ */
 int checkPlayerCoordinatesEntry(int *entry, string message, string errorMessage)
 {
   while (1)
@@ -185,7 +227,17 @@ int checkPlayerCoordinatesEntry(int *entry, string message, string errorMessage)
   return *entry;
 }
 
-//Fonction pour vérifier si le déplacement est valide
+/**
+ *
+ * Check if the displacement is possible.
+ *
+ * @param infantry The unit which has to be moved.
+ * @param newX The x coordinate destination.
+ * @param newY The y coordinate destination.
+ * @param tabGrid The map.
+ *
+ * @return true (possible) or false (not possible).
+ */
 bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[])
 {
   int currentX = infantry->x,
@@ -204,7 +256,17 @@ bool verifyCoordinates(infantry *infantry, int newX, int newY, int tabGrid[])
   }
 }
 
-//Fonction pour vérifier si une unité ennemie est présente sur la position
+/**
+ *
+ * Check if the attack targets an enemy.
+ *
+ * @param targetX The x coordinate target.
+ * @param targetY The y coordinate target.
+ * @param attackerId The id of the attacking unit.
+ * @param tabGrid The map.
+ *
+ * @return true (it is an enemy) or false (it is not an ennemy).
+ */
 bool verifyEnemy(int targetX, int targetY, int attackerId, int tabGrid[])
 {
   if (tabGrid[targetY * X_DIMENSION + targetX] != 0 && tabGrid[targetY * X_DIMENSION + targetX] != attackerId)
@@ -217,7 +279,19 @@ bool verifyEnemy(int targetX, int targetY, int attackerId, int tabGrid[])
   }
 }
 
-//Fonction pour vérifier si des ennemies se trouvent dans la zone de tir, et si oui appliquer des dégâts
+/**
+ *
+ * Apply damages to ennemies who are in the attack area.
+ *
+ * @param targetX The x coordinate target.
+ * @param targetY The y coordinate target.
+ * @param attackerId The id of the attacking unit.
+ * @param damage The damage value to apply.
+ * @param nbPlayers The number of players currently playing.
+ * @param tabGrid The map.
+ * @param tabPlayer The players currently playing.
+ * 
+ */
 void applyDamageZone(int targetX, int targetY, int attackerId, int damage, int nbPlayers, int tabGrid[], player *tabPlayer)
 {
   bool enemyProximity = false;
@@ -351,7 +425,19 @@ void applyDamageZone(int targetX, int targetY, int attackerId, int damage, int n
   }
 }
 
-//Fonction pour calculer les dommages infligés
+
+/**
+ *
+ * Calcul damages.
+ *
+ * @param attackerUnit The attacking unit.
+ * @param targetX The x coordinate target.
+ * @param targetY The y coordinate target.
+ * @param enemy Specify if an enemy is targeted.
+ * 
+ * @return The value representing the damage to apply (specific value or 0).
+ * 
+ */
 int calculDamage(infantry *attackerUnit, int targetX, int targetY, bool enemy)
 {
   int currentX = attackerUnit->x,
@@ -373,8 +459,16 @@ int calculDamage(infantry *attackerUnit, int targetX, int targetY, bool enemy)
   }
 }
 
-//int calculAreaDamage(infantry *attackerUnit, int targetX, int targetY){}
-
+/**
+ *
+ * Move a specific unit.
+ *
+ * @param player The player who wants to move his unit.
+ * @param unitIndex The id of the unit to move.
+ * @param tabGrid The map.
+ * @param tabBonus Bonuses.
+ * 
+ */
 void moveUnit(player *player, int unitIndex, int tabGrid[], bonus *tabBonus)
 {
   int newX,
@@ -411,6 +505,16 @@ void moveUnit(player *player, int unitIndex, int tabGrid[], bonus *tabBonus)
   }
 }
 
+/**
+ *
+ * Attack.
+ *
+ * @param selectedUnit The player who wants to move his unit.
+ * @param tabPlayer The players currently playing.
+ * @param nbPlayers The number of players currently playing.
+ * @param tabGrid The map.
+ * 
+ */
 void attackEnemy(infantry *selectedUnit, player *tabPlayer, int nbPlayers, int tabGrid[])
 {
   int attackerId = selectedUnit->ownerId,
