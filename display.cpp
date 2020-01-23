@@ -6,6 +6,11 @@ using namespace std;
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
 
+/**
+ * 
+ * Display the logo.
+ *
+ */
 void printLogo(void)
 {
   cout << "=========================================\n";
@@ -24,7 +29,14 @@ void printLogo(void)
   cout << "=========================================\n\n";
 }
 
-void menu(int *c)
+/**
+ * 
+ * Display the menu.
+ *
+ * @param choice The choice made by the player.
+ * 
+ */
+void menu(int *choice)
 {
   cout << "\n";
   printLogo();
@@ -33,10 +45,17 @@ void menu(int *c)
   cout << "2. Quitter la partie"
        << "\n\n";
   cout << "Votre choix (1/2 ?) : ";
-  cin >> *c;
+  cin >> *choice;
   cout << endl;
 }
 
+/**
+ * 
+ * Display the turn menu.
+ * 
+ * @param turnChoice The choice made by the player.
+ *
+ */
 void turnMenu(int *turnChoice)
 {
   cout << "\n";
@@ -62,8 +81,13 @@ void turnMenu(int *turnChoice)
   cout << endl;
 }
 
-//Fonction d'affichage de la grille
-//Pour l'instant elle est de taille fixe
+/**
+ * 
+ * Display the map.
+ * 
+ * @param tabGrid The map.
+ *
+ */
 void drawGrid(int tabGrid[])
 {
   cout << "      X| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;

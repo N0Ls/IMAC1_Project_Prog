@@ -41,7 +41,6 @@ void initGrid(int *tabGrid)
  */
 void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus)
 {
-  //Reset grid
   for (int i = 0; i < X_DIMENSION; i++)
   {
     for (int y = 0; y < Y_DIMENSION; y++)
@@ -49,7 +48,7 @@ void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonu
       tabGrid[X_DIMENSION * i + y] = 0;
     }
   }
-  //Update for each player
+
   for (int k = 0; k < nbPlayers; k++)
   {
     for (int i = 0; i < tabPlayers[k].nbActiveUnits; i++)
@@ -60,7 +59,7 @@ void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonu
       }
     }
   }
-  //Bonus may be appearing
+
   probBonusArray(tabBonus, tabGrid);
   for(int v = 0; v < BONUS_MAX ; v++){
     if(tabBonus[v].isActive==true){
@@ -84,7 +83,6 @@ void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonu
  */
 void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCondition, bonus *bonusArray)
 {
-  //Demande le nombre de joueur
   cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
   cin >> *nbPlayers;
   while (1)
@@ -101,7 +99,6 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
       break;
   }
 
-  //Demande le nombre d'unité par joueur
   int nbUnites, maxUnites = 0;
   if (*nbPlayers == 2){
     maxUnites = 9;
@@ -124,21 +121,14 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
       break;
   }
 
-
-
-  //Initialisation de la grille
   initGrid(tabGrid);
 
-  //initialisation des bonus
   for(int indexAB = 0; indexAB < 3; indexAB++){
     initBonus(bonusArray + indexAB);
   }
 
-  //Début du jeu
   *playingCondition = true;
 
-  //Placement des troupes
-  //Initialisation des joueurs
   for (int i = 0; i < *nbPlayers; i++)
   {
     initPlayer(tabPlayers + i, i + 1, nbUnites);
@@ -146,7 +136,6 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
     updateGrid(tabGrid, *nbPlayers, tabPlayers, bonusArray);
   }
 
-  //Dessin après le placement
   drawGrid(tabGrid);
 }
 

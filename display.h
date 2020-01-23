@@ -3,7 +3,7 @@
 
 //Déclaration des prototypes
 void printLogo(void);
-void menu(int *c);
+void menu(int *choice);
 void turnMenu(int *turnChoice);
 void drawGrid(int tabGrid[]);
 
