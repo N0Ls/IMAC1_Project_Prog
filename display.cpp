@@ -78,28 +78,28 @@ void drawGrid(int tabGrid[])
       {
         cout << "\033[96m";
         cout << " 1";
-        cout << "\033[37m";
+        cout << "\033[39m";
         cout << " |";
       }
       if (tabGrid[X_DIMENSION * i + y] == 2)
       {
         cout << "\033[91m";
         cout << " 2";
-        cout << "\033[37m";
+        cout << "\033[39m";
         cout << " |";
       }
       if (tabGrid[X_DIMENSION * i + y] == 3)
       {
         cout << "\033[35m";
         cout << " 3";
-        cout << "\033[37m";
+        cout << "\033[39m";
         cout << " |";
       }
       if (tabGrid[X_DIMENSION * i + y] == -1)
       {
         cout << "\033[35m";
         cout << " ♥";
-        cout << "\033[37m";
+        cout << "\033[39m";
         cout << " |";
       }
       if (tabGrid[X_DIMENSION * i + y] == 0)

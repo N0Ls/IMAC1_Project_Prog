@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <string.h>
 using namespace std;
 #include "infantry.h"
 #include "player.h"
@@ -20,12 +21,30 @@ using namespace std;
  */
 void initPlayer(player *player, int id, int nbActiveUnits)
 {
+  char all_colors[3][10] = {"\033[96m","\033[91m","\033[35m"};
   player->id = id;
   player->nbActiveUnits = nbActiveUnits;
   player->isAlive = true;
+  strcpy(player -> color , all_colors[id-1]);
+
+  cout << all_colors[id-1];
+  cout << "Joueur " << id << " veuillez choisir votre type d'unités" << endl;
+  cout << "TANK = t / SNIPER = s / K9 = k" << endl;
+  cout << "\033[39m";
+
+  char typeOfUnitChoice;
   for (int i = 0; i < nbActiveUnits; i++)
   {
-    initInfantry(player->infantriesList + i, id, 100, 1, 7, i);
+    cin >> typeOfUnitChoice;
+    if(typeOfUnitChoice == 't'){
+      initInfantry(player->infantriesList + i, id, 200, 1.5, 2, i);
+    }
+    if(typeOfUnitChoice == 's'){
+      initInfantry(player->infantriesList + i, id, 75, 0.8, 4, i);
+    }
+    if(typeOfUnitChoice == 'k'){
+      initInfantry(player->infantriesList + i, id, 100, 1.5, 7, i);
+    }
   }
 }
 
