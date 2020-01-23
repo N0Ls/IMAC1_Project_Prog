@@ -9,8 +9,11 @@ using namespace std;
 #define Y_DIMENSION 10
 #define BONUS_MAX 3
 
-/*******************************************************************************/
-/*Functions to pick random numbers*/
+/**
+ * 
+ * Functions to pick random numbers.
+ * 
+ */
 float rand_cent(){
   return (rand()%101);
 }
@@ -22,15 +25,19 @@ int rand_int_y(){
   return (rand()%Y_DIMENSION);
 }
 
-/*******************************************************************************/
-/*
-* Initialize bonus attributes
-* @param bonus The bonus to initialize.
-*/
+/**
+ * 
+ * Initialize bonus attributes.
+ * 
+ * @param bonus The bonus to initialize.
+ *
+ */
 void initBonus(bonus *bonus){
 
-  /* different types of bonuses
-  h=health ; f=force ; d=dexterity */
+  /**
+   * different types of bonuses
+   * h=health ; f=force ; d=dexterity
+   * */
   char bonusTypes[3]={'h','f','d'};
   bonus -> isActive = false;
   bonus -> x = rand_int_x();
@@ -38,12 +45,14 @@ void initBonus(bonus *bonus){
   bonus -> boostType = bonusTypes[rand()%3];
 }
 
-/*******************************************************************************/
-/*
-* Using the probabilities to make the bonus active
-* @param bonusArray the array of bonuses.
-* @param tabGrid the grid array.
-*/
+/**
+ * 
+ * Using the probabilities to make the bonus active.
+ * 
+ * @param bonusArray the array of bonuses.
+ * @param tabGrid the grid array.
+ *
+ */
 void probBonusArray(bonus *bonusArray, int *tabGrid){
   int tirage;
   for(int indexB = 0; indexB < 3 ; indexB++){
@@ -54,7 +63,14 @@ void probBonusArray(bonus *bonusArray, int *tabGrid){
   }
 }
 
-/*******************************************************************************/
+/**
+ * 
+ * .
+ * 
+ * @param infantry .
+ * @param bonus .
+ *
+ */
 void bonusTreatment(infantry *infantry, bonus *bonus){
   if(infantry -> x == bonus -> x && infantry -> y == bonus -> y && bonus -> isActive == true){
     if(bonus -> boostType == 'h'){

@@ -11,7 +11,13 @@ using namespace std;
 
 
 
-//Fonction qui initialise le tableau grille pour le début de la partie
+/**
+ *
+ * Initialize the map.
+ *
+ * @param tabGrid The map.
+ * 
+ */
 void initGrid(int *tabGrid)
 {
   for (int i = 0; i < X_DIMENSION; i++)
@@ -23,7 +29,16 @@ void initGrid(int *tabGrid)
   }
 }
 
-//Fonction qui update le contenu de la grille en fonction du placement des unités du joueurs
+/**
+ *
+ * Update the map (to use after every unit placement).
+ *
+ * @param tabGrid The map.
+ * @param nbPlayers The number of players currently playing.
+ * @param tabPlayers The players currently playing.
+ * @param tabBonus Bonuses.
+ * 
+ */
 void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus)
 {
   //Reset grid
@@ -56,7 +71,17 @@ void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonu
 
 
 
-//Fonction pour initialiser le jeu
+/**
+ *
+ * Initialize the game.
+ *
+ * @param tabGrid The map.
+ * @param tabPlayers The players currently playing.
+ * @param nbPlayers The number of players currently playing.
+ * @param playingCondition Tell if the game is in progress or not.
+ * @param bonusArray Bonuses.
+ * 
+ */
 void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCondition, bonus *bonusArray)
 {
   //Demande le nombre de joueur
@@ -125,6 +150,19 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
   drawGrid(tabGrid);
 }
 
+/**
+ *
+ *  Play a turn.
+ *
+ * @param currentPlayerIndex The id of the player currently playing.
+ * @param moveNumber The move number of the player turn.
+ * @param tabPlayers The players currently playing.
+ * @param nbPlayers The number of players currently playing.
+ * @param turnChoice The turn choice made by the player.
+ * @param tabGrid The map.
+ * @param bonusArray Bonuses.
+ * 
+ */
 void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int nbPlayers, int *turnChoice, int tabGrid[], bonus bonusArray[])
 {
   infantry selectedUnit;
@@ -176,6 +214,16 @@ void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int
   }
 }
 
+/**
+ *
+ *  Check if a player wins the game.
+ *
+ * @param tabPlayers The players currently playing.
+ * @param nbPlayers The number of players currently playing.
+ * @param playingCondition Tell if the game is in progress or not.
+ * @param winner The winner of the game (null if there is no winner yet).
+ * 
+ */
 void verify_win(player *tabPlayers, int *nbPlayers, bool *playingCondition, int *winner)
 {
   int alivePlayers = 0;
