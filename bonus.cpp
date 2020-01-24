@@ -4,7 +4,6 @@ using namespace std;
 #include "infantry.h"
 #include "player.h"
 
-
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
 #define BONUS_MAX 3
@@ -14,14 +13,14 @@ using namespace std;
  * Functions to pick random numbers.
  * 
  */
-float rand_cent(){
+float randCent(){
   return (rand()%101);
 }
 
-int rand_int_x(){
+int randIntX(){
   return (rand()%X_DIMENSION);
 }
-int rand_int_y(){
+int randIntY(){
   return (rand()%Y_DIMENSION);
 }
 
@@ -35,13 +34,16 @@ int rand_int_y(){
 void initBonus(bonus *bonus){
 
   /**
-   * different types of bonuses
-   * h=health ; f=force ; d=dexterity
+   * 
+   * Different types of bonuses.
+   * 
+   * h=health ; f=force ; d=dexterity.
+   * 
    * */
   char bonusTypes[3]={'h','f','d'};
   bonus -> isActive = false;
-  bonus -> x = rand_int_x();
-  bonus -> y = rand_int_y();
+  bonus -> x = randIntX();
+  bonus -> y = randIntY();
   bonus -> boostType = bonusTypes[rand()%3];
 }
 
@@ -56,7 +58,7 @@ void initBonus(bonus *bonus){
 void probBonusArray(bonus *bonusArray, int *tabGrid){
   int tirage;
   for(int indexB = 0; indexB < 3 ; indexB++){
-    tirage = rand_cent();
+    tirage = randCent();
     if(tirage <= 5 && tabGrid[bonusArray[indexB].y * X_DIMENSION + bonusArray[indexB].x] == 0 ){
       bonusArray[indexB].isActive = true;
     }
@@ -86,12 +88,19 @@ void bonusTreatment(infantry *infantry, bonus *bonus){
         cout << " Vous venez d'obtenir un bonus de dextérité !" << endl;
     }
     bonus -> isActive = false;
-    bonus -> x = rand_int_x();
-    bonus -> y = rand_int_y();
+    bonus -> x = randIntX();
+    bonus -> y = randIntY();
   }
 }
 
-void printBonusarray(bonus bonus[]){
+/**
+ * 
+ * .
+ * 
+ * @param bonus .
+ *
+ */
+void printBonusArray(bonus bonus[]){
   for(int index = 0; index < 3 ; index++){
     cout << bonus[index].x << " ";
     cout << bonus[index].y << " ";

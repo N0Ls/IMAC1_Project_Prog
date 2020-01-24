@@ -15,17 +15,17 @@ using namespace std;
  * @param pv The number of health points of the infantry.
  * @param force The force of the infantry (its fire power).
  * @param dexterity The dexterity of the infantry (its mobility on the map).
- * @param fire_range The range of the attack of the infantry (its mobility on the map).
+ * @param fireRange The range of the attack of the infantry (its mobility on the map).
  * @param arrayIndex The index of the infantry inside the infantries array of the player.
  * @param type The name of the type of the infantry.
  *
  */
-void initInfantry(infantry *inf, int id,float pv,float force,float dexterity, float fire_range, int arrayIndex){
+void initInfantry(infantry *inf, int id,float pv,float force,float dexterity, float fireRange, int arrayIndex){
   inf -> ownerId = id;
   inf -> pv = pv;
   inf -> force = force;
   inf -> dexterity = dexterity;
-  inf -> fire_range = fire_range;
+  inf -> fireRange = fireRange;
   inf -> isAlive = true;
   inf -> arrayIndex = arrayIndex;
 }
@@ -54,5 +54,5 @@ void printInfantryInfos(infantry inf){
  *
  */
 void printInfantryInline(infantry inf){
-  cout << " (" << inf.x <<","<< inf.y << ") | " << "HP : "<< inf.pv << " | Dexterity : " << inf.dexterity <<" | Fire Range : "  << inf.fire_range << endl;
+  cout << " (" << inf.x <<","<< inf.y << ") | " << "HP : "<< inf.pv << " | Dexterity : " << inf.dexterity <<" | Fire Range : "  << inf.fireRange << endl;
 }

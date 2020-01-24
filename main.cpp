@@ -5,13 +5,14 @@ using namespace std;
 #include "player.h"
 #include "bonus.h"
 #include "display.h"
+
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
 #define BONUS_MAX 3
 
-
 void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus);
 void initGrid(int *tabGrid);
+
 /**
  *
  * Initialize the game.
@@ -37,14 +38,17 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
       cout << "Entrez le nombre de joueurs (2 minimum et 3 maximum) : ";
       cin >> *nbPlayers;
     }
-    if (!(cin.fail() || *nbPlayers < 2  || *nbPlayers > 3))
+    if (!(cin.fail() || *nbPlayers < 2 || *nbPlayers > 3))
       break;
   }
 
   int nbUnites, maxUnites = 0;
-  if (*nbPlayers == 2){
+  if (*nbPlayers == 2)
+  {
     maxUnites = 9;
-  } else if (*nbPlayers == 3) {
+  }
+  else if (*nbPlayers == 3)
+  {
     maxUnites = 6;
   }
   cout << "Entrez le nombre d'unités par joueur (" << maxUnites << " unités maximum) : ";
@@ -59,13 +63,14 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
       cout << "Entrez le nombre d'unités par joueur (" << maxUnites << " unités maximum) : ";
       cin >> nbUnites;
     }
-    if (!(cin.fail() || nbUnites < 1  || nbUnites > maxUnites))
+    if (!(cin.fail() || nbUnites < 1 || nbUnites > maxUnites))
       break;
   }
 
   initGrid(tabGrid);
 
-  for(int indexAB = 0; indexAB < 3; indexAB++){
+  for (int indexAB = 0; indexAB < 3; indexAB++)
+  {
     initBonus(bonusArray + indexAB);
   }
 
@@ -77,7 +82,6 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
     placeUnits(tabGrid, tabPlayers + i);
     updateGrid(tabGrid, *nbPlayers, tabPlayers, bonusArray);
   }
-
 }
 
 /**
@@ -130,9 +134,11 @@ void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonu
   }
 
   probBonusArray(tabBonus, tabGrid);
-  for(int v = 0; v < BONUS_MAX ; v++){
-    if(tabBonus[v].isActive==true){
-      tabGrid[tabBonus[v].y * X_DIMENSION + tabBonus[v].x ]=-1;
+  for (int v = 0; v < BONUS_MAX; v++)
+  {
+    if (tabBonus[v].isActive == true)
+    {
+      tabGrid[tabBonus[v].y * X_DIMENSION + tabBonus[v].x] = -1;
     }
   }
 }
@@ -158,9 +164,9 @@ void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int
   {
     for (int i = 0; i < moveNumber; i++)
     {
-      cout << "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n" ;
+      cout << "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n";
       drawGrid(tabGrid);
-      cout << "----------" << endl;
+      cout << "\n" << endl;
       if (i > 0)
       {
         cout << tabPlayers[*currentPlayerIndex].color;
@@ -175,8 +181,11 @@ void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int
       }
       for (int i = 0; i < tabPlayers[*currentPlayerIndex].nbActiveUnits; i++)
       {
-        cout << "Unité n°" << i + 1 << " ";
-        printInfantryInline(tabPlayers[*currentPlayerIndex].infantriesList[i]);
+        if (tabPlayers[*currentPlayerIndex].infantriesList[i].isAlive)
+        {
+          cout << "Unité n°" << i + 1 << " ";
+          printInfantryInline(tabPlayers[*currentPlayerIndex].infantriesList[i]);
+        }
       }
       selectedUnit = selectUnit(&(tabPlayers[*currentPlayerIndex]));
       cout << "Vous avez choisi l'unité positionnée en (" << selectedUnit.x << ", " << selectedUnit.y << "). Que souhaitez-vous faire ?" << endl;
@@ -194,7 +203,6 @@ void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int
       }
       cout << endl;
       updateGrid(tabGrid, nbPlayers, tabPlayers, bonusArray);
-
     }
   }
 
@@ -267,11 +275,11 @@ int main(int argc, char const *argv[])
       play_tour(&currentPlayer, moveNumber, tabPlayers, nbPlayers, &turnChoice, tabGrid, tabBonus);
       verify_win(tabPlayers, &nbPlayers, &isPlaying, &winner);
     }
-    cout << "Fin de la partie." << endl;
-    cout << "Le gagnant est le joueur " << winner << " !" << endl;
+    cout << "Fin de la partie.\n" << endl;
+    cout << "Le gagnant est le joueur " << winner << " !\n" << endl;
     break;
   case 2:
-    cout << "À bientôt !" << endl;
+    cout << "À bientôt !\n" << endl;
     exit(EXIT_FAILURE);
     break;
   }

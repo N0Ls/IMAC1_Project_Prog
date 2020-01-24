@@ -6,6 +6,7 @@ using namespace std;
 #include "player.h"
 #include "bonus.h"
 #include "display.h"
+
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
 #define BONUS_MAX 3
@@ -21,32 +22,49 @@ using namespace std;
  */
 void initPlayer(player *player, int id, int nbActiveUnits)
 {
-  char all_colors[3][10] = {"\033[96m","\033[91m","\033[93m"};
+  char all_colors[3][10] = {"\033[96m", "\033[91m", "\033[93m"};
   player->id = id;
   player->nbActiveUnits = nbActiveUnits;
   player->isAlive = true;
-  strcpy(player -> color , all_colors[id-1]);
+  strcpy(player->color, all_colors[id - 1]);
 
   cout << "\n ____________________________________________________";
-  cout << all_colors[id-1];
+  cout << all_colors[id - 1];
   cout << "Joueur " << id << " veuillez choisir vos types d'unités" << endl;
   cout << "TANK = t / SNIPER = s / K9 = k" << endl;
-  cout << '\n' ;
+  cout << '\n';
   cout << "\033[39m";
 
   char typeOfUnitChoice;
   for (int i = 0; i < nbActiveUnits; i++)
   {
-    cout << "Type de l'unité " << i+1 << " : " ;
+    cout << "Type de l'unité " << i + 1 << " : ";
     cin >> typeOfUnitChoice;
-    if(typeOfUnitChoice == 't'){
-      initInfantry(player->infantriesList + i, id, 200, 1.5, 2, 5,i);
+
+    while (1) {
+    if (cin.fail() || (typeOfUnitChoice != 't' &&  typeOfUnitChoice != 's' && typeOfUnitChoice != 'k'))
+    {
+      cin.clear();
+      cin.ignore(123, '\n');
+      cout << "Vous ne pouvez choisir qu'entre un tank (t), un sniper (s) et un k9 (k)." << endl;
+      cout << "Type de l'unité " << i + 1 << " : ";
+      cin >> typeOfUnitChoice;
     }
-    if(typeOfUnitChoice == 's'){
-      initInfantry(player->infantriesList + i, id, 75, 0.8, 4, 7,i);
+    if (!(cin.fail() || (typeOfUnitChoice != 't' &&  typeOfUnitChoice != 's' && typeOfUnitChoice != 'k')))
+      break;
     }
-    if(typeOfUnitChoice == 'k'){
-      initInfantry(player->infantriesList + i, id, 100, 1.5, 7, 2,i);
+
+    if (typeOfUnitChoice == 't')
+    {
+      initInfantry(player->infantriesList + i, id, 200, 1.5, 2, 5, i);
+    }
+    if (typeOfUnitChoice == 's')
+    {
+      initInfantry(player->infantriesList + i, id, 75, 0.8, 4, 7, i);
+    }
+    if (typeOfUnitChoice == 'k')
+    {
+      initInfantry(player->infantriesList + i, id, 100, 1.5, 7, 2, i);
     }
   }
 }
@@ -133,8 +151,8 @@ void placeUnits(int *tabGrid, player *player)
 
   for (int i = 0; i < player->nbActiveUnits; i++)
   {
-    cout << "____________________________________________________" << endl ;
-    cout << player -> color << endl;
+    cout << "____________________________________________________" << endl;
+    cout << player->color << endl;
     cout << "Joueur " << player->id << ", placez vos unités" << endl;
     cout << "\033[39m" << endl;
     cout << "Entrez les coordonnées initiales pour l'unité : " << i + 1 << endl;
@@ -186,10 +204,9 @@ infantry selectUnit(player *player)
 
   cout << message;
   cin >> unit;
-
   while (1)
   {
-    if (cin.fail() || unit > player->nbActiveUnits || unit < 1)
+    if (cin.fail() || unit > player->nbActiveUnits || unit < 1 || player->infantriesList[unit - 1].isAlive == 0)
     {
       cin.clear();
       cin.ignore(123, '\n');
@@ -197,7 +214,7 @@ infantry selectUnit(player *player)
       cout << message;
       cin >> unit;
     }
-    if (!(cin.fail() || unit > player->nbActiveUnits || unit < 1))
+    if (!(cin.fail() || unit > player->nbActiveUnits || unit < 1 || player->infantriesList[unit - 1].isAlive == 0))
       break;
   }
 
@@ -409,7 +426,6 @@ void applyDamageZone(int targetX, int targetY, int attackerId, int damage, int n
                 else
                 {
                   tabPlayers[i].infantriesList[j].isAlive = false;
-                  tabPlayers[i].nbActiveUnits = tabPlayers[i].nbActiveUnits - 1;
                   cout << "L'unité a été détruite." << endl;
                   checkIfIsAlive(&tabPlayers[i]);
                 }
@@ -449,12 +465,15 @@ int calculDamage(infantry *attackerUnit, int targetX, int targetY, bool enemy)
 
   float attackCoefficient = (abs(currentX - targetX) + abs(currentY - targetY)) / 10.0;
 
-  if (abs(currentX - targetX) + abs(currentY - targetY) <= attackerUnit->fire_range)
+  if (abs(currentX - targetX) + abs(currentY - targetY) <= attackerUnit->fireRange)
   {
-    if(enemy == 1){
+    if (enemy == 1)
+    {
       return (attackerUnit->force - attackCoefficient) * attackerUnit->pv;
-    } else {
-      return ((attackerUnit->force - attackCoefficient) * attackerUnit->pv)/6;
+    }
+    else
+    {
+      return ((attackerUnit->force - attackCoefficient) * attackerUnit->pv) / 6;
     }
   }
   else
@@ -528,7 +547,7 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayers, int nbPlayers, int 
   bool enemy;
 
   float damage,
-        updatePV;
+      updatePV;
 
   string messageX = "Entrez la coordonnée X : ",
          messageY = "Entrez la coordonnée Y : ";
@@ -570,7 +589,6 @@ void attackEnemy(infantry *selectedUnit, player *tabPlayers, int nbPlayers, int 
             else
             {
               tabPlayers[k].infantriesList[i].isAlive = false;
-              tabPlayers[k].nbActiveUnits = tabPlayers[k].nbActiveUnits - 1;
               cout << "L'unité ennemie a été détruite." << endl;
               cout << "Nombre d'unités actives restantes : " << tabPlayers[k].nbActiveUnits << "." << endl;
               checkIfIsAlive(&tabPlayers[k]);

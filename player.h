@@ -11,7 +11,6 @@ typedef struct {
     char color[10];
 } player;
 
-//déclaration des prototypes
 void initPlayer(player *player, int id, int nbActiveUnits);
 void printPlayer(player playerToPrint);
 void changeCoordinates(int *x, int *y);

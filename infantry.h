@@ -1,7 +1,6 @@
 #ifndef INFANTRY_H
 #define INFANTRY_H
 
-//Declaration of the structure
 typedef struct {
     int ownerId;
     float pv;
@@ -10,13 +9,13 @@ typedef struct {
     int x;
     int y ;
     float dexterity;
-    float fire_range;
+    float fireRange;
     int arrayIndex;
 } infantry;
 
 //Declaration of prototypes
 void printInfantryInfos(infantry inf);
-void initInfantry(infantry *inf, int id,float pv,float force,float dexterity,float fire_range,int arrayIndex);
+void initInfantry(infantry *inf, int id,float pv,float force,float dexterity,float fireRange,int arrayIndex);
 void printInfantryInline(infantry inf);
 
 #endif
