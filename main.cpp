@@ -161,7 +161,6 @@ void play_tour(int *currentPlayerIndex, int moveNumber, player tabPlayers[], int
   {
     for (int i = 0; i < moveNumber; i++)
     {
-      cout << "\n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n";
       drawGrid(tabGrid);
       cout << "\n" << endl;
       if (i > 0)
