@@ -1,5 +1,5 @@
-ProgAlogS1_Scaviner_Landrodie: main.o infantry.o player.o bonus.o display.o
-	g++ main.o infantry.o player.o bonus.o display.o -o ProgAlogS1_Scaviner_Landrodie -Wall -lstdc++
+ProgAlgoS1_Scaviner_Landrodie: main.o infantry.o player.o bonus.o display.o
+	g++ main.o infantry.o player.o bonus.o display.o -o ProgAlgoS1_Scaviner_Landrodie -Wall -lstdc++
 
 main.o: main.cpp
 	g++ -c -Wall main.cpp
