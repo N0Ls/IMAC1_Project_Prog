@@ -10,8 +10,64 @@ using namespace std;
 #define Y_DIMENSION 10
 #define BONUS_MAX 3
 
-void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus);
-void initGrid(int *tabGrid);
+/**
+ *
+ * Initialize the map.
+ *
+ * @param tabGrid The map.
+ *
+ */
+void initGrid(int *tabGrid)
+{
+  for (int i = 0; i < X_DIMENSION; i++)
+  {
+    for (int y = 0; y < Y_DIMENSION; y++)
+    {
+      tabGrid[X_DIMENSION * i + y] = 0;
+    }
+  }
+}
+
+/**
+ *
+ * Update the map (to use after every unit placement).
+ *
+ * @param tabGrid The map.
+ * @param nbPlayers The number of players currently playing.
+ * @param tabPlayers The players currently playing.
+ * @param tabBonus Bonuses.
+ *
+ */
+void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus)
+{
+  for (int i = 0; i < X_DIMENSION; i++)
+  {
+    for (int y = 0; y < Y_DIMENSION; y++)
+    {
+      tabGrid[X_DIMENSION * i + y] = 0;
+    }
+  }
+
+  for (int k = 0; k < nbPlayers; k++)
+  {
+    for (int i = 0; i < tabPlayers[k].nbActiveUnits; i++)
+    {
+      if (tabPlayers[k].infantriesList[i].isAlive == 1)
+      {
+        tabGrid[tabPlayers[k].infantriesList[i].y * X_DIMENSION + tabPlayers[k].infantriesList[i].x] = tabPlayers[k].id;
+      }
+    }
+  }
+
+  probBonusArray(tabBonus, tabGrid);
+  for (int v = 0; v < BONUS_MAX; v++)
+  {
+    if (tabBonus[v].isActive == true)
+    {
+      tabGrid[tabBonus[v].y * X_DIMENSION + tabBonus[v].x] = -1;
+    }
+  }
+}
 
 /**
  *
@@ -81,65 +137,6 @@ void initGame(int *tabGrid, player *tabPlayers, int *nbPlayers, bool *playingCon
     initPlayer(tabPlayers + i, i + 1, nbUnites);
     placeUnits(tabGrid, tabPlayers + i);
     updateGrid(tabGrid, *nbPlayers, tabPlayers, bonusArray);
-  }
-}
-
-/**
- *
- * Initialize the map.
- *
- * @param tabGrid The map.
- *
- */
-void initGrid(int *tabGrid)
-{
-  for (int i = 0; i < X_DIMENSION; i++)
-  {
-    for (int y = 0; y < Y_DIMENSION; y++)
-    {
-      tabGrid[X_DIMENSION * i + y] = 0;
-    }
-  }
-}
-
-/**
- *
- * Update the map (to use after every unit placement).
- *
- * @param tabGrid The map.
- * @param nbPlayers The number of players currently playing.
- * @param tabPlayers The players currently playing.
- * @param tabBonus Bonuses.
- *
- */
-void updateGrid(int *tabGrid, int nbPlayers, player tabPlayers[], bonus *tabBonus)
-{
-  for (int i = 0; i < X_DIMENSION; i++)
-  {
-    for (int y = 0; y < Y_DIMENSION; y++)
-    {
-      tabGrid[X_DIMENSION * i + y] = 0;
-    }
-  }
-
-  for (int k = 0; k < nbPlayers; k++)
-  {
-    for (int i = 0; i < tabPlayers[k].nbActiveUnits; i++)
-    {
-      if (tabPlayers[k].infantriesList[i].isAlive == 1)
-      {
-        tabGrid[tabPlayers[k].infantriesList[i].y * X_DIMENSION + tabPlayers[k].infantriesList[i].x] = tabPlayers[k].id;
-      }
-    }
-  }
-
-  probBonusArray(tabBonus, tabGrid);
-  for (int v = 0; v < BONUS_MAX; v++)
-  {
-    if (tabBonus[v].isActive == true)
-    {
-      tabGrid[tabBonus[v].y * X_DIMENSION + tabBonus[v].x] = -1;
-    }
   }
 }
 
