@@ -6,6 +6,7 @@ using namespace std;
 #include "bonus.h"
 #include "menu.h"
 #include "grid.h"
+#include "game.h"
 
 /**
  *

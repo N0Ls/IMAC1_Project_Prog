@@ -3,6 +3,10 @@
 using namespace std;
 #include "infantry.h"
 #include "player.h"
+#include "bonus.h"
+#include "menu.h"
+#include "grid.h"
+#include "game.h"
 
 #define X_DIMENSION 10
 #define Y_DIMENSION 10

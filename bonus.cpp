@@ -3,15 +3,19 @@
 using namespace std;
 #include "infantry.h"
 #include "player.h"
+#include "bonus.h"
+#include "menu.h"
+#include "grid.h"
+#include "game.h"
 
 #define X_DIMENSION 10
 #define Y_DIMENSION 10
 #define BONUS_MAX 3
 
 /**
- * 
+ *
  * Functions to pick random numbers.
- * 
+ *
  */
 float randCent(){
   return (rand()%101);
@@ -25,20 +29,20 @@ int randIntY(){
 }
 
 /**
- * 
+ *
  * Initialize bonus attributes.
- * 
+ *
  * @param bonus The bonus to initialize.
  *
  */
 void initBonus(bonus *bonus){
 
   /**
-   * 
+   *
    * Different types of bonuses.
-   * 
+   *
    * h=health ; f=force ; d=dexterity.
-   * 
+   *
    * */
   char bonusTypes[3]={'h','f','d'};
   bonus -> isActive = false;
@@ -48,9 +52,9 @@ void initBonus(bonus *bonus){
 }
 
 /**
- * 
+ *
  * Using the probabilities to make the bonus active.
- * 
+ *
  * @param bonusArray the array of bonuses.
  * @param tabGrid the grid array.
  *
@@ -66,9 +70,9 @@ void probBonusArray(bonus *bonusArray, int *tabGrid){
 }
 
 /**
- * 
+ *
  * .
- * 
+ *
  * @param infantry .
  * @param bonus .
  *
@@ -94,9 +98,9 @@ void bonusTreatment(infantry *infantry, bonus *bonus){
 }
 
 /**
- * 
+ *
  * .
- * 
+ *
  * @param bonus .
  *
  */
