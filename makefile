@@ -1,23 +1,23 @@
 ProgAlgoS1_Scavinner_Landrodie: main.o game.o menu.o grid.o infantry.o player.o bonus.o
-	g++ main.o game.o menu.o grid.o infantry.o player.o bonus.o -o ProgAlgoS1_Scavinner_Landrodie -Wall -lstdc++
+	gcc main.o game.o menu.o grid.o infantry.o player.o bonus.o -o ProgAlgoS1_Scavinner_Landrodie -Wall -lstdc++
 
 main.o: main.cpp
-	g++ -c -Wall main.cpp
+	gcc -c -Wall main.cpp -lstdc++
 
 game.o : game.cpp
-	g++ -c -Wall game.cpp
+	gcc -c -Wall game.cpp -lstdc++
 
 menu.o: menu.cpp
-	g++ -c -Wall menu.cpp
+	gcc -c -Wall menu.cpp -lstdc++
 
 grid.o: grid.cpp
-	g++ -c -Wall grid.cpp
+	gcc -c -Wall grid.cpp -lstdc++
 
 infantry.o: infantry.cpp
-	g++ -c -Wall infantry.cpp
+	gcc -c -Wall infantry.cpp -lstdc++
 
 player.o: player.cpp
-	g++ -c -Wall player.cpp
+	gcc -c -Wall player.cpp -lstdc++
 
 bonus.o: bonus.cpp
-	g++ -c -Wall bonus.cpp
+	gcc -c -Wall bonus.cpp -lstdc++

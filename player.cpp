@@ -30,7 +30,7 @@ void initPlayer(player *player, int id, int nbActiveUnits)
   player->isAlive = true;
   strcpy(player->color, all_colors[id - 1]);
 
-  cout << "\n ____________________________________________________";
+  cout << "\n ____________________________________________________" << endl;
   cout << all_colors[id - 1];
   cout << "Joueur " << id << " veuillez choisir vos types d'unités" << endl;
   cout << "TANK = t / SNIPER = s / K9 = k" << endl;
