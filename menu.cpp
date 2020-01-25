@@ -1,11 +1,6 @@
 #include <iostream>
 #include <string>
 using namespace std;
-#include "infantry.h"
-#include "player.h"
-
-#define X_DIMENSION 10
-#define Y_DIMENSION 10
 
 /**
  *
@@ -80,59 +75,4 @@ void turnMenu(int *turnChoice)
       break;
   }
   cout << endl;
-}
-
-/**
- *
- * Display the map.
- *
- * @param tabGrid The map.
- *
- */
-void drawGrid(int tabGrid[])
-{
-  cout << "      X| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |" << endl;
-  cout << "    Y  _________________________________________" << endl;
-  for (int i = 0; i < X_DIMENSION; i++)
-  {
-    cout << "|   " << i << "  |";
-    for (int y = 0; y < Y_DIMENSION; y++)
-    {
-
-      if (tabGrid[X_DIMENSION * i + y] == 1)
-      {
-        cout << "\033[96m";
-        cout << " 1";
-        cout << "\033[39m";
-        cout << " |";
-      }
-      if (tabGrid[X_DIMENSION * i + y] == 2)
-      {
-        cout << "\033[91m";
-        cout << " 2";
-        cout << "\033[39m";
-        cout << " |";
-      }
-      if (tabGrid[X_DIMENSION * i + y] == 3)
-      {
-        cout << "\033[93m";
-        cout << " 3";
-        cout << "\033[39m";
-        cout << " |";
-      }
-      if (tabGrid[X_DIMENSION * i + y] == -1)
-      {
-        cout << "\033[35m";
-        cout << " ♥";
-        cout << "\033[39m";
-        cout << " |";
-      }
-      if (tabGrid[X_DIMENSION * i + y] == 0)
-      {
-        cout << "   |";
-      }
-    }
-    cout << endl;
-    cout << "       _________________________________________" << endl;
-  }
 }
