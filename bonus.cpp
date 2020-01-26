@@ -99,9 +99,9 @@ void bonusTreatment(infantry *infantry, bonus *bonus){
 
 /**
  *
- * Function to print the bonuses infos for debugging
+ * Function to print the bonuses infos for debugging.
  *
- * @param bonus The bonus to print
+ * @param bonus The bonus to print.
  *
  */
 void printBonusArray(bonus bonus[]){
