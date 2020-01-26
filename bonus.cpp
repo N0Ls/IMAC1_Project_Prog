@@ -71,10 +71,10 @@ void probBonusArray(bonus *bonusArray, int *tabGrid){
 
 /**
  *
- * .
+ * Applying the bonus to the infantry.
  *
- * @param infantry .
- * @param bonus .
+ * @param infantry The infantry that we need to apply the bonus to.
+ * @param bonus The bonus on the map that we need to apply.
  *
  */
 void bonusTreatment(infantry *infantry, bonus *bonus){
@@ -99,9 +99,9 @@ void bonusTreatment(infantry *infantry, bonus *bonus){
 
 /**
  *
- * .
+ * Function to print the bonuses infos for debugging
  *
- * @param bonus .
+ * @param bonus The bonus to print
  *
  */
 void printBonusArray(bonus bonus[]){
