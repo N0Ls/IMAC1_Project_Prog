@@ -27,18 +27,14 @@ To play the game, open your terminal and go to the main directory of the project
 
 ### Start a game
 
-Then, you just have to enter the following command
-
-```
-./ProgAlgoS1_Scavinner_Landrodie
-```
-
-### Code modifications
-
-If you decide to modify the code, you will have to update the project with the following command
+Then, you just have to enter the two following commands
 
 ```
 make
+```
+
+```
+./imacwars
 ```
 
 ## Authors
