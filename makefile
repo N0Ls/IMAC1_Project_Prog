@@ -1,5 +1,5 @@
-ProgAlgoS1_Scavinner_Landrodie: main.o game.o menu.o grid.o infantry.o player.o bonus.o
-	gcc main.o game.o menu.o grid.o infantry.o player.o bonus.o -o ProgAlgoS1_Scavinner_Landrodie -Wall -lstdc++
+imacwars: main.o game.o menu.o grid.o infantry.o player.o bonus.o
+	gcc main.o game.o menu.o grid.o infantry.o player.o bonus.o -o imacwars -Wall -lstdc++
 
 main.o: main.cpp
 	gcc -c -Wall main.cpp -lstdc++

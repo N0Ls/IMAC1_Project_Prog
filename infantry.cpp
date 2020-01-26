@@ -4,7 +4,6 @@ using namespace std;
 #include "infantry.h"
 #include "player.h"
 #include "bonus.h"
-#include "display.h"
 
 /**
  *
